@@ -27,7 +27,7 @@ export default function HealthStatus({ className = '' }: HealthStatusProps) {
       ]);
       
       setHealthStatus({
-        isHealthy: response.status === 'healthy',
+        isHealthy: response.status === 'ok',
         message: response.message,
         lastChecked: new Date().toISOString(),
         requestId: response.requestId,
