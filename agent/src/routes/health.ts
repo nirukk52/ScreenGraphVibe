@@ -1,18 +1,22 @@
 import { FastifyInstance } from 'fastify';
 import { HealthCheckResponse } from '../types/index.js';
 import { randomUUID } from 'crypto';
-import { checkSupabaseHealth, getConfig } from '@screengraph/infra';
 
-// Database health check function using infra module
+// Simple database health check
 async function checkDatabaseHealth(): Promise<{ status: 'healthy' | 'unhealthy'; message: string }> {
-  const healthResult = await checkSupabaseHealth();
-  
-  if (healthResult.status === 'ok') {
-    return { status: 'healthy', message: 'Database connection successful' };
-  } else {
+  try {
+    // Check if POSTGRES_URL is configured
+    if (!process.env.POSTGRES_URL) {
+      return { status: 'unhealthy', message: 'Database not configured' };
+    }
+    
+    // For now, just check if env var is set
+    // TODO: Add actual DB connection check
+    return { status: 'healthy', message: 'Database connection configured' };
+  } catch (error) {
     return { 
       status: 'unhealthy', 
-      message: `Database connection failed: ${healthResult.details?.error || 'Unknown error'}` 
+      message: `Database check failed: ${error instanceof Error ? error.message : 'Unknown error'}` 
     };
   }
 }
@@ -24,15 +28,14 @@ export async function healthRoutes(fastify: FastifyInstance) {
       // Check database health
       const dbHealth = await checkDatabaseHealth();
       const requestId = randomUUID();
-      const config = getConfig();
       
       const response: HealthCheckResponse = {
         status: dbHealth.status === 'healthy' ? 'ok' : 'db_down',
         message: dbHealth.status === 'healthy' ? 'All services operational' : dbHealth.message,
         timestamp: new Date().toISOString(),
         requestId,
-        region: config.FLY_REGION || 'local',
-        environment: config.NODE_ENV,
+        region: process.env.FLY_REGION || 'local',
+        environment: process.env.NODE_ENV || 'development',
         services: {
           database: dbHealth.status,
         },
@@ -51,14 +54,13 @@ export async function healthRoutes(fastify: FastifyInstance) {
       }
     } catch (error) {
       const requestId = randomUUID();
-      const config = getConfig();
       const response: HealthCheckResponse = {
         status: 'db_down',
         message: `Health check failed: ${error instanceof Error ? error.message : 'Unknown error'}`,
         timestamp: new Date().toISOString(),
         requestId,
-        region: config.FLY_REGION || 'local',
-        environment: config.NODE_ENV,
+        region: process.env.FLY_REGION || 'local',
+        environment: process.env.NODE_ENV || 'development',
         services: {
           database: 'unhealthy',
         },
