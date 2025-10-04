@@ -1,0 +1,20 @@
+feat(<feature>): <short, active summary of the change>
+
+Why:
+- <1 concise sentence — what problem this feature solves or why it’s needed.>
+
+What:
+- <1–2 lines — what was built, refactored, or added.>
+- <optional> mention any API, UI, or data changes.
+
+Impact:
+- <what improves — speed, UX, stability, maintainability, observability, etc.>
+
+Cost:
+- tokens: <+N / -N or ~same>  (if LLM-related)
+- runtime: <+/- %>            (perf impact)
+- storage: <delta or TTL>     (if applicable)
+
+MCP:
+- search "<short term you used before coding>"
+- add_episode <Fact|Procedure|Preference> "<1-line summary of what this establishes or teaches>"

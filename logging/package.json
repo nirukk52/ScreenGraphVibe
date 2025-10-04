@@ -1,0 +1,20 @@
+{
+  "name": "@screengraph/logging",
+  "version": "0.1.0",
+  "type": "module",
+  "main": "dist/index.js",
+  "scripts": {
+    "dev": "tsx watch src/index.ts",
+    "build": "tsc",
+    "test": "echo \"No tests specified for logging package\""
+  },
+  "dependencies": {
+    "pino": "^8.17.2",
+    "pino-pretty": "^10.3.1"
+  },
+  "devDependencies": {
+    "@types/node": "^20.10.6",
+    "tsx": "^4.6.2",
+    "typescript": "^5.3.3"
+  }
+}

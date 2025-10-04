@@ -1,0 +1,26 @@
+{
+  "name": "@screengraph/tests",
+  "version": "0.1.0",
+  "type": "module",
+  "scripts": {
+    "test": "vitest",
+    "test:watch": "vitest --watch",
+    "test:ui": "vitest --ui",
+    "test:integration": "vitest run --config vitest.integration.config.ts",
+    "test:e2e": "./scripts/run-e2e-tests.sh",
+    "test:all": "npm run test && npm run test:integration && npm run test:e2e"
+  },
+  "dependencies": {
+    "@screengraph/agent": "file:../agent",
+    "@screengraph/data": "file:../data",
+    "@testcontainers/postgresql": "^11.7.1",
+    "testcontainers": "^10.6.0"
+  },
+  "devDependencies": {
+    "@playwright/test": "^1.40.1",
+    "@types/node": "^20.10.6",
+    "playwright": "^1.40.1",
+    "typescript": "^5.3.3",
+    "vitest": "^1.1.0"
+  }
+}

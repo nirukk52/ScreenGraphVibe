@@ -1,0 +1,30 @@
+{
+  "name": "screengraph",
+  "version": "0.1.0",
+  "private": true,
+  "description": "AI-driven crawling and verification system for mobile and web apps",
+  "workspaces": [
+    "data",
+    "agent", 
+    "ui",
+    "tests",
+    "logging"
+  ],
+  "scripts": {
+    "dev": "concurrently \"cd agent && npm run dev\" \"cd ui && npm run dev\"",
+    "dev:clean": "npm run ports:kill && npm run dev",
+    "dev:restart": "npm run ports:kill && sleep 2 && npm run dev",
+    "dev:agent": "cd agent && npm run dev",
+    "dev:ui": "cd ui && npm run dev", 
+    "ports:kill": "lsof -ti tcp:3000 | xargs -r kill -9 && lsof -ti tcp:3001 | xargs -r kill -9",
+    "ports:check": "lsof -i :3000 && lsof -i :3001",
+    "build": "npm run build --workspaces",
+    "test": "npm run test --workspaces",
+    "db:generate": "cd data && npm run db:generate",
+    "db:migrate": "cd data && npm run db:migrate",
+    "db:studio": "cd data && npm run db:studio"
+  },
+  "devDependencies": {
+    "concurrently": "^8.2.2"
+  }
+}
