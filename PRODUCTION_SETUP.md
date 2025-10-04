@@ -86,18 +86,22 @@ flyctl secrets set --app screengraph-ui \
 
 ## Step 4: Deploy Services
 
-### Deploy Agent
+### Option A: Environment-Aware Script (Recommended)
 
 ```bash
-cd agent
-flyctl deploy
+# Deploy both services to production
+./start.sh prod
 ```
 
-**Wait for deployment to complete** (usually 2-3 minutes).
-
-### Deploy UI
+### Option B: Manual Deployment
 
 ```bash
+# Deploy agent
+cd agent
+flyctl deploy
+
+# Wait for deployment to complete (usually 2-3 minutes)
+# Then deploy UI
 cd ../ui
 flyctl deploy
 ```
@@ -451,7 +455,16 @@ if (cachedHealth) return cachedHealth;
 ## Quick Commands Reference
 
 ```bash
-# Deploy everything
+# Deploy everything (environment-aware)
+./start.sh prod
+
+# Check what's running
+./start.sh status
+
+# Stop services
+./stop.sh
+
+# Manual deployment
 cd agent && flyctl deploy && cd ../ui && flyctl deploy
 
 # Check status

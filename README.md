@@ -20,14 +20,30 @@ cp env.example .env.local
 # Edit .env.local with your credentials
 
 # 3. Start everything with one command!
-./start-local.sh
+./start.sh local
 ```
 
 **✅ Done!** Services will start automatically:
 - 🔧 Agent API → http://localhost:3000
 - 🎨 UI → http://localhost:3001
 
-To stop: `./stop-local.sh`
+To stop: `./stop.sh`
+
+### Environment-Aware Scripts (New!)
+
+```bash
+# Auto-detects environment (defaults to local)
+./start.sh
+
+# Explicit local development
+./start.sh local
+
+# Deploy to production
+./start.sh prod
+
+# Check what's running
+./start.sh status
+```
 
 ### Manual Start (Alternative)
 
@@ -43,13 +59,13 @@ cd ui && npm run dev
 
 ```bash
 # Deploy to Fly.io
-cd agent && flyctl deploy
-cd ../ui && flyctl deploy
+./start.sh prod
 ```
 
 **📖 Detailed Guides:**
 - [LOCAL_SETUP.md](./LOCAL_SETUP.md) - Complete local development guide
 - [PRODUCTION_SETUP.md](./PRODUCTION_SETUP.md) - Production deployment guide
+- [SCRIPTS_GUIDE.md](./SCRIPTS_GUIDE.md) - Environment-aware scripts guide
 - [CREDENTIALS.md](./CREDENTIALS.md) - All API keys and credentials
 
 ## 📊 Test Status

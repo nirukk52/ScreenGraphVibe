@@ -79,9 +79,26 @@ npm run build
 
 ## Step 4: Run Services
 
-### Option A: Run All Services (Recommended)
+### Option A: Environment-Aware Script (Recommended)
 
-Open **3 separate terminal windows**:
+```bash
+# Auto-detects environment and starts services
+./start.sh
+
+# Or explicitly start local development
+./start.sh local
+```
+
+✅ **Agent will run on**: http://localhost:3000  
+✅ **Health check**: http://localhost:3000/healthz  
+✅ **API docs**: http://localhost:3000/docs  
+✅ **UI will run on**: http://localhost:3001
+
+To stop: `./stop.sh`
+
+### Option B: Manual Start (Alternative)
+
+Open **2 separate terminal windows**:
 
 #### Terminal 1 - Agent (Backend API)
 ```bash
@@ -89,32 +106,17 @@ cd agent
 npm run dev
 ```
 
-✅ **Agent will run on**: http://localhost:3000  
-✅ **Health check**: http://localhost:3000/healthz  
-✅ **API docs**: http://localhost:3000/docs
-
 #### Terminal 2 - UI (Frontend)
 ```bash
 cd ui
 npm run dev
 ```
 
-✅ **UI will run on**: http://localhost:3001
-
-#### Terminal 3 - Watch for changes (optional)
-```bash
-# If you want to run tests
-npm test
-```
-
-### Option B: Run Services Individually
+### Option C: Check Status
 
 ```bash
-# Just the agent
-cd agent && npm run dev
-
-# Just the UI
-cd ui && npm run dev
+# See what's currently running
+./start.sh status
 ```
 
 ---
@@ -265,11 +267,20 @@ npm install
 # Build everything
 npm run build
 
-# Run agent
-cd agent && npm run dev
+# Start everything (auto-detects environment)
+./start.sh
 
-# Run UI
-cd ui && npm run dev
+# Start local development
+./start.sh local
+
+# Deploy to production
+./start.sh prod
+
+# Check what's running
+./start.sh status
+
+# Stop everything
+./stop.sh
 
 # Run tests
 npm test
