@@ -2,6 +2,10 @@ app = "screengraph-ui"
 primary_region = "iad"
 
 [build]
+  [build.args]
+    NEXT_PUBLIC_AGENT_URL = "https://screengraph-agent.fly.dev"
+    NEXT_PUBLIC_SUPABASE_URL = "https://cfmywntdiygatvagqucn.supabase.co"
+    NEXT_PUBLIC_SUPABASE_ANON_KEY = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImNmbXl3bnRkaXlnYXR2YWdxdWNuIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NTk2MDUyOTIsImV4cCI6MjA3NTE4MTI5Mn0.kUxPhV54B0soRLKdHDcLS3fDoxGyExsTQ4Rh5yeqvEA"
 
 [env]
   NODE_ENV = "production"
