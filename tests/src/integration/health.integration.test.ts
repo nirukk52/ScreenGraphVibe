@@ -1,35 +1,35 @@
 import { describe, it, expect, beforeAll, afterAll } from 'vitest';
-import { checkDatabaseHealth } from '@screengraph/data';
+import { startTestDatabase, stopTestDatabase, testCheckDatabaseHealth } from '../fixtures/test-database.js';
 
 describe('Health Check Integration Tests', () => {
   beforeAll(async () => {
-    // Setup test database connection
-    // In a real scenario, this would use Testcontainers
-    console.log('Setting up integration test environment...');
+    // Setup real test database using Testcontainers
+    console.log('Setting up integration test environment with Testcontainers...');
+    await startTestDatabase();
   });
 
   afterAll(async () => {
     // Cleanup test database connection
     console.log('Cleaning up integration test environment...');
+    await stopTestDatabase();
   });
 
   it('should connect to real database and return health status', async () => {
-    // This test requires a real database connection
-    // For now, we'll test the function structure
-    const result = await checkDatabaseHealth();
+    // Test with real database connection
+    const result = await testCheckDatabaseHealth();
 
     expect(result).toHaveProperty('status');
     expect(result).toHaveProperty('message');
     expect(['healthy', 'unhealthy']).toContain(result.status);
     expect(typeof result.message).toBe('string');
+    expect(result.status).toBe('healthy'); // Should be healthy with real test database
   });
 
-  it('should handle database connection timeout gracefully', async () => {
-    // Test timeout scenarios
-    const result = await checkDatabaseHealth();
+  it('should handle database queries correctly', async () => {
+    // Test that we can actually query the database
+    const result = await testCheckDatabaseHealth();
     
-    // Even if connection fails, should return structured response
-    expect(result).toHaveProperty('status');
-    expect(result).toHaveProperty('message');
+    expect(result.status).toBe('healthy');
+    expect(result.message).toContain('Test database connection successful');
   });
 });
