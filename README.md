@@ -7,29 +7,50 @@ AI-driven crawling and verification system for mobile and web apps. Automaticall
 
 ## 🚀 Quick Start
 
-Get up and running in 3 steps:
+### Local Development (Super Easy!)
 
 ```bash
-# 1. Install dependencies
+# 1. Clone and install
+git clone https://github.com/nirukk52/ScreenGraphVibe.git
+cd ScreenGraphVibe
 npm install
+
+# 2. Create .env.local (see CREDENTIALS.md for values)
+cp env.example .env.local
+# Edit .env.local with your credentials
+
+# 3. Start everything with one command!
+./start-local.sh
 ```
-[![▶️ Quick Install](https://img.shields.io/badge/▶️_Install-4CAF50?style=for-the-badge&logo=npm&logoColor=white)](javascript:void(0))
+
+**✅ Done!** Services will start automatically:
+- 🔧 Agent API → http://localhost:3000
+- 🎨 UI → http://localhost:3001
+
+To stop: `./stop-local.sh`
+
+### Manual Start (Alternative)
 
 ```bash
-# 2. Setup environment
-cp .env.example .env
-cp agent/.env.example agent/.env
-cp ui/.env.example ui/.env.local
+# Terminal 1 - Agent
+cd agent && npm run dev
+
+# Terminal 2 - UI  
+cd ui && npm run dev
 ```
-[![▶️ Quick Setup](https://img.shields.io/badge/▶️_Setup-FF9800?style=for-the-badge&logo=dotenv&logoColor=white)](javascript:void(0))
+
+### Production Deployment
 
 ```bash
-# 3. Start development servers
-npm run dev
+# Deploy to Fly.io
+cd agent && flyctl deploy
+cd ../ui && flyctl deploy
 ```
-[![▶️ Quick Start](https://img.shields.io/badge/▶️_Start-2196F3?style=for-the-badge&logo=concurrently&logoColor=white)](javascript:void(0))
 
-**🎉 You're ready!** Visit [http://localhost:3001](http://localhost:3001) to see the health dashboard.
+**📖 Detailed Guides:**
+- [LOCAL_SETUP.md](./LOCAL_SETUP.md) - Complete local development guide
+- [PRODUCTION_SETUP.md](./PRODUCTION_SETUP.md) - Production deployment guide
+- [CREDENTIALS.md](./CREDENTIALS.md) - All API keys and credentials
 
 ## 📊 Test Status
 
