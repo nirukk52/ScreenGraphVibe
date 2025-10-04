@@ -40,3 +40,6 @@ logs/
 # Misc
 .turbo/
 .vercel/
+
+# Credentials
+CREDENTIALS.md
