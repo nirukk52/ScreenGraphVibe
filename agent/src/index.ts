@@ -5,13 +5,22 @@ import swaggerUi from '@fastify/swagger-ui';
 import { healthRoutes } from './routes/health.js';
 import { AGENT_CONFIG, API_ENDPOINTS } from './config/constants.js';
 
+// Configure logger based on environment
+const loggerConfig = process.env.NODE_ENV === 'production'
+  ? { level: 'info' } // Plain JSON logging in production
+  : {
+      level: 'info',
+      transport: {
+        target: 'pino-pretty',
+        options: {
+          translateTime: 'HH:MM:ss Z',
+          ignore: 'pid,hostname',
+        },
+      },
+    };
+
 const fastify = Fastify({
-  logger: {
-    level: 'info',
-    transport: {
-      target: 'pino-pretty',
-    },
-  },
+  logger: loggerConfig,
 });
 
 // Register plugins
