@@ -1,41 +1,18 @@
 import { FastifyInstance } from 'fastify';
 import { HealthCheckResponse } from '../types/index.js';
 import { randomUUID } from 'crypto';
-import postgres from 'postgres';
-import { drizzle } from 'drizzle-orm/postgres-js';
-import { sql } from 'drizzle-orm';
-import dotenv from 'dotenv';
+import { checkSupabaseHealth, getConfig } from '@screengraph/infra';
 
-// Load environment variables
-dotenv.config();
-
-// Database health check function
+// Database health check function using infra module
 async function checkDatabaseHealth(): Promise<{ status: 'healthy' | 'unhealthy'; message: string }> {
-  try {
-    // Get database URL from environment
-    const postgresUrl = process.env.POSTGRES_URL;
-    if (!postgresUrl) {
-      return { 
-        status: 'unhealthy', 
-        message: 'Database URL not configured' 
-      };
-    }
-
-    // Create temporary connection for health check
-    const connection = postgres(postgresUrl, { max: 1 });
-    const db = drizzle(connection);
-    
-    // Simple query to check database connectivity
-    await db.execute(sql`SELECT 1 as health_check`);
-    
-    // Close the connection
-    await connection.end();
-    
+  const healthResult = await checkSupabaseHealth();
+  
+  if (healthResult.status === 'ok') {
     return { status: 'healthy', message: 'Database connection successful' };
-  } catch (error) {
+  } else {
     return { 
       status: 'unhealthy', 
-      message: `Database connection failed: ${error instanceof Error ? error.message : 'Unknown error'}` 
+      message: `Database connection failed: ${healthResult.details?.error || 'Unknown error'}` 
     };
   }
 }
@@ -47,12 +24,15 @@ export async function healthRoutes(fastify: FastifyInstance) {
       // Check database health
       const dbHealth = await checkDatabaseHealth();
       const requestId = randomUUID();
+      const config = getConfig();
       
       const response: HealthCheckResponse = {
-        status: dbHealth.status === 'healthy' ? 'healthy' : 'unhealthy',
+        status: dbHealth.status === 'healthy' ? 'ok' : 'db_down',
         message: dbHealth.status === 'healthy' ? 'All services operational' : dbHealth.message,
         timestamp: new Date().toISOString(),
         requestId,
+        region: config.FLY_REGION || 'local',
+        environment: config.NODE_ENV,
         services: {
           database: dbHealth.status,
         },
@@ -64,18 +44,21 @@ export async function healthRoutes(fastify: FastifyInstance) {
       reply.header('Expires', '0');
 
       // Return appropriate HTTP status
-      if (response.status === 'healthy') {
+      if (response.status === 'ok') {
         return reply.code(200).send(response);
       } else {
         return reply.code(503).send(response);
       }
     } catch (error) {
       const requestId = randomUUID();
+      const config = getConfig();
       const response: HealthCheckResponse = {
-        status: 'unhealthy',
+        status: 'db_down',
         message: `Health check failed: ${error instanceof Error ? error.message : 'Unknown error'}`,
         timestamp: new Date().toISOString(),
         requestId,
+        region: config.FLY_REGION || 'local',
+        environment: config.NODE_ENV,
         services: {
           database: 'unhealthy',
         },

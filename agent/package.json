@@ -25,6 +25,7 @@
     "@fastify/swagger": "^8.13.0",
     "@fastify/swagger-ui": "^2.0.1",
     "@screengraph/data": "file:../data",
+    "@screengraph/infra": "file:../infra",
     "@screengraph/logging": "file:../logging",
     "bullmq": "^4.15.4",
     "dotenv": "^17.2.3",

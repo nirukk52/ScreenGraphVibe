@@ -47,8 +47,188 @@ The system is organized into modules using colon-prefixed labels:
 - **:data** - Database layer with Drizzle ORM, PostgreSQL, and Supabase
 - **:agent** - Fastify API server with LangGraph orchestration  
 - **:ui** - Next.js React application for visualization
+- **:infra** - Infrastructure management (Fly.io + Supabase)
 - **:tests** - Comprehensive testing suite with Vitest and Playwright
 - **:logging** - Structured logging with Pino and OpenTelemetry
+
+## 🚀 Deployment (Fly.io + Supabase)
+
+### Prerequisites
+
+- [Fly.io CLI](https://fly.io/docs/getting-started/installing-flyctl/) installed
+- [Supabase](https://supabase.com) project created
+- Environment variables configured
+
+### Environment Variables
+
+Copy the example environment file and configure:
+
+```bash
+cp env.example .env.local
+```
+
+**Required variables:**
+
+```bash
+# Environment
+NODE_ENV=production
+
+# Database (Supabase)
+POSTGRES_URL=postgresql://postgres:[password]@[host]:[port]/postgres
+SUPABASE_URL=https://your-project.supabase.co
+SUPABASE_ANON_KEY=your_supabase_anon_key_here
+SUPABASE_SERVICE_ROLE_KEY=your_supabase_service_role_key_here
+
+# Redis (for queues)
+REDIS_URL=redis://localhost:6379
+
+# Agent Configuration
+AGENT_PORT=3000
+AGENT_HOST=0.0.0.0
+
+# UI Configuration
+NEXT_PUBLIC_AGENT_URL=https://screengraph.fly.dev
+
+# Logging
+LOG_LEVEL=info
+
+# Fly.io Configuration
+FLY_APP_NAME=screengraph
+FLY_REGION=iad
+
+# Storage
+STORAGE_BUCKET=screengraph-assets
+```
+
+### Setup Fly.io
+
+```bash
+# Login to Fly.io
+fly auth login
+
+# Create app (one-time setup)
+fly apps create screengraph
+
+# Set secrets
+fly secrets set \
+  POSTGRES_URL="postgresql://postgres:[password]@[host]:[port]/postgres" \
+  SUPABASE_URL="https://your-project.supabase.co" \
+  SUPABASE_ANON_KEY="your_supabase_anon_key_here" \
+  SUPABASE_SERVICE_ROLE_KEY="your_supabase_service_role_key_here" \
+  REDIS_URL="redis://localhost:6379" \
+  --app screengraph
+```
+
+### Deploy
+
+**Single command deployment to US + India:**
+
+```bash
+npm run deploy
+```
+
+This command will:
+1. ✅ Validate environment configuration
+2. 🔨 Build all workspace modules
+3. 🚀 Deploy to 3 regions: US East, US Central, India
+4. 🏥 Run health checks across all regions
+5. 📊 Report deployment status with URLs
+
+**Health monitoring:**
+
+```bash
+# Check health across all regions
+npm run health
+```
+
+**Manual deployment:**
+
+```bash
+# Deploy agent to specific region
+cd agent && fly deploy --region iad --app screengraph-agent
+
+# Deploy UI to specific region  
+cd ui && fly deploy --region iad --app screengraph-ui
+```
+
+### Health Monitoring
+
+After deployment, check health across regions:
+
+```bash
+# Check health endpoint
+curl https://screengraph.fly.dev/healthz
+
+# View logs
+fly logs --app screengraph
+
+# Check deployment status
+fly status --app screengraph
+```
+
+**Expected health response:**
+```json
+{
+  "status": "ok",
+  "message": "All services operational",
+  "timestamp": "2024-01-15T10:30:00.000Z",
+  "requestId": "uuid-here",
+  "region": "iad",
+  "environment": "production",
+  "services": {
+    "database": "healthy"
+  }
+}
+```
+
+### Regions
+
+The app deploys to 3 strategic regions for optimal performance:
+
+- **iad** - US East (Virginia) - Primary US region
+- **dfw** - US Central (Texas) - Secondary US region  
+- **bom** - Asia Pacific (Mumbai) - India region
+
+### Dashboard & Status URLs
+
+**🌐 Live Dashboards:**
+
+🇺🇸 **US East (Virginia) - Primary**
+- **UI Dashboard**: https://screengraph-ui.fly.dev
+- **Agent Health**: https://screengraph-agent.fly.dev/healthz
+- **API Docs**: https://screengraph-agent.fly.dev/docs
+
+🇺🇸 **US Central (Texas)**
+- **UI Dashboard**: https://screengraph-ui.fly.dev  
+- **Agent Health**: https://screengraph-agent.fly.dev/healthz
+
+🇮🇳 **India (Mumbai)**
+- **UI Dashboard**: https://screengraph-ui.fly.dev
+- **Agent Health**: https://screengraph-agent.fly.dev/healthz
+
+**📊 Monitoring & Management:**
+
+- **Fly.io Dashboard**: https://fly.io/dashboard
+- **Agent Logs**: `fly logs --app screengraph-agent`
+- **UI Logs**: `fly logs --app screengraph-ui`
+- **Health Check**: `npm run health`
+
+### Storage (Supabase)
+
+Configure storage buckets in Supabase:
+
+```sql
+-- Create storage bucket
+INSERT INTO storage.buckets (id, name, public) 
+VALUES ('screengraph-assets', 'screengraph-assets', false);
+
+-- Set up RLS policies
+CREATE POLICY "Users can upload assets" ON storage.objects
+FOR INSERT WITH CHECK (bucket_id = 'screengraph-assets');
+
+CREATE POLICY "Users can view own assets" ON storage.objects
+FOR SELECT USING (bucket_id = 'screengraph-assets');
+```
 
 ## Quick Start
 
