@@ -1,6 +1,6 @@
 export const AGENT_CONFIG = {
   PORT: parseInt(process.env.AGENT_PORT || '3000', 10),
-  HOST: process.env.AGENT_HOST || 'localhost',
+  HOST: process.env.AGENT_HOST || '0.0.0.0',
   API_PREFIX: '/api/v1',
 } as const;
 
