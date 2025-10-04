@@ -29,6 +29,3 @@ primary_region = "iad"
   memory = "512mb"
   cpu_kind = "shared"
   cpus = 1
-
-[deploy]
-  release_command = "npm run build"

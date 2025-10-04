@@ -27,9 +27,6 @@ primary_region = "iad"
   cpu_kind = "shared"
   cpus = 1
 
-[deploy]
-  release_command = "npm run migrate"
-
 [[statics]]
   guest_path = "/app/public"
   url_prefix = "/public/"
