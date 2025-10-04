@@ -176,7 +176,7 @@ npm test
 
 ```bash
 # Unit tests only
-npm run test --workspace=tests
+npm run test:unit --workspace=tests
 ```
 [![▶️ Unit Tests](https://img.shields.io/badge/▶️_Unit_Tests-2196F3?style=for-the-badge&logo=vitest&logoColor=white)](javascript:void(0))
 
@@ -197,7 +197,7 @@ npm run test:e2e --workspace=tests
 The foundation test that all other tests extend from:
 
 ```bash
-npm run test --workspace=tests -- src/fixtures/base.test.ts
+npm run test:unit --workspace=tests -- src/fixtures/base.test.ts
 ```
 [![▶️ Base Test](https://img.shields.io/badge/▶️_Base_Test-4CAF50?style=for-the-badge&logo=vitest&logoColor=white)](javascript:void(0))
 
@@ -314,7 +314,7 @@ ScreenGraphVibe/
 
 ### Tests Failing
 
-1. Run base test first: `npm run test --workspace=tests -- src/fixtures/base.test.ts`
+1. Run base test first: `npm run test:unit --workspace=tests -- src/fixtures/base.test.ts`
    [![▶️ Run Base Test](https://img.shields.io/badge/▶️_Run_Base_Test-4CAF50?style=for-the-badge&logo=vitest&logoColor=white)](javascript:void(0))
 2. Ensure database is accessible for integration tests
 3. Check that both agent and UI are running for E2E tests

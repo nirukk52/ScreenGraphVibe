@@ -3,12 +3,12 @@
   "version": "0.1.0",
   "type": "module",
   "scripts": {
-    "test": "vitest",
-    "test:watch": "vitest --watch",
-    "test:ui": "vitest --ui",
+    "test:unit": "vitest",
+    "test:unit:watch": "vitest --watch",
+    "test:unit:ui": "vitest --ui",
     "test:integration": "vitest run --config vitest.integration.config.ts",
     "test:e2e": "./scripts/run-e2e-tests.sh",
-    "test:all": "npm run test && npm run test:integration && npm run test:e2e"
+    "test:all": "npm run test:unit && npm run test:integration && npm run test:e2e"
   },
   "dependencies": {
     "@screengraph/agent": "file:../agent",

@@ -3,7 +3,6 @@ import cors from '@fastify/cors';
 import swagger from '@fastify/swagger';
 import swaggerUi from '@fastify/swagger-ui';
 import { healthRoutes } from './routes/health.js';
-import { healthTestRoutes } from './routes/health-test.js';
 import { AGENT_CONFIG, API_ENDPOINTS } from './config/constants.js';
 
 const fastify = Fastify({
@@ -47,11 +46,7 @@ await fastify.register(swaggerUi, {
 });
 
 // Register routes
-if (process.env.NODE_ENV === 'test') {
-  await fastify.register(healthTestRoutes);
-} else {
-  await fastify.register(healthRoutes);
-}
+await fastify.register(healthRoutes);
 
 // Health check for the agent itself
 fastify.get('/', async (request, reply) => {
