@@ -1,7 +1,44 @@
 import { FastifyInstance } from 'fastify';
-import { checkDatabaseHealth } from '@screengraph/data';
 import { HealthCheckResponse } from '../types/index.js';
 import { randomUUID } from 'crypto';
+import postgres from 'postgres';
+import { drizzle } from 'drizzle-orm/postgres-js';
+import { sql } from 'drizzle-orm';
+import dotenv from 'dotenv';
+
+// Load environment variables
+dotenv.config();
+
+// Database health check function
+async function checkDatabaseHealth(): Promise<{ status: 'healthy' | 'unhealthy'; message: string }> {
+  try {
+    // Get database URL from environment
+    const postgresUrl = process.env.POSTGRES_URL;
+    if (!postgresUrl) {
+      return { 
+        status: 'unhealthy', 
+        message: 'Database URL not configured' 
+      };
+    }
+
+    // Create temporary connection for health check
+    const connection = postgres(postgresUrl, { max: 1 });
+    const db = drizzle(connection);
+    
+    // Simple query to check database connectivity
+    await db.execute(sql`SELECT 1 as health_check`);
+    
+    // Close the connection
+    await connection.end();
+    
+    return { status: 'healthy', message: 'Database connection successful' };
+  } catch (error) {
+    return { 
+      status: 'unhealthy', 
+      message: `Database connection failed: ${error instanceof Error ? error.message : 'Unknown error'}` 
+    };
+  }
+}
 
 export async function healthRoutes(fastify: FastifyInstance) {
   // Health check endpoint

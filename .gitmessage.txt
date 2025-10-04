@@ -1,20 +1,27 @@
-feat(<feature>): <short, active summary of the change>
+feat(dev-experience): comprehensive .gitignore reorganization
 
 Why:
-- <1 concise sentence — what problem this feature solves or why it’s needed.>
+- The existing .gitignore was poorly organized and missing important patterns for the monorepo structure with Next.js, TypeScript, and testing frameworks.
 
 What:
-- <1–2 lines — what was built, refactored, or added.>
-- <optional> mention any API, UI, or data changes.
+- Reorganized .gitignore with clear sections (Node, Next.js, TypeScript, Build outputs, Testing, IDE, Env, OS, Logs, Misc)
+- Added missing patterns for monorepo structure (**/node_modules/, **/dist/, **/build/)
+- Enhanced testing patterns (.playwright/, **/test-results/)
+- Added IDE support (.idea/, .vscode/)
+- Improved environment file handling (.env.* with !.env.example exception)
+- Added modern tooling patterns (.turbo/, better log patterns)
 
 Impact:
-- <what improves — speed, UX, stability, maintainability, observability, etc.>
+- Better organization and maintainability of ignore patterns
+- Prevents accidental commits of build artifacts, logs, and IDE files across the monorepo
+- Clearer separation of concerns with sectioned organization
+- Reduced repository bloat from ignored files
 
 Cost:
-- tokens: <+N / -N or ~same>  (if LLM-related)
-- runtime: <+/- %>            (perf impact)
-- storage: <delta or TTL>     (if applicable)
+- tokens: ~same (configuration only)
+- runtime: ~same (no runtime impact)
+- storage: ~same (prevents unnecessary files)
 
 MCP:
-- search "<short term you used before coding>"
-- add_episode <Fact|Procedure|Preference> "<1-line summary of what this establishes or teaches>"
+- search "gitignore patterns monorepo organization"
+- add_episode Procedure "Use comprehensive .gitignore with clear sections for monorepo projects including Node, Next.js, TypeScript, testing, IDE, and environment patterns"
