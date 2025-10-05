@@ -1,5 +1,5 @@
 import { describe, it, expect, beforeEach, vi } from 'vitest';
-import { envSchema, getConfig, flyRegions } from './config.js';
+import { envSchema, getConfig, flyRegions } from '@screengraph/infra/config.js';
 
 // Mock dotenv
 vi.mock('dotenv', () => ({
@@ -169,11 +169,8 @@ describe('Config Validation', () => {
   it('should include all fly regions', () => {
     expect(flyRegions).toContain('iad');
     expect(flyRegions).toContain('dfw');
-    expect(flyRegions).toContain('sea');
-    expect(flyRegions).toContain('lhr');
-    expect(flyRegions).toContain('fra');
-    expect(flyRegions).toContain('sin');
-    expect(flyRegions).toHaveLength(6);
+    expect(flyRegions).toContain('bom');
+    expect(flyRegions).toHaveLength(3);
   });
 
   it('should exit on invalid configuration', () => {

@@ -13,6 +13,7 @@
   "dependencies": {
     "@screengraph/agent": "file:../agent",
     "@screengraph/data": "file:../data",
+    "@screengraph/infra": "file:../infra",
     "@testcontainers/postgresql": "^11.7.1",
     "testcontainers": "^10.6.0"
   },

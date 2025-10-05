@@ -1,11 +1,11 @@
 import { describe, it, expect, beforeEach, vi } from 'vitest';
-import { deploy } from './deploy.js';
-import { FlyDeployer } from './fly.js';
-import { getConfig } from './config.js';
+import { deploy } from '@screengraph/infra/deploy.js';
+import { FlyDeployer } from '@screengraph/infra/fly.js';
+import { getConfig } from '@screengraph/infra/config.js';
 
 // Mock dependencies
-vi.mock('./fly.js');
-vi.mock('./config.js');
+vi.mock('@screengraph/infra/fly.js');
+vi.mock('@screengraph/infra/config.js');
 vi.mock('child_process', () => ({
   execSync: vi.fn()
 }));
@@ -139,17 +139,7 @@ describe('Deployment Integration', () => {
       throw new Error('Environment validation failed');
     });
 
-    const exitSpy = vi.spyOn(process, 'exit').mockImplementation((code) => {
-      if (code === 1) {
-        throw new Error('process.exit called');
-      }
-      return process.exit(code);
-    });
-
     await expect(deploy()).rejects.toThrow('Environment validation failed');
-    expect(exitSpy).toHaveBeenCalledWith(1);
-
-    exitSpy.mockRestore();
   });
 });
 

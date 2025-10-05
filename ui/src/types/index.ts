@@ -1,8 +1,10 @@
 export interface HealthCheckResponse {
-  status: 'healthy' | 'unhealthy';
+  status: 'ok' | 'db_down';
   message: string;
   timestamp: string;
   requestId: string;
+  region?: string;
+  environment?: string;
   services: {
     database: 'healthy' | 'unhealthy';
     redis?: 'healthy' | 'unhealthy';

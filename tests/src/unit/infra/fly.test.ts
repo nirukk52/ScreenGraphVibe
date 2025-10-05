@@ -1,6 +1,6 @@
 import { describe, it, expect, beforeEach, vi } from 'vitest';
-import { FlyDeployer, generateFlyConfig } from './fly.js';
-import { getConfig } from './config.js';
+import { FlyDeployer, generateFlyConfig } from '@screengraph/infra/fly.js';
+import { getConfig } from '@screengraph/infra/config.js';
 
 // Mock child_process
 vi.mock('child_process', () => ({
@@ -11,7 +11,7 @@ vi.mock('child_process', () => ({
 global.fetch = vi.fn();
 
 // Mock config
-vi.mock('./config.js', async (importOriginal) => {
+vi.mock('@screengraph/infra/config.js', async (importOriginal) => {
   const actual = await importOriginal();
   return {
     ...actual,
@@ -81,13 +81,10 @@ describe('FlyDeployer', () => {
 
     expect(results).toHaveProperty('iad');
     expect(results).toHaveProperty('dfw');
-    expect(results).toHaveProperty('sea');
-    expect(results).toHaveProperty('lhr');
-    expect(results).toHaveProperty('fra');
-    expect(results).toHaveProperty('sin');
+    expect(results).toHaveProperty('bom');
 
     // Check that fetch was called for each region
-    const expectedCalls = 6; // Number of regions
+    const expectedCalls = 3; // Number of regions
     expect(mockFetch).toHaveBeenCalledTimes(expectedCalls);
   });
 
@@ -106,7 +103,7 @@ describe('FlyDeployer', () => {
   it('should get logs for specific region', async () => {
     const { execSync } = await import('child_process');
     const mockExecSync = vi.mocked(execSync);
-    mockExecSync.mockReturnValue(Buffer.from('Log output for region')).toString();
+    mockExecSync.mockReturnValue('Log output for region');
 
     const logs = deployer.getLogs('iad');
 
@@ -120,7 +117,7 @@ describe('FlyDeployer', () => {
   it('should get logs for all regions', async () => {
     const { execSync } = await import('child_process');
     const mockExecSync = vi.mocked(execSync);
-    mockExecSync.mockReturnValue(Buffer.from('Log output for all regions')).toString();
+    mockExecSync.mockReturnValue('Log output for all regions');
 
     const logs = deployer.getLogs();
 

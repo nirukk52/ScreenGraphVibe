@@ -1,6 +1,6 @@
 import { describe, it, expect, beforeEach, vi } from 'vitest';
-import { createSupabaseClient, createSupabaseAdminClient, checkSupabaseHealth } from './supabase.js';
-import { getConfig } from './config.js';
+import { createSupabaseClient, createSupabaseAdminClient, checkSupabaseHealth } from '@screengraph/infra/supabase.js';
+import { getConfig } from '@screengraph/infra/config.js';
 
 // Mock Supabase client
 const mockSupabaseClient = {
@@ -24,7 +24,7 @@ vi.mock('@supabase/supabase-js', () => ({
 }));
 
 // Mock config
-vi.mock('./config.js', () => ({
+vi.mock('@screengraph/infra/config.js', () => ({
   getConfig: vi.fn(() => ({
     SUPABASE_URL: 'https://test.supabase.co',
     SUPABASE_ANON_KEY: 'test-anon-key',

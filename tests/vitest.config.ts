@@ -12,6 +12,7 @@ export default defineConfig({
     alias: {
       '@screengraph/data': new URL('../data/src', import.meta.url).pathname,
       '@screengraph/agent': new URL('../agent/src', import.meta.url).pathname,
+      '@screengraph/infra': new URL('../infra/src', import.meta.url).pathname,
       '@screengraph/logging': new URL('../logging/src', import.meta.url).pathname,
     },
   },
