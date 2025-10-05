@@ -3,7 +3,8 @@
   "version": "0.1.0",
   "type": "module",
   "scripts": {
-    "test:unit": "vitest",
+    "test": "vitest --run",
+    "test:unit": "vitest --run",
     "test:unit:watch": "vitest --watch",
     "test:unit:ui": "vitest --ui",
     "test:integration": "vitest run --config vitest.integration.config.ts",
