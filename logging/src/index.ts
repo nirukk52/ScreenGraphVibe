@@ -51,13 +51,7 @@ export class Logger {
 // Default logger instance
 export const logger = new Logger();
 
-// Health check logging helper
-export function logHealthCheck(status: 'healthy' | 'unhealthy', message: string, context?: LogContext): void {
-  if (status === 'healthy') {
-    logger.info(`Health check passed: ${message}`, context);
-  } else {
-    logger.error(`Health check failed: ${message}`, context);
-  }
-}
+// Note: logHealthCheck has been moved to the health feature module
+// to keep the logging module focused on pure logging functionality
 
 export default logger;

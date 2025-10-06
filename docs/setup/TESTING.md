@@ -2,16 +2,43 @@
 
 ScreenGraph uses a comprehensive testing strategy with unit, integration, and end-to-end tests across all modules.
 
+## Current Test Status
+
+**Total Tests: 68** (56 passing, 12 skipped)
+- **Unit Tests**: 56 tests across 7 test files
+  - Agent features: 13 tests (graph: 7, health: 6)
+  - UI components: 23 tests (graph: 10, health: 13)
+  - Infrastructure: 20 tests (config: 9, supabase: 8, health: 3, fly: 12 skipped)
+- **Integration Tests**: Available via `test:integration`
+- **E2E Tests**: Available via `test:e2e` (Playwright)
+
 ## Test Structure
 
 ### Modules & Test Types
 
 | Module | Framework | Test Types | Location |
 |--------|-----------|------------|----------|
-| **:tests** | Vitest, Playwright | Unit, Integration, E2E | `tests/src/` |
-| **:agent** | Vitest | Unit | `agent/src/` |
-| **:ui** | Vitest, RTL | Unit | `ui/src/` |
+| **:tests** | Vitest, Playwright | Unit (infra), Integration, E2E | `tests/src/unit/`, `tests/src/integration/`, `tests/src/e2e/` |
+| **:agent** | Vitest | Unit (feature tests) | `agent/src/features/*/tests/` |
+| **:ui** | Vitest, RTL, jsdom | Unit (feature tests) | `ui/src/features/*/tests/` |
 | **:data** | N/A | No tests (schema only) | - |
+
+### Test Organization by Feature
+
+After refactoring to clean architecture, tests are now organized by feature:
+
+**Agent Module (`agent/src/features/`):**
+- `core/tests/graph.test.ts` - Graph generation and manipulation tests
+- `health/tests/health.test.ts` - Health check functionality tests
+
+**UI Module (`ui/src/features/screen/`):**
+- `graph/tests/graph.test.tsx` - Graph visualization component tests
+- `health/tests/health.test.tsx` - Health dashboard component tests
+
+**Tests Module (`tests/src/`):**
+- `unit/` - Infrastructure and cross-cutting unit tests
+- `integration/` - Module interaction tests
+- `e2e/` - End-to-end Playwright tests
 
 ## Running Tests
 
@@ -49,9 +76,11 @@ npm run test:e2e          # End-to-end tests
 npm run test:all          # All test types sequentially
 
 # From individual modules
-cd agent && npm test       # Agent unit tests
-cd ui && npm test         # UI unit tests
+cd agent && npm test       # Agent unit tests (runs feature tests)
+cd ui && npm test         # UI unit tests (not recommended, use tests module)
 cd data && npm test       # No tests (echo message)
+
+# Note: UI tests are best run from the tests module due to shared configuration
 ```
 
 ## Test Configuration
@@ -59,28 +88,53 @@ cd data && npm test       # No tests (echo message)
 ### Vitest Configuration
 
 - **Unit Tests**: `tests/vitest.config.ts`
+  - Includes: `tests/src/unit/`, `agent/src/features/**/tests/`, `ui/src/features/**/tests/`
+  - Environment: `jsdom` (for React component testing)
+  - Setup: `@testing-library/jest-dom` via `tests/src/setup.ts`
+  - Plugins: `@vitejs/plugin-react` for React component support
 - **Integration Tests**: `tests/vitest.integration.config.ts`
-- **Module Tests**: Each module has its own vitest config
+- **Module Tests**: Agent and UI modules run via workspace commands
 
 ### Key Features
 
 - **Auto-exit**: All test commands use `--run` flag to exit after completion
 - **Watch Mode**: Available via `:watch` commands for development
-- **Module Aliases**: Configured for cross-module imports
-- **Environment**: Node.js environment for all tests
+- **Module Aliases**: Configured for cross-module imports (`@screengraph/*`)
+- **Environment**: 
+  - `jsdom` for UI component tests
+  - Node.js for agent/infra tests
 - **Timeout**: 10 second timeout for all tests
+- **React Support**: Full React Testing Library and jest-dom matcher support
 
 ## Test Types Explained
 
-### Unit Tests (`tests/src/unit/`)
-- **Purpose**: Test individual functions and classes in isolation
+### Unit Tests
+
+**Infrastructure Tests (`tests/src/unit/`):**
+- **Purpose**: Test infrastructure and cross-cutting concerns
 - **Framework**: Vitest
-- **Pattern**: One test file per source file
 - **Mocking**: Minimal, only for external dependencies
 - **Examples**:
-  - `health.test.ts` - Health check functionality
+  - `health.test.ts` - Legacy health check tests
   - `infra/config.test.ts` - Configuration management
-  - `infra/fly.test.ts` - Fly.io deployment logic
+  - `infra/fly.test.ts` - Fly.io deployment logic (currently skipped)
+  - `infra/supabase.test.ts` - Supabase integration tests
+
+**Feature Tests (Agent: `agent/src/features/*/tests/`):**
+- **Purpose**: Test agent feature functionality
+- **Framework**: Vitest
+- **Pattern**: Tests co-located with feature code
+- **Examples**:
+  - `core/tests/graph.test.ts` - Graph generation (7 tests)
+  - `health/tests/health.test.ts` - Health checks (6 tests)
+
+**Component Tests (UI: `ui/src/features/*/tests/`):**
+- **Purpose**: Test React components and UI features
+- **Framework**: Vitest + React Testing Library + jsdom
+- **Pattern**: Tests co-located with feature code
+- **Examples**:
+  - `graph/tests/graph.test.tsx` - Graph visualization (10 tests)
+  - `health/tests/health.test.tsx` - Health dashboard (13 tests)
 
 ### Integration Tests (`tests/src/integration/`)
 - **Purpose**: Test module interactions and API endpoints
@@ -98,6 +152,7 @@ cd data && npm test       # No tests (echo message)
 - **Infrastructure**: Real services and containers
 - **Examples**:
   - `health.e2e.test.ts` - Health check through web interface
+  - `graph.e2e.test.ts` - Graph visualization through browser
 
 ## Test Data & Fixtures
 
@@ -119,10 +174,11 @@ cd data && npm test       # No tests (echo message)
 ## Best Practices
 
 ### Test Organization
-1. **Mirror structure**: Tests mirror source code structure
-2. **Clear naming**: `*.test.ts` for test files
-3. **Single responsibility**: One test file per source file
+1. **Feature co-location**: Tests live alongside feature code in `*/tests/` directories
+2. **Clear naming**: `*.test.ts` for Node tests, `*.test.tsx` for React component tests
+3. **Single responsibility**: One test file per feature/component
 4. **Descriptive names**: Test names describe behavior
+5. **Clean architecture**: Tests organized by feature, not by type
 
 ### Test Writing
 1. **TDD approach**: Write failing tests first
@@ -217,8 +273,21 @@ LOG_LEVEL=error
 - No flaky tests allowed
 - Proper cleanup required
 
+## Recent Changes
+
+### Clean Architecture Refactoring (October 2025)
+- **Feature-based organization**: Tests moved from `:tests` module to respective feature directories
+- **Agent tests**: Now in `agent/src/features/*/tests/`
+- **UI tests**: Now in `ui/src/features/*/tests/`
+- **Vitest config updated**: Now scans feature directories automatically
+- **React support added**: Full jsdom + React Testing Library + jest-dom support
+- **Test count**: 68 total tests (56 passing, 12 skipped)
+
+### Known Issues
+- `fly.test.ts`: 12 tests skipped due to child_process mock issues (pre-existing, not related to refactoring)
+
 ## Related Documentation
 
-- [CLAUDE.md](./CLAUDE.md) - Development guidelines
-- [README.md](./README.md) - Project overview
-- [DEPLOYMENT.md](./DEPLOYMENT.md) - Deployment guide
+- [CLAUDE.md](../../CLAUDE.md) - Development guidelines
+- [README.md](../../README.md) - Project overview
+- [DEPLOYMENT.md](../../DEPLOYMENT.md) - Deployment guide

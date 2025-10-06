@@ -3,8 +3,8 @@ import Fastify from 'fastify';
 import cors from '@fastify/cors';
 import swagger from '@fastify/swagger';
 import swaggerUi from '@fastify/swagger-ui';
-import { healthRoutes } from './routes/health.js';
-import { graphRoutes } from './routes/graph.js';
+import { healthRoutes } from './features/health/routes.js';
+import { graphRoutes } from './features/core/routes.js';
 import { AGENT_CONFIG, API_ENDPOINTS } from './config/constants.js';
 
 // Configure logger based on environment

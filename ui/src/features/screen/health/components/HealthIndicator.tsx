@@ -1,8 +1,8 @@
 'use client';
 
 import { useState, useEffect } from 'react';
-import type { HealthStatus } from '../types';
-import { apiClient } from '../lib/api';
+import type { HealthStatus } from '../../../../shared/types';
+import { apiClient } from '../../../../shared/api';
 
 interface HealthIndicatorProps {
   className?: string;
@@ -35,6 +35,7 @@ export default function HealthIndicator({ className = '' }: HealthIndicatorProps
         isHealthy: false,
         message: 'Agent unavailable',
         lastChecked: new Date().toISOString(),
+        requestId: 'error',
         services: {
           database: false,
           redis: false,

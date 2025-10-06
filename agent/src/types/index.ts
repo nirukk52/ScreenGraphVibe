@@ -1,15 +1,6 @@
-export interface HealthCheckResponse {
-  status: 'ok' | 'db_down';
-  message: string;
-  timestamp: string;
-  requestId: string;
-  region?: string;
-  environment?: string;
-  services: {
-    database: 'healthy' | 'unhealthy';
-    redis?: 'healthy' | 'unhealthy';
-  };
-}
+// Re-export all types from the features
+export * from '../features/core/types.js';
+export * from '../features/health/types.js';
 
 export interface CrawlRequest {
   appId: string;

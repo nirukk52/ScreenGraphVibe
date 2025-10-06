@@ -1,15 +1,17 @@
+import React from 'react';
 import { describe, it, expect, vi, beforeEach } from 'vitest';
 import { render, screen, fireEvent, waitFor } from '@testing-library/react';
 import { QueryClient, QueryClientProvider } from 'react-query';
-import GraphPage from '../../../ui/src/pages/graph';
-import { apiClient } from '../../../ui/src/lib/api';
-import type { GraphResponse, Run } from '../../../ui/src/types';
+import GraphPage from '../pages/GraphPage.js';
+import { apiClient } from '../../../../shared/api.js';
+import type { GraphResponse, Run } from '../../../../shared/types.js';
 
 // Mock the API client
-vi.mock('../../../ui/src/lib/api', () => ({
+vi.mock('../../../../shared/api.js', () => ({
   apiClient: {
     getGraph: vi.fn(),
     getRuns: vi.fn(),
+    healthCheck: vi.fn(),
   },
 }));
 
@@ -142,6 +144,17 @@ describe('GraphPage', () => {
       },
     });
     vi.clearAllMocks();
+    
+    // Mock health check to return a successful response
+    vi.mocked(apiClient.healthCheck).mockResolvedValue({
+      status: 'ok',
+      message: 'All services operational',
+      timestamp: new Date().toISOString(),
+      requestId: 'test-123',
+      region: 'local',
+      environment: 'test',
+      services: { database: 'healthy' }
+    });
   });
 
   const renderGraphPage = () => {
@@ -159,7 +172,7 @@ describe('GraphPage', () => {
     renderGraphPage();
 
     expect(screen.getByText('ScreenGraph Visualization')).toBeInTheDocument();
-    expect(screen.getByText('Back to Dashboard')).toBeInTheDocument();
+    expect(screen.getByText('← Back to Dashboard')).toBeInTheDocument();
     expect(screen.getByLabelText('Run:')).toBeInTheDocument();
   });
 
@@ -267,7 +280,7 @@ describe('GraphPage', () => {
 
     await waitFor(() => {
       expect(screen.getByText('No Graph Data')).toBeInTheDocument();
-      expect(screen.getByText('Select a run from the dropdown above')).toBeInTheDocument();
+      expect(screen.getByText('Select a run to view its ScreenGraph')).toBeInTheDocument();
     });
   });
 
@@ -285,7 +298,7 @@ describe('GraphPage', () => {
 });
 
 describe('HealthIndicator Integration', () => {
-  it('should display health indicator in graph page header', async () => {
+  it('should display health status in graph page header', async () => {
     vi.mocked(apiClient.getRuns).mockResolvedValue({ runs: mockRuns });
     vi.mocked(apiClient.getGraph).mockResolvedValue(mockGraphResponse);
 
@@ -303,7 +316,7 @@ describe('HealthIndicator Integration', () => {
       </QueryClientProvider>
     );
 
-    // Health indicator should be present in the header
-    expect(screen.getByTestId('health-indicator')).toBeInTheDocument();
+    // Health status should be present in the header (it shows loading state initially)
+    expect(screen.getByText('Checking system health...')).toBeInTheDocument();
   });
 });

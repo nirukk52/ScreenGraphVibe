@@ -1,8 +1,8 @@
 import { describe, it, expect, beforeEach, afterEach } from 'vitest';
 import Fastify from 'fastify';
-import { graphRoutes } from '@screengraph/agent/routes/graph.js';
-import type { ScreenGraph } from '@screengraph/agent/types/index.js';
-import { Verb, Postcondition } from '@screengraph/agent/types/index.js';
+import { graphRoutes } from '../routes.js';
+import type { ScreenGraph } from '../types.js';
+import { Verb, Postcondition } from '../types.js';
 
 describe('Graph Routes', () => {
   let fastify: any;
