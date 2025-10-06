@@ -35,32 +35,32 @@ export const DOCS_CONSTANTS = {
     'SETUP': {
       name: 'Setup & Configuration',
       description: 'Environment setup, installation, and configuration guides',
-      patterns: ['setup/*.md', '*SETUP*.md', '*CONFIG*.md', '*ENV*.md']
+      patterns: ['docs/setup/*.md', 'docs/*SETUP*.md', 'docs/*CONFIG*.md', 'docs/*ENV*.md']
     },
     'DEPLOYMENT': {
       name: 'Deployment & Infrastructure',
       description: 'Production deployment, infrastructure, and hosting guides',
-      patterns: ['setup/*DEPLOY*.md', 'setup/*PROD*.md', '*INFRA*.md']
+      patterns: ['docs/setup/*DEPLOY*.md', 'docs/setup/*PROD*.md', 'docs/*INFRA*.md']
     },
     'TESTING': {
       name: 'Testing & Quality',
       description: 'Testing strategies, quality assurance, and debugging guides',
-      patterns: ['setup/*TEST*.md', '*DEBUG*.md', '*QA*.md']
+      patterns: ['docs/setup/*TEST*.md', 'docs/*DEBUG*.md', 'docs/*QA*.md']
     },
     'DEVELOPMENT': {
       name: 'Development Guidelines',
       description: 'Coding standards, development workflows, and best practices',
-      patterns: ['CLAUDE.md', '*DEV*.md', '*GUIDE*.md']
+      patterns: ['CLAUDE.md', 'docs/*DEV*.md', 'docs/*GUIDE*.md']
     },
     'CREDENTIALS': {
       name: 'Credentials & Security',
       description: 'API keys, credentials, and security-related documentation',
-      patterns: ['*CRED*.md', '*SECRET*.md', '*KEY*.md']
+      patterns: ['docs/*CRED*.md', 'docs/*SECRET*.md', 'docs/*KEY*.md']
     },
     'SCRIPTS': {
       name: 'Scripts & Automation',
       description: 'Automation scripts, deployment scripts, and utility guides',
-      patterns: ['setup/*SCRIPT*.md', '*AUTO*.md']
+      patterns: ['docs/setup/*SCRIPT*.md', 'docs/*AUTO*.md']
     }
   },
   

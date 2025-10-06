@@ -1,7 +1,7 @@
 # ScreenGraph Documentation Index
 
-> **Auto-generated on 2025-10-06T04:01:02.210Z**  
-> **Total Documents: 11**
+> **Auto-generated on 2025-10-06T04:02:38.834Z**  
+> **Total Documents: 12**
 
 This is the comprehensive index of all documentation in the ScreenGraph project. Each document includes its title, description, and direct links to sections.
 
@@ -15,31 +15,32 @@ This is the comprehensive index of all documentation in the ScreenGraph project.
 - [:sessions](./sessions/README.md) - Simple folder for maintaining MCP knowledge graph search logs.
 
 ### Setup & Configuration
-- [Screengraph Deployment Guide](./setup/DEPLOYMENT.md) - ## 🚀 Quick Deploy
-- [ScreenGraph Local Development Setup](./setup/LOCAL_SETUP.md) - Complete guide for running ScreenGraph locally.
-- [ScreenGraph Production Setup & Deployment](./setup/PRODUCTION_SETUP.md) - Complete guide for deploying ScreenGraph to Fly.io production environment.
-- [ScreenGraph Scripts Guide](./setup/SCRIPTS_GUIDE.md) - Complete guide to the environment-aware start/stop scripts.
-- [Testing Guide](./setup/TESTING.md) - ScreenGraph uses a comprehensive testing strategy with unit, integration, and end-to-end tests across all modules.
+- [Screengraph Deployment Guide](./docs/setup/DEPLOYMENT.md) - ## 🚀 Quick Deploy
+- [ScreenGraph Local Development Setup](./docs/setup/LOCAL_SETUP.md) - Complete guide for running ScreenGraph locally.
+- [ScreenGraph Production Setup & Deployment](./docs/setup/PRODUCTION_SETUP.md) - Complete guide for deploying ScreenGraph to Fly.io production environment.
+- [ScreenGraph Scripts Guide](./docs/setup/SCRIPTS_GUIDE.md) - Complete guide to the environment-aware start/stop scripts.
+- [Testing Guide](./docs/setup/TESTING.md) - ScreenGraph uses a comprehensive testing strategy with unit, integration, and end-to-end tests across all modules.
 
 ### Deployment & Infrastructure
-- [Screengraph Deployment Guide](./setup/DEPLOYMENT.md) - ## 🚀 Quick Deploy
-- [ScreenGraph Production Setup & Deployment](./setup/PRODUCTION_SETUP.md) - Complete guide for deploying ScreenGraph to Fly.io production environment.
+- [Screengraph Deployment Guide](./docs/setup/DEPLOYMENT.md) - ## 🚀 Quick Deploy
+- [ScreenGraph Production Setup & Deployment](./docs/setup/PRODUCTION_SETUP.md) - Complete guide for deploying ScreenGraph to Fly.io production environment.
 
 ### Testing & Quality
-- [Testing Guide](./setup/TESTING.md) - ScreenGraph uses a comprehensive testing strategy with unit, integration, and end-to-end tests across all modules.
+- [Testing Guide](./docs/setup/TESTING.md) - ScreenGraph uses a comprehensive testing strategy with unit, integration, and end-to-end tests across all modules.
 
 ### Development Guidelines
 - [CLAUDE.md](./CLAUDE.md) - ## ScreenGraph CLAUDE Configuration
-- [ScreenGraph Scripts Guide](./setup/SCRIPTS_GUIDE.md) - Complete guide to the environment-aware start/stop scripts.
+- [ScreenGraph Scripts Guide](./docs/setup/SCRIPTS_GUIDE.md) - Complete guide to the environment-aware start/stop scripts.
 
 ### Credentials & Security
-- [ScreenGraph Credentials Reference](./CREDENTIALS.md) - **⚠️ CONFIDENTIAL - DO NOT COMMIT TO GIT**
+- [ScreenGraph Credentials Reference](./docs/CREDENTIALS.md) - **⚠️ CONFIDENTIAL - DO NOT COMMIT TO GIT**
 
 ### Scripts & Automation
-- [ScreenGraph Scripts Guide](./setup/SCRIPTS_GUIDE.md) - Complete guide to the environment-aware start/stop scripts.
+- [ScreenGraph Scripts Guide](./docs/setup/SCRIPTS_GUIDE.md) - Complete guide to the environment-aware start/stop scripts.
 
 ### Other Documentation
-- [ScreenGraph Documentation Index](./DOCUMENT_INDEX.md) - > **Auto-generated on 2025-10-06T03:53:28.312Z**
+- [ScreenGraph Documentation Index](./docs/DOCUMENT_INDEX.md) - > **Auto-generated on 2025-10-06T04:01:16.248Z**
+- [ScreenGraph Documentation Index](./DOCUMENT_INDEX.md) - > **Auto-generated on 2025-10-06T04:01:02.210Z**
 
 
 ---
@@ -82,51 +83,51 @@ This is the comprehensive index of all documentation in the ScreenGraph project.
 
 *Environment setup, installation, and configuration guides*
 
-### 📄 [Screengraph Deployment Guide](./setup/DEPLOYMENT.md)
+### 📄 [Screengraph Deployment Guide](./docs/setup/DEPLOYMENT.md)
 
 **Description:** ## 🚀 Quick Deploy
 
-**Path:** `setup/DEPLOYMENT.md`
+**Path:** `docs/setup/DEPLOYMENT.md`
 **Last Modified:** 10/4/2025
 **Size:** 3.65 KB
 
 ---
 
-### 📄 [ScreenGraph Local Development Setup](./setup/LOCAL_SETUP.md)
+### 📄 [ScreenGraph Local Development Setup](./docs/setup/LOCAL_SETUP.md)
 
 **Description:** Complete guide for running ScreenGraph locally.
 
-**Path:** `setup/LOCAL_SETUP.md`
+**Path:** `docs/setup/LOCAL_SETUP.md`
 **Last Modified:** 10/4/2025
 **Size:** 6.22 KB
 
 ---
 
-### 📄 [ScreenGraph Production Setup & Deployment](./setup/PRODUCTION_SETUP.md)
+### 📄 [ScreenGraph Production Setup & Deployment](./docs/setup/PRODUCTION_SETUP.md)
 
 **Description:** Complete guide for deploying ScreenGraph to Fly.io production environment.
 
-**Path:** `setup/PRODUCTION_SETUP.md`
+**Path:** `docs/setup/PRODUCTION_SETUP.md`
 **Last Modified:** 10/4/2025
 **Size:** 9.95 KB
 
 ---
 
-### 📄 [ScreenGraph Scripts Guide](./setup/SCRIPTS_GUIDE.md)
+### 📄 [ScreenGraph Scripts Guide](./docs/setup/SCRIPTS_GUIDE.md)
 
 **Description:** Complete guide to the environment-aware start/stop scripts.
 
-**Path:** `setup/SCRIPTS_GUIDE.md`
+**Path:** `docs/setup/SCRIPTS_GUIDE.md`
 **Last Modified:** 10/4/2025
 **Size:** 6.67 KB
 
 ---
 
-### 📄 [Testing Guide](./setup/TESTING.md)
+### 📄 [Testing Guide](./docs/setup/TESTING.md)
 
 **Description:** ScreenGraph uses a comprehensive testing strategy with unit, integration, and end-to-end tests across all modules.
 
-**Path:** `setup/TESTING.md`
+**Path:** `docs/setup/TESTING.md`
 **Last Modified:** 10/5/2025
 **Size:** 6.13 KB
 
@@ -136,21 +137,21 @@ This is the comprehensive index of all documentation in the ScreenGraph project.
 
 *Production deployment, infrastructure, and hosting guides*
 
-### 📄 [Screengraph Deployment Guide](./setup/DEPLOYMENT.md)
+### 📄 [Screengraph Deployment Guide](./docs/setup/DEPLOYMENT.md)
 
 **Description:** ## 🚀 Quick Deploy
 
-**Path:** `setup/DEPLOYMENT.md`
+**Path:** `docs/setup/DEPLOYMENT.md`
 **Last Modified:** 10/4/2025
 **Size:** 3.65 KB
 
 ---
 
-### 📄 [ScreenGraph Production Setup & Deployment](./setup/PRODUCTION_SETUP.md)
+### 📄 [ScreenGraph Production Setup & Deployment](./docs/setup/PRODUCTION_SETUP.md)
 
 **Description:** Complete guide for deploying ScreenGraph to Fly.io production environment.
 
-**Path:** `setup/PRODUCTION_SETUP.md`
+**Path:** `docs/setup/PRODUCTION_SETUP.md`
 **Last Modified:** 10/4/2025
 **Size:** 9.95 KB
 
@@ -160,11 +161,11 @@ This is the comprehensive index of all documentation in the ScreenGraph project.
 
 *Testing strategies, quality assurance, and debugging guides*
 
-### 📄 [Testing Guide](./setup/TESTING.md)
+### 📄 [Testing Guide](./docs/setup/TESTING.md)
 
 **Description:** ScreenGraph uses a comprehensive testing strategy with unit, integration, and end-to-end tests across all modules.
 
-**Path:** `setup/TESTING.md`
+**Path:** `docs/setup/TESTING.md`
 **Last Modified:** 10/5/2025
 **Size:** 6.13 KB
 
@@ -184,11 +185,11 @@ This is the comprehensive index of all documentation in the ScreenGraph project.
 
 ---
 
-### 📄 [ScreenGraph Scripts Guide](./setup/SCRIPTS_GUIDE.md)
+### 📄 [ScreenGraph Scripts Guide](./docs/setup/SCRIPTS_GUIDE.md)
 
 **Description:** Complete guide to the environment-aware start/stop scripts.
 
-**Path:** `setup/SCRIPTS_GUIDE.md`
+**Path:** `docs/setup/SCRIPTS_GUIDE.md`
 **Last Modified:** 10/4/2025
 **Size:** 6.67 KB
 
@@ -198,11 +199,11 @@ This is the comprehensive index of all documentation in the ScreenGraph project.
 
 *API keys, credentials, and security-related documentation*
 
-### 📄 [ScreenGraph Credentials Reference](./CREDENTIALS.md)
+### 📄 [ScreenGraph Credentials Reference](./docs/CREDENTIALS.md)
 
 **Description:** **⚠️ CONFIDENTIAL - DO NOT COMMIT TO GIT**
 
-**Path:** `CREDENTIALS.md`
+**Path:** `docs/CREDENTIALS.md`
 **Last Modified:** 10/4/2025
 **Size:** 3.44 KB
 
@@ -212,11 +213,11 @@ This is the comprehensive index of all documentation in the ScreenGraph project.
 
 *Automation scripts, deployment scripts, and utility guides*
 
-### 📄 [ScreenGraph Scripts Guide](./setup/SCRIPTS_GUIDE.md)
+### 📄 [ScreenGraph Scripts Guide](./docs/setup/SCRIPTS_GUIDE.md)
 
 **Description:** Complete guide to the environment-aware start/stop scripts.
 
-**Path:** `setup/SCRIPTS_GUIDE.md`
+**Path:** `docs/setup/SCRIPTS_GUIDE.md`
 **Last Modified:** 10/4/2025
 **Size:** 6.67 KB
 
@@ -226,23 +227,33 @@ This is the comprehensive index of all documentation in the ScreenGraph project.
 
 *Additional documentation files*
 
+### 📄 [ScreenGraph Documentation Index](./docs/DOCUMENT_INDEX.md)
+
+**Description:** > **Auto-generated on 2025-10-06T04:01:16.248Z**
+
+**Path:** `docs/DOCUMENT_INDEX.md`
+**Last Modified:** 10/5/2025
+**Size:** 1.66 KB
+
+---
+
 ### 📄 [ScreenGraph Documentation Index](./DOCUMENT_INDEX.md)
 
-**Description:** > **Auto-generated on 2025-10-06T03:53:28.312Z**
+**Description:** > **Auto-generated on 2025-10-06T04:01:02.210Z**
 
 **Path:** `DOCUMENT_INDEX.md`
 **Last Modified:** 10/5/2025
-**Size:** 7.49 KB
+**Size:** 7.25 KB
 
 ---
 
 ## 📊 Statistics
 
-- **Total Documents:** 11
+- **Total Documents:** 12
 - **Total Categories:** 8
 - **Total Headlines:** 0
-- **Average Document Size:** 7.1 KB
-- **Total Size:** 78.1 KB
-- **Generated:** 10/5/2025, 11:01:02 PM
+- **Average Document Size:** 6.63 KB
+- **Total Size:** 79.53 KB
+- **Generated:** 10/5/2025, 11:02:38 PM
 
 ---
