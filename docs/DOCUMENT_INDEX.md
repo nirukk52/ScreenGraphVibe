@@ -1,7 +1,7 @@
 # ScreenGraph Documentation Index
 
-> **Auto-generated on 2025-10-06T23:29:22.507Z**  
-> **Total Documents: 10**
+> **Auto-generated on 2025-10-06T23:29:22.832Z**  
+> **Total Documents: 9**
 
 This is the comprehensive index of all documentation in the ScreenGraph project. Each document includes its title, description, and direct links to sections.
 
@@ -14,8 +14,7 @@ This is the comprehensive index of all documentation in the ScreenGraph project.
 
 ### Other Documentation
 - [ScreenGraph Credentials Reference](./CREDENTIALS.md) - **⚠️ CONFIDENTIAL - DO NOT COMMIT TO GIT**
-- [ScreenGraph Documentation Index](./DOCUMENT_INDEX.md) - > **Auto-generated on 2025-10-06T23:29:12.957Z**
-- [Session Summary - Testing Infrastructure & Python Venv](./session-summary.md) - ## 🎯 What We Accomplished
+- [ScreenGraph Documentation Index](./DOCUMENT_INDEX.md) - > **Auto-generated on 2025-10-06T23:29:22.507Z**
 - [Screengraph Deployment Guide](./setup/DEPLOYMENT.md) - ## 🚀 Quick Deploy
 - [ScreenGraph Local Development Setup](./setup/LOCAL_SETUP.md) - Complete guide for running ScreenGraph locally.
 - [ScreenGraph Production Setup & Deployment](./setup/PRODUCTION_SETUP.md) - Complete guide for deploying ScreenGraph to Fly.io production environment.
@@ -56,21 +55,11 @@ This is the comprehensive index of all documentation in the ScreenGraph project.
 
 ### 📄 [ScreenGraph Documentation Index](./DOCUMENT_INDEX.md)
 
-**Description:** > **Auto-generated on 2025-10-06T23:29:12.957Z**
+**Description:** > **Auto-generated on 2025-10-06T23:29:22.507Z**
 
 **Path:** `DOCUMENT_INDEX.md`
 **Last Modified:** 10/6/2025
 **Size:** 4.49 KB
-
----
-
-### 📄 [Session Summary - Testing Infrastructure & Python Venv](./session-summary.md)
-
-**Description:** ## 🎯 What We Accomplished
-
-**Path:** `session-summary.md`
-**Last Modified:** 10/6/2025
-**Size:** 3.95 KB
 
 ---
 
@@ -136,11 +125,11 @@ This is the comprehensive index of all documentation in the ScreenGraph project.
 
 ## 📊 Statistics
 
-- **Total Documents:** 10
+- **Total Documents:** 9
 - **Total Categories:** 2
 - **Total Headlines:** 0
-- **Average Document Size:** 6.25 KB
-- **Total Size:** 62.47 KB
+- **Average Document Size:** 6.5 KB
+- **Total Size:** 58.53 KB
 - **Generated:** 10/6/2025, 6:29:22 PM
 
 ---
