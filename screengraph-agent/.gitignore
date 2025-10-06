@@ -1,11 +1,49 @@
-# Virtual environment
-venv/
-.venv/
-env/
-ENV/
-
-# Python cache
+# Python
 __pycache__/
 *.py[cod]
 *$py.class
+*.so
+.Python
+venv/
+ENV/
+env/
+
+# Testing
 .pytest_cache/
+.coverage
+htmlcov/
+.tox/
+
+# IDE
+.vscode/
+.idea/
+*.swp
+*.swo
+
+# Temporary documentation (auto-cleaned by pre-push hook)
+ARCHITECTURE.md
+ADAPTERS.md
+AGENT.md
+BFF.md
+MIGRATION.md
+STRUCTURE.md
+TEST_ORGANIZATION.md
+SCAFFOLD_COMPLETE.md
+IMPORT_HEALTH.md
+IMPORT_VERIFICATION.md
+
+# Keep these essential docs
+!CLAUDE.md
+!README.md
+
+# Logs
+*.log
+
+# Build artifacts
+dist/
+build/
+*.egg-info/
+
+# Environment
+.env
+.env.local
