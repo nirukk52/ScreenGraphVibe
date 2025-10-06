@@ -118,8 +118,7 @@ export class DocumentScanner {
   private generateRoute(relativePath: string): string {
     // Convert to GitHub/local friendly route
     const route = relativePath
-      .replace(/\\/g, '/')
-      .replace(/\.md$/i, '');
+      .replace(/\\/g, '/');
     
     return `./${route}`;
   }
