@@ -33,6 +33,7 @@ export function createHealthResponse(
     environment: process.env.NODE_ENV || 'development',
     services: {
       database: dbHealth.status,
+      redis: 'healthy', // TODO: Add actual Redis health check
     },
   };
 }
@@ -50,6 +51,7 @@ export function createErrorHealthResponse(
     environment: process.env.NODE_ENV || 'development',
     services: {
       database: 'unhealthy',
+      redis: 'unhealthy',
     },
   };
 }

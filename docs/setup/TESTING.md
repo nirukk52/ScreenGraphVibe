@@ -286,6 +286,26 @@ LOG_LEVEL=error
 ### Known Issues
 - `fly.test.ts`: 12 tests skipped due to child_process mock issues (pre-existing, not related to refactoring)
 
+### Test Reliability Patterns
+
+#### Health Status Testing
+- **Text Matching**: Health components split text across multiple elements (status in h3, details in p)
+- **State Transitions**: Account for loading → success/error state changes
+- **API Response Format**: Ensure mock data includes all expected fields (database, redis services)
+- **Environment Setup**: Agent requires POSTGRES_URL for health checks to work
+
+#### E2E Test Best Practices
+- **UI State Waiting**: Wait for UI state changes rather than network responses for better reliability
+- **Timeout Strategy**: Use appropriate timeouts (10s) for UI changes vs network timing
+- **Process Cleanup**: Always clean up multiple running processes to avoid port conflicts
+- **Service Health**: Verify all services are healthy before running dependent tests
+
+#### React Component Testing
+- **Element Selection**: Use `closest()` for parent container assertions when text is nested
+- **Async Operations**: Use `waitFor()` for components with API calls during mount
+- **Mock Consistency**: Ensure mock data matches expected API response structure
+- **Component Structure**: Test actual behavior, not assumptions about component structure
+
 ## Related Documentation
 
 - [CLAUDE.md](../../CLAUDE.md) - Development guidelines

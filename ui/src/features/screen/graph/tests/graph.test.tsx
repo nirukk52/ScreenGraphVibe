@@ -317,6 +317,6 @@ describe('HealthIndicator Integration', () => {
     );
 
     // Health status should be present in the header (it shows loading state initially)
-    expect(screen.getByText('Checking system health...')).toBeInTheDocument();
+    expect(screen.getByText('Checking...')).toBeInTheDocument();
   });
 });

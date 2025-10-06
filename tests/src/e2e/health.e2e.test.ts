@@ -9,26 +9,23 @@ const HEALTH_URL_SUBSTR = '/healthz';
 test('shows health status after initial load', async ({ page }) => {
   await page.goto(APP_URL, { waitUntil: 'domcontentloaded' });
 
-  // Wait for the app’s initial health request to resolve
-  await page.waitForResponse(r =>
-    r.url().includes(HEALTH_URL_SUBSTR) && r.request().method() === 'GET'
-  );
-
+  // Wait for the health status component to be visible (either loading or loaded)
   const status = page.getByTestId('health-status');
   await expect(status).toBeVisible();
 
-  // Contract: status text is non-empty and contains a known label
-  await expect(status).toHaveText(/healthy|unhealthy/i);
+  // Wait for the health check to complete (either success or failure)
+  // The component will show either "Healthy" or "Unhealthy" text
+  await expect(status).toHaveText(/healthy|unhealthy/i, { timeout: 10000 });
 });
 
 test('renders one clear status chip (healthy OR unhealthy)', async ({ page }) => {
     await page.goto(APP_URL, { waitUntil: 'domcontentloaded' });
-    await page.waitForResponse(r => r.url().includes(HEALTH_URL_SUBSTR) && r.request().method() === 'GET');
   
     const status = page.getByTestId('health-status');
-    // Exact label, case-insensitive - should contain either "Healthy" or "Unhealthy"
-    await expect(status).toHaveText(/healthy|unhealthy/i);
     await expect(status).toBeVisible();
+    
+    // Wait for the health check to complete and show either "Healthy" or "Unhealthy"
+    await expect(status).toHaveText(/healthy|unhealthy/i, { timeout: 10000 });
   });
   
 

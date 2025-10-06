@@ -4,7 +4,7 @@ import { useRouter } from 'next/router';
 import type { ScreenGraph, Run } from '../../../../shared/types';
 import { apiClient } from '../../../../shared/api';
 import { GraphVisualization } from '../components/GraphVisualization';
-import HealthStatus from '../../health/components/HealthStatus';
+import HealthIndicator from '../../health/components/HealthIndicator';
 
 export default function GraphPage() {
   const router = useRouter();
@@ -78,7 +78,7 @@ export default function GraphPage() {
             {/* Health Status Indicator */}
             <div className="flex items-center space-x-4">
               <div className="text-sm text-gray-600">
-                <HealthStatus className="p-2" />
+                <HealthIndicator className="p-2" />
               </div>
             </div>
           </div>

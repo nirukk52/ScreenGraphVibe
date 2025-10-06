@@ -8,7 +8,8 @@
     "build": "tsc",
     "dev": "tsc --watch",
     "deploy": "node dist/deploy.js",
-    "test": "echo \"No tests specified for infra package\""
+    "test": "echo \"No tests specified for infra package\"",
+    "test:unit": "echo \"No tests specified for infra package\""
   },
   "dependencies": {
     "@supabase/supabase-js": "^2.39.0",

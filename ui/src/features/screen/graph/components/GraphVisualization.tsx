@@ -97,7 +97,7 @@ export function GraphVisualization({ graph, loading = false }: GraphVisualizatio
   }
 
   return (
-    <div className="w-full h-full">
+    <div className="w-full h-full" data-testid="graph-visualization">
       <ReactFlow
         nodes={nodes}
         edges={edges}

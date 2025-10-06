@@ -137,11 +137,12 @@ describe('HealthStatus', () => {
     render(<HealthStatus />);
 
     await waitFor(() => {
-      expect(screen.getByText('All systems operational')).toBeInTheDocument();
+      expect(screen.getByText('Healthy')).toBeInTheDocument();
+      expect(screen.getByText('All services operational')).toBeInTheDocument();
     });
 
     // Check for green styling - need to find the outer container
-    const statusText = screen.getByText('All systems operational');
+    const statusText = screen.getByText('Healthy');
     const statusContainer = statusText.closest('div.border.rounded-lg');
     expect(statusContainer).toHaveClass('bg-green-50', 'border-green-200');
   });
@@ -160,11 +161,12 @@ describe('HealthStatus', () => {
     render(<HealthStatus />);
 
     await waitFor(() => {
-      expect(screen.getByText('System issues detected')).toBeInTheDocument();
+      expect(screen.getByText('Unhealthy')).toBeInTheDocument();
+      expect(screen.getByText('Database connection failed')).toBeInTheDocument();
     });
 
     // Check for red styling - need to find the outer container
-    const statusText = screen.getByText('System issues detected');
+    const statusText = screen.getByText('Unhealthy');
     const statusContainer = statusText.closest('div.border.rounded-lg');
     expect(statusContainer).toHaveClass('bg-red-50', 'border-red-200');
   });
@@ -211,10 +213,11 @@ describe('HealthStatus', () => {
     render(<HealthStatus className="custom-class" />);
 
     await waitFor(() => {
-      expect(screen.getByText('All systems operational')).toBeInTheDocument();
+      expect(screen.getByText('Healthy')).toBeInTheDocument();
+      expect(screen.getByText('All services operational')).toBeInTheDocument();
     });
 
-    const statusContainer = screen.getByText('All systems operational').closest('div.border.rounded-lg');
+    const statusContainer = screen.getByText('Healthy').closest('div.border.rounded-lg');
     expect(statusContainer).toHaveClass('custom-class');
   });
 
