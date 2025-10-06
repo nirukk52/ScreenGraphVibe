@@ -43,3 +43,7 @@ logs/
 
 # Credentials
 CREDENTIALS.md
+
+# Python virtual environments
+screengraph-agent/venv/
+screengraph-agent/.venv/

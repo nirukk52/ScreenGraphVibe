@@ -289,8 +289,8 @@ class StorageInfo:
 class AppVersionInfo:
     """App version information."""
     version_name: str
-    version_code: Optional[str] = None
     package_name: str
+    version_code: Optional[str] = None
     min_sdk_version: Optional[int] = None
     target_sdk_version: Optional[int] = None
     install_date: Optional[datetime] = None

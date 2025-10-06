@@ -38,7 +38,7 @@ The project uses **colon-prefixed module labels** for clear organization:
 ```
 :ui → :backend → :data
          ↓
-   :screengraph-agent
+   :screengraph-agent → :data
 ```
 
 **Key Principle**: Domain → Infrastructure → UI (never reverse)
@@ -199,6 +199,156 @@ These are your **life and soul**. Follow for every line of code:
 ---
 
 ## 🔧 Common Commands
+
+## 🧪 Testing Commands Reference
+
+### Quick Command Chart
+
+```
+┌─────────────────────────────────────────────────────────────────┐
+│                       ROOT LEVEL COMMANDS                        │
+├─────────────────────────────────────────────────────────────────┤
+│ npm test                    → All tests (all modules)            │
+│ npm run test:all            → GOD COMMAND (unit + int + e2e)    │
+│ npm run test:unit           → All unit tests (all modules)       │
+│ npm run test:integration    → All integration tests (all mods)   │
+│ npm run test:e2e            → E2E tests only                     │
+└─────────────────────────────────────────────────────────────────┘
+
+┌─────────────────────────────────────────────────────────────────┐
+│                    MODULE-SPECIFIC COMMANDS                      │
+├─────────────────────────────────────────────────────────────────┤
+│ npm run test:data           → All :data tests                   │
+│ npm run test:backend        → All :backend tests                │
+│ npm run test:ui             → All :ui tests                     │
+│ npm run test:agent          → All :screengraph-agent tests      │
+└─────────────────────────────────────────────────────────────────┘
+
+┌─────────────────────────────────────────────────────────────────┐
+│                     MODULE + TYPE COMMANDS                       │
+├─────────────────────────────────────────────────────────────────┤
+│ UNIT TESTS                                                       │
+│ ├─ npm run test:data:unit                                       │
+│ ├─ npm run test:backend:unit                                    │
+│ ├─ npm run test:ui:unit                                         │
+│ └─ npm run test:agent:unit                                      │
+│                                                                  │
+│ INTEGRATION TESTS                                                │
+│ ├─ npm run test:data:integration                                │
+│ ├─ npm run test:backend:integration                             │
+│ ├─ npm run test:ui:integration                                  │
+│ └─ npm run test:agent:integration                               │
+└─────────────────────────────────────────────────────────────────┘
+```
+
+### Testing Philosophy & CI Strategy
+
+**1. Module Isolation** 
+- Each module contains its own unit and integration tests
+- Only E2E tests live in `:tests` module (Rule 22)
+- Shared test utilities in `:tests/_utils`
+
+**2. CI/CD Triggering**
+```bash
+# On data/ changes → Run only data tests
+npm run test:data
+
+# On backend/ changes → Run only backend tests
+npm run test:backend
+
+# On ui/ changes → Run only UI tests  
+npm run test:ui
+
+# On any change → Run E2E as final check
+npm run test:e2e
+
+# Before merge → Run everything
+npm run test:all
+```
+
+**3. Development Workflow**
+```bash
+# TDD Mode - Watch specific module
+cd data && npm run test:watch
+cd backend && npm run test:watch
+cd ui && npm run test:watch
+
+# Quick check before commit
+npm run test:unit
+
+# Full validation before push
+npm run test:all
+```
+
+**4. Test File Locations**
+```
+:data/src/db/
+├── health.test.ts              ← Unit test
+└── health.integration.test.ts  ← Integration test
+
+:backend/src/features/health/
+├── health.service.test.ts      ← Unit test
+└── health.integration.test.ts  ← Integration test
+
+:ui/src/features/health/
+├── HealthDashboard.test.tsx    ← Unit test
+└── HealthDashboard.integration.test.tsx ← Integration test
+
+:tests/src/e2e/
+├── health.e2e.test.ts          ← E2E only
+└── graph.e2e.test.ts           ← E2E only
+
+:tests/src/_utils/
+├── fixtures/                   ← Shared test fixtures
+└── mocks/                      ← Shared mocks
+```
+
+**5. AI Assistant Test Automation**
+
+When editing files, I (AI) will automatically:
+- **Identify module** from file path
+- **Run appropriate tests** immediately
+- **Report results** to you
+- **Escalate to broader tests** if needed
+
+| File Being Edited | Tests to Run | Command |
+|-------------------|--------------|---------|
+| `data/src/db/*.ts` | Data unit tests | `npm run test:data:unit` |
+| `backend/src/**/*.ts` | Backend unit tests | `npm run test:backend:unit` |
+| `ui/src/**/*.tsx` | UI unit tests | `npm run test:ui:unit` |
+| `*.integration.test.ts` | Integration tests | `npm run test:module:integration` |
+| Database schema | All tests | `npm run test:all` |
+
+**6. CI Configuration Example**
+```yaml
+# .github/workflows/test.yml
+name: Tests
+
+on: [push, pull_request]
+
+jobs:
+  test-data:
+    if: contains(github.event.head_commit.modified, 'data/')
+    run: npm run test:data
+    
+  test-backend:
+    if: contains(github.event.head_commit.modified, 'backend/')
+    run: npm run test:backend
+    
+  test-ui:
+    if: contains(github.event.head_commit.modified, 'ui/')
+    run: npm run test:ui
+    
+  test-e2e:
+    needs: [test-data, test-backend, test-ui]
+    run: npm run test:e2e
+    
+  test-all:
+    if: github.event_name == 'pull_request'
+    run: npm run test:all
+```
+
+---
 
 ### Development
 ```bash
@@ -470,3 +620,139 @@ Raises:
 **Version**: 1.0.0
 **Maintained By**: AI Assistant (Claude) + Human Team
 
+
+---
+
+## 🐍 Python Venv Boundary (Critical)
+
+### Venv as the Boundary
+
+**ALL Python operations run inside the virtual environment (`screengraph-agent/venv/`)**
+
+This is a **strict boundary**:
+- ✅ Development → venv
+- ✅ Testing → venv  
+- ✅ CI/CD → venv
+- ✅ Production → venv
+- ✅ Docker → venv
+- ❌ Never use system Python
+
+### Why This Matters
+
+1. **Isolation**: No conflicts with system Python or other projects
+2. **Reproducibility**: Same environment everywhere (dev, test, prod)
+3. **Python 3.13**: Guaranteed version
+4. **Safety**: Can delete/recreate without affecting system
+5. **Team consistency**: Everyone uses identical environment
+
+### All Agent Commands Use Venv
+
+```bash
+# Development
+npm run dev:agent              # Auto-activates venv
+./screengraph-agent/start-dev.sh
+
+# Production
+npm run start:agent            # Auto-activates venv
+./screengraph-agent/start.sh
+
+# Testing
+npm run test:agent             # Auto-activates venv
+npm run test:agent:unit        # Auto-activates venv
+
+# Utilities
+npm run agent:shell            # Shell in venv
+npm run agent:pip              # pip in venv
+npm run agent:python           # python in venv
+```
+
+### Docker Uses Venv
+
+```dockerfile
+# Dockerfile creates and uses venv
+RUN python3.13 -m venv /app/venv
+CMD ["/app/venv/bin/uvicorn", "main:app"]
+```
+
+### CI Uses Venv
+
+```yaml
+# .github/workflows/test-agent.yml
+- run: python3.13 -m venv venv
+- run: source venv/bin/activate && pytest
+```
+
+### Manual Operations (Always Activate Venv)
+
+```bash
+cd screengraph-agent
+source venv/bin/activate  # ← Always do this first
+python --version          # Verify Python 3.13
+pytest                    # Run tests
+pip install package       # Install dependency
+deactivate               # Exit venv
+```
+
+### AI Assistant Rule
+
+When I (AI) work on Python code:
+1. **Always mention**: "Using venv (Python 3.13)"
+2. **Always activate venv** before running Python commands
+3. **Never suggest** system Python commands
+4. **Always verify** commands use venv path
+
+Example:
+```bash
+# ❌ NEVER DO THIS
+cd screengraph-agent
+pytest  # Uses system Python!
+
+# ✅ ALWAYS DO THIS
+cd screengraph-agent
+source venv/bin/activate
+pytest  # Uses venv Python 3.13
+```
+
+### Venv Location
+
+```
+screengraph-agent/
+└── venv/                      # ← Venv boundary
+    ├── bin/
+    │   ├── python3.13        # Isolated Python
+    │   ├── pip               # Isolated pip
+    │   ├── pytest            # Isolated pytest
+    │   └── uvicorn           # Isolated uvicorn
+    └── lib/
+        └── python3.13/
+            └── site-packages/ # Isolated packages
+```
+
+### Setup/Recreation
+
+```bash
+# One-time setup
+npm run agent:setup
+
+# Manual recreation
+cd screengraph-agent
+rm -rf venv
+python3.13 -m venv venv
+source venv/bin/activate
+pip install -r requirements.txt
+```
+
+### Verification
+
+```bash
+cd screengraph-agent
+source venv/bin/activate
+
+# All these should point to venv
+which python        # .../venv/bin/python
+which pip          # .../venv/bin/pip
+which pytest       # .../venv/bin/pytest
+python --version   # Python 3.13.x
+```
+
+---

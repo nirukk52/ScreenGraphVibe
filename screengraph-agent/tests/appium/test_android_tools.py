@@ -4,8 +4,8 @@ Unit tests for AndroidAppiumTools implementation.
 
 import pytest
 from unittest.mock import Mock, MagicMock, patch
-from screengraph_agent.src.appium.implementations.android_appium_tools import AndroidAppiumTools
-from screengraph_agent.src.appium.types import (
+from src.appium.implementations.android_appium_tools import AndroidAppiumTools
+from src.appium.types import (
     ToolExecutionContext, SelectorType, DeviceOrientation,
     SwipeDirection, ScrollDirection
 )
@@ -132,42 +132,42 @@ class TestToolCategories:
     
     def test_has_connection_tools(self, android_tools):
         """Test has connection category tools."""
-        from screengraph_agent.src.appium.types import ToolCategory
+        from src.appium.types import ToolCategory
         metadata = android_tools.get_tool_metadata()
         connection_tools = [m for m in metadata if m.category == ToolCategory.CONNECTION]
         assert len(connection_tools) > 0
     
     def test_has_data_gathering_tools(self, android_tools):
         """Test has data gathering category tools."""
-        from screengraph_agent.src.appium.types import ToolCategory
+        from src.appium.types import ToolCategory
         metadata = android_tools.get_tool_metadata()
         data_tools = [m for m in metadata if m.category == ToolCategory.DATA_GATHERING]
         assert len(data_tools) > 0
     
     def test_has_element_action_tools(self, android_tools):
         """Test has element action category tools."""
-        from screengraph_agent.src.appium.types import ToolCategory
+        from src.appium.types import ToolCategory
         metadata = android_tools.get_tool_metadata()
         action_tools = [m for m in metadata if m.category == ToolCategory.ELEMENT_ACTIONS]
         assert len(action_tools) > 0
     
     def test_has_device_management_tools(self, android_tools):
         """Test has device management category tools."""
-        from screengraph_agent.src.appium.types import ToolCategory
+        from src.appium.types import ToolCategory
         metadata = android_tools.get_tool_metadata()
         device_tools = [m for m in metadata if m.category == ToolCategory.DEVICE_MANAGEMENT]
         assert len(device_tools) > 0
     
     def test_has_app_management_tools(self, android_tools):
         """Test has app management category tools."""
-        from screengraph_agent.src.appium.types import ToolCategory
+        from src.appium.types import ToolCategory
         metadata = android_tools.get_tool_metadata()
         app_tools = [m for m in metadata if m.category == ToolCategory.APP_MANAGEMENT]
         assert len(app_tools) > 0
     
     def test_has_navigation_tools(self, android_tools):
         """Test has navigation category tools."""
-        from screengraph_agent.src.appium.types import ToolCategory
+        from src.appium.types import ToolCategory
         metadata = android_tools.get_tool_metadata()
         nav_tools = [m for m in metadata if m.category == ToolCategory.NAVIGATION]
         assert len(nav_tools) > 0

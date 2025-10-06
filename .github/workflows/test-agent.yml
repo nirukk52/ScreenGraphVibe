@@ -1,0 +1,44 @@
+name: Agent Tests
+
+on:
+  push:
+    paths:
+      - 'screengraph-agent/**'
+      - '.github/workflows/test-agent.yml'
+  pull_request:
+    paths:
+      - 'screengraph-agent/**'
+
+jobs:
+  test:
+    runs-on: ubuntu-latest
+    
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Set up Python 3.13
+        uses: actions/setup-python@v5
+        with:
+          python-version: '3.13'
+          cache: 'pip'
+
+      - name: Create virtual environment
+        run: |
+          cd screengraph-agent
+          python3.13 -m venv venv
+          source venv/bin/activate
+          python --version
+
+      - name: Install dependencies
+        run: |
+          cd screengraph-agent
+          source venv/bin/activate
+          pip install --upgrade pip
+          pip install -r requirements.txt
+
+      - name: Run tests
+        run: |
+          cd screengraph-agent
+          source venv/bin/activate
+          pytest tests/ -v --tb=short

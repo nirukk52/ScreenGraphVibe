@@ -44,7 +44,6 @@ from .types import (
     ToolResult, SelectorType, Bounds, DeviceOrientation, PlatformInfo,
     ScreenSize, AutomationContext, SystemPermission, AppInfo, DeepLinkInfo,
     ToolExecutionContext, BatchOperationResult, ToolMetadata, ToolCategory,
-    ToolErrorType, ToolError
 )
 
 from .interfaces.appium_tools import AppiumTools, ToolHealthStatus, ToolUsageStats, ToolLogEntry
@@ -76,7 +75,6 @@ __all__ = [
     'ToolResult', 'SelectorType', 'Bounds', 'DeviceOrientation', 'PlatformInfo',
     'ScreenSize', 'AutomationContext', 'SystemPermission', 'AppInfo', 'DeepLinkInfo',
     'ToolExecutionContext', 'BatchOperationResult', 'ToolMetadata', 'ToolCategory',
-    'ToolErrorType', 'ToolError',
     
     # Interfaces
     'AppiumTools', 'ToolHealthStatus', 'ToolUsageStats', 'ToolLogEntry',

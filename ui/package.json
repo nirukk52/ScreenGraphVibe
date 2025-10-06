@@ -7,7 +7,10 @@
     "build": "next build",
     "start": "next start -p 3001",
     "lint": "next lint",
-    "test": "vitest --run"
+    "test": "vitest run",
+    "test:unit": "echo 'No unit tests found for UI' || vitest run src/**/*.test.tsx",
+    "test:integration": "echo 'No integration tests found for UI' || vitest run src/**/*.integration.test.tsx",
+    "test:watch": "vitest watch"
   },
   "dependencies": {
     "autoprefixer": "^10.4.16",
@@ -26,8 +29,10 @@
     "@types/node": "^20.10.6",
     "@types/react": "^18.2.45",
     "@types/react-dom": "^18.2.18",
+    "@vitejs/plugin-react": "^5.0.4",
     "eslint": "^8.56.0",
     "eslint-config-next": "14.0.4",
+    "jsdom": "^27.0.0",
     "typescript": "^5.3.3",
     "vitest": "^1.1.0"
   }

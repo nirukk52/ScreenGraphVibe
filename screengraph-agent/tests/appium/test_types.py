@@ -4,7 +4,7 @@ Unit tests for AppiumTools types.
 
 import pytest
 from datetime import datetime
-from screengraph_agent.src.appium.types import (
+from src.appium.types import (
     ToolResult, ToolMetadata, ToolCategory, Bounds, DriverConfig,
     SelectorType, DeviceOrientation, SwipeDirection, ScrollDirection,
     SystemPermission, AppInfo, AppVersionInfo, DeepLinkInfo

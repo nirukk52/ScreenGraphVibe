@@ -1,5 +1,5 @@
 import { describe, it, expect, vi, beforeEach, afterEach } from 'vitest';
-import { mockCheckDatabaseHealth } from '../mocks/health.js';
+import { mockCheckDatabaseHealth } from '@screengraph/tests/_utils/mocks/health.js';
 
 // Mock the data module to use our test implementation
 vi.mock('@screengraph/data', async () => {

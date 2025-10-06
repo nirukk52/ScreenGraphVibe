@@ -3,7 +3,7 @@ Unit tests for AppiumTools configuration.
 """
 
 import pytest
-from screengraph_agent.src.appium.config import (
+from src.appium.config import (
     APPIUM_DEFAULT_SERVER_URL,
     PLATFORM_ANDROID,
     PLATFORM_IOS,

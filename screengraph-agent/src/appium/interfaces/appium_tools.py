@@ -1,3 +1,4 @@
+from __future__ import annotations
 """
 Main AppiumTools Interface
 
@@ -21,7 +22,7 @@ from .app_management_tools import AppManagementTools
 from .navigation_tools import NavigationTools
 
 
-class AppiumTools(ABC, ConnectionTools, DataGatheringTools, ActionTools, DeviceManagementTools, AppManagementTools, NavigationTools):
+class AppiumTools(ConnectionTools, DataGatheringTools, ActionTools, DeviceManagementTools, AppManagementTools, NavigationTools):
     """
     Main AppiumTools interface combining all tool categories.
     

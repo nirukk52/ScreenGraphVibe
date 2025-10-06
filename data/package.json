@@ -6,8 +6,10 @@
   "scripts": {
     "dev": "tsx watch src/index.ts",
     "build": "tsc",
-    "test": "echo \"No tests specified for data package\"",
-    "test:unit": "echo \"No tests specified for data package\"",
+    "test": "vitest run",
+    "test:unit": "vitest run src/**/*.test.ts",
+    "test:integration": "vitest run src/**/*.integration.test.ts",
+    "test:watch": "vitest watch",
     "db:generate": "drizzle-kit generate",
     "db:migrate": "tsx src/migrate.ts",
     "db:studio": "drizzle-kit studio",
@@ -23,6 +25,7 @@
     "@types/node": "^20.10.6",
     "drizzle-kit": "^0.20.10",
     "tsx": "^4.6.2",
-    "typescript": "^5.3.3"
+    "typescript": "^5.3.3",
+    "vitest": "^1.1.0"
   }
 }

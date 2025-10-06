@@ -1,0 +1,19 @@
+Metadata-Version: 2.4
+Name: screengraph_agent
+Version: 0.1.0
+Requires-Python: >=3.13
+Requires-Dist: fastapi>=0.104.1
+Requires-Dist: uvicorn[standard]>=0.24.0
+Requires-Dist: pydantic>=2.5.0
+Requires-Dist: httpx>=0.25.2
+Requires-Dist: python-multipart>=0.0.6
+Requires-Dist: python-dotenv>=1.0.0
+Requires-Dist: Appium-Python-Client>=3.1.0
+Requires-Dist: selenium>=4.15.2
+Provides-Extra: test
+Requires-Dist: pytest>=7.4.3; extra == "test"
+Requires-Dist: pytest-asyncio>=0.21.1; extra == "test"
+Requires-Dist: pytest-mock>=3.12.0; extra == "test"
+Dynamic: provides-extra
+Dynamic: requires-dist
+Dynamic: requires-python

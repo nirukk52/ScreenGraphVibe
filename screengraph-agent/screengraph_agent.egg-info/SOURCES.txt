@@ -1,0 +1,7 @@
+README.md
+setup.py
+screengraph_agent.egg-info/PKG-INFO
+screengraph_agent.egg-info/SOURCES.txt
+screengraph_agent.egg-info/dependency_links.txt
+screengraph_agent.egg-info/requires.txt
+screengraph_agent.egg-info/top_level.txt

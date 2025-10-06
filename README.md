@@ -60,34 +60,57 @@ npm run db:migrate
 
 ---
 
-## 🧪 Testing Setup
+## 🧪 Testing
 
-### Run All Tests
+### Quick Start
+
 ```bash
+# Run all tests (GOD COMMAND)
+npm run test:all
+
+# Run all tests in all modules
 npm test
+
+# Run tests by type
+npm run test:unit        # All unit tests
+npm run test:integration # All integration tests
+npm run test:e2e         # E2E tests only
 ```
 
-### Run Specific Test Suites
+### Module-Specific Testing
+
 ```bash
-# Unit tests only
-npm run test:unit --workspace=tests
+# Test individual modules
+npm run test:data        # Data layer tests
+npm run test:backend     # Backend API tests
+npm run test:ui          # UI component tests
+npm run test:agent       # Python agent tests
 
-# Integration tests
-npm run test:integration --workspace=tests
+# Test specific type in module
+npm run test:data:unit           # Data unit tests only
+npm run test:backend:integration # Backend integration tests only
+npm run test:ui:unit             # UI unit tests only
+```
 
-# End-to-end tests (requires services running)
-npm run test:e2e --workspace=tests
+### Development Mode
+
+```bash
+# Watch mode for TDD
+cd data && npm run test:watch
+cd backend && npm run test:watch
+cd ui && npm run test:watch
 ```
 
 ### Test Status
 
 | Test Type | Status | Count |
 |-----------|--------|-------|
-| Unit Tests | ✅ Passing | 8 tests |
-| Integration Tests | ✅ Passing | 2 tests |
-| E2E Tests | ✅ Passing | 3 tests |
+| Unit Tests | ✅ Passing | 25+ tests |
+| Integration Tests | ✅ Passing | 10+ tests |
+| E2E Tests | ✅ Passing | 2 tests |
 | Health Checks | ✅ Working | All Green |
 
+**See [CLAUDE.md - Testing Commands Reference](./CLAUDE.md#testing-commands-reference) for complete command chart and CI strategy.**
 ## 📍 Current Project State
 
 ### ✅ Completed Features
