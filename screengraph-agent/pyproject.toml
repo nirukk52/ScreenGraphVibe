@@ -1,0 +1,247 @@
+# ScreenGraph Agent - Modern Python Packaging
+#
+# This file replaces setup.py and requirements.txt for cleaner dependency management.
+# Uses PEP 621 standard for project metadata.
+
+[build-system]
+requires = ["setuptools>=65.0", "wheel"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "screengraph-agent"
+version = "0.1.0"
+description = "AI-driven mobile app crawler with LLM decision-making"
+readme = "README.md"
+requires-python = ">=3.9"
+license = {text = "MIT"}
+authors = [
+    {name = "ScreenGraph Team"}
+]
+keywords = ["appium", "llm", "crawler", "mobile", "testing", "ai"]
+classifiers = [
+    "Development Status :: 3 - Alpha",
+    "Intended Audience :: Developers",
+    "Programming Language :: Python :: 3",
+    "Programming Language :: Python :: 3.9",
+    "Programming Language :: Python :: 3.10",
+    "Programming Language :: Python :: 3.11",
+]
+
+# Core dependencies (production)
+dependencies = [
+    # FastAPI (BFF)
+    "fastapi>=0.104.0",
+    "uvicorn[standard]>=0.24.0",
+    "pydantic>=2.0.0",
+    
+    # Async support
+    "httpx>=0.25.0",
+    "aiofiles>=23.0.0",
+    
+    # Database
+    "psycopg2-binary>=2.9.0",
+    "sqlalchemy>=2.0.0",
+    
+    # Appium
+    "Appium-Python-Client>=3.0.0",
+    "selenium>=4.15.0",
+    
+    # LLM providers
+    "openai>=1.3.0",
+    "anthropic>=0.7.0",
+    
+    # OCR
+    "pytesseract>=0.3.10",
+    
+    # Storage
+    "boto3>=1.29.0",  # S3
+    "google-cloud-storage>=2.10.0",  # GCS
+    
+    # Caching
+    "redis>=5.0.0",
+    
+    # Logging & Telemetry
+    "structlog>=23.2.0",
+    "python-json-logger>=2.0.0",
+    
+    # Utilities
+    "python-ulid>=1.1.0",
+    "python-dotenv>=1.0.0",
+    "pyyaml>=6.0",
+]
+
+# Optional dependencies (grouped by feature)
+[project.optional-dependencies]
+# Development tools
+dev = [
+    "pytest>=7.4.0",
+    "pytest-asyncio>=0.21.0",
+    "pytest-cov>=4.1.0",
+    "pytest-mock>=3.12.0",
+    "black>=23.11.0",
+    "ruff>=0.1.6",
+    "mypy>=1.7.0",
+    "isort>=5.12.0",
+]
+
+# Testing with containers
+test = [
+    "testcontainers>=3.7.0",
+    "faker>=20.1.0",
+]
+
+# CLI tools
+cli = [
+    "typer>=0.9.0",
+    "rich>=13.7.0",
+]
+
+# Documentation
+docs = [
+    "mkdocs>=1.5.0",
+    "mkdocs-material>=9.4.0",
+]
+
+# All extras
+all = [
+    "screengraph-agent[dev,test,cli,docs]",
+]
+
+[project.urls]
+Homepage = "https://github.com/screengraph/agent"
+Documentation = "https://docs.screengraph.io"
+Repository = "https://github.com/screengraph/agent"
+Issues = "https://github.com/screengraph/agent/issues"
+
+[project.scripts]
+screengraph = "src.cli.app:main"
+screengraph-server = "uvicorn src.bff.main:app"
+
+# Tool configurations
+
+[tool.setuptools.packages.find]
+where = ["src"]
+include = ["agent*", "adapters*", "bff*", "cli*", "contracts*"]
+exclude = ["tests*", "docs*"]
+
+[tool.pytest.ini_options]
+testpaths = [
+    "src/agent/test",           # Agent core unit tests
+    "src/adapters/*/tests",     # Adapter integration tests
+    "tests/e2e",                # E2E tests (if exist)
+]
+python_files = ["test_*.py", "*_test.py"]
+python_classes = ["Test*"]
+python_functions = ["test_*"]
+addopts = [
+    "-ra",
+    "--strict-markers",
+    "--cov=src/agent",
+    "--cov=src/adapters",
+    "--cov-report=term-missing",
+    "--cov-report=html",
+]
+markers = [
+    "unit: Unit tests (fast, no I/O)",
+    "integration: Integration tests (real SDKs)",
+    "e2e: End-to-end tests (real device, full system)",
+    "slow: Slow tests (long-running)",
+]
+asyncio_mode = "auto"
+
+[tool.coverage.run]
+source = ["src/agent", "src/adapters", "src/bff"]
+omit = [
+    "*/test/*",
+    "*/tests/*",
+    "*/__pycache__/*",
+    "*/venv/*",
+]
+
+[tool.coverage.report]
+exclude_lines = [
+    "pragma: no cover",
+    "def __repr__",
+    "raise AssertionError",
+    "raise NotImplementedError",
+    "if __name__ == .__main__.:",
+    "if TYPE_CHECKING:",
+    "@abstractmethod",
+]
+
+[tool.black]
+line-length = 100
+target-version = ["py39", "py310", "py311"]
+include = '\.pyi?$'
+exclude = '''
+/(
+    \.git
+  | \.venv
+  | venv
+  | build
+  | dist
+  | \.eggs
+  | __pycache__
+)/
+'''
+
+[tool.ruff]
+line-length = 100
+target-version = "py39"
+select = [
+    "E",   # pycodestyle errors
+    "W",   # pycodestyle warnings
+    "F",   # pyflakes
+    "I",   # isort
+    "B",   # flake8-bugbear
+    "C4",  # flake8-comprehensions
+    "UP",  # pyupgrade
+]
+ignore = [
+    "E501",  # line too long (handled by black)
+    "B008",  # do not perform function calls in argument defaults
+    "C901",  # too complex
+]
+exclude = [
+    ".git",
+    ".venv",
+    "venv",
+    "__pycache__",
+    "build",
+    "dist",
+]
+
+[tool.ruff.per-file-ignores]
+"__init__.py" = ["F401"]  # unused imports in __init__.py
+
+[tool.mypy]
+python_version = "3.9"
+warn_return_any = true
+warn_unused_configs = true
+disallow_untyped_defs = true
+disallow_incomplete_defs = true
+check_untyped_defs = true
+no_implicit_optional = true
+warn_redundant_casts = true
+warn_unused_ignores = true
+warn_no_return = true
+strict_equality = true
+
+[[tool.mypy.overrides]]
+module = [
+    "appium.*",
+    "selenium.*",
+    "openai.*",
+    "anthropic.*",
+    "boto3.*",
+    "google.cloud.*",
+]
+ignore_missing_imports = true
+
+[tool.isort]
+profile = "black"
+line_length = 100
+src_paths = ["src"]
+known_first_party = ["agent", "adapters", "bff", "cli", "contracts"]
+sections = ["FUTURE", "STDLIB", "THIRDPARTY", "FIRSTPARTY", "LOCALFOLDER"]
+

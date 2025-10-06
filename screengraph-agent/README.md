@@ -1,178 +1,191 @@
-# ScreenGraph Agent
+# ScreenGraph Agent MVP
 
-Python FastAPI service for mobile automation using Appium. **All Python operations run in an isolated virtual environment.**
+**AI-driven mobile app crawler with LLM decision-making at every step.**
 
-## 🐍 Python Environment
+## Overview
 
-**Critical**: This project uses Python 3.13 with a local virtual environment (`venv/`). All Python operations - development, testing, and production - run inside this venv boundary.
+ScreenGraph Agent automatically explores Android/iOS apps, builds ScreenGraphs (nodes = screens, edges = actions), and verifies exploration against baselines.
 
-### Quick Start
+### Core Principles
+
+- **Clean Architecture**: Domain → Ports → Adapters → BFF
+- **LLM Always-On**: 5 LLM decision nodes invoked every iteration
+- **Deterministic Signatures**: Screen states identified by stable hashes
+- **Delta-First Prompts**: LLM sees only changes, not full hierarchy
+- **Assets by Reference**: No blobs in state; FileStore for heavy data
+- **Caching + Budgets**: Prompt caching and token budgets reduce costs
+
+## Architecture
+
+```
+/src                          # Framework-free agent core
+  /domain                     # Pure types and rules
+  /ports                      # Capability interfaces (no SDKs)
+  /orchestrator               # Node graph and control flow
+    /nodes                    # 17 discrete execution steps
+    /policy                   # Routing rules and constants
+  /services                   # Stateless domain logic
+  /usecases                   # High-level orchestration
+  /config                     # Typed configuration
+  /errors                     # Domain exceptions
+  /test                       # Fake ports and factories
+
+/adapters                     # SDK wrappers (implements ports)
+  /appium                     # Device automation
+  /ocr                        # Text extraction
+  /repo                       # Graph persistence + file storage
+  /llm                        # AI decision-making
+  /cache                      # Prompt/advice caching
+  /budget                     # Resource tracking
+  /telemetry                  # Observability
+  /engine                     # (optional) DroidBot/Fastbot2
+
+/bff                          # FastAPI composition root
+  /routes                     # HTTP handlers
+  main.py                     # App entrypoint
+  deps.py                     # DI container
+
+/cli                          # Command-line interface
+/contracts                    # API DTOs
+/ui                           # (future) Admin web interface
+```
+
+## LLM Decision Plane (Always-On)
+
+**5 LLM nodes invoked every iteration:**
+
+1. **ChooseAction**: Select next action from candidates
+2. **Verify**: Classify action outcome (delta type)
+3. **DetectProgress**: Label progress (made/no/regressed)
+4. **ShouldContinue**: Propose route (continue/switch/restart/stop)
+5. **SwitchPolicy**: Change exploration policy (when triggered)
+
+**Cost Reduction:**
+- Prompt caching (7-day TTL)
+- Delta-first prompts (only changes)
+- Top-K elements (not full hierarchy)
+- Budget enforcement (token caps)
+
+## State Object
+
+All nodes consume and produce `AgentState`:
+
+```python
+@dataclass(frozen=True)
+class AgentState:
+    # Identity
+    run_id: str
+    app_id: str
+    
+    # Perception (refs only, no blobs)
+    signature: ScreenSignature
+    previous_signature: ScreenSignature | None
+    bundle: Bundle  # refs to screenshot/page_source
+    
+    # Planning
+    enumerated_actions: List[EnumeratedAction]
+    advice: Advice
+    plan_cursor: int
+    
+    # Progress
+    counters: Counters
+    budgets: Budgets
+    
+    # Persistence
+    persist_result: PersistResultSummary | None
+    stop_reason: str | None
+    
+    # Lifecycle
+    timestamps: Timestamps
+```
+
+**Immutability**: Nodes return new states (never mutate in place).
+
+## Node Graph
+
+**Setup Phase:**
+1. EnsureDevice → ProvisionApp → LaunchOrAttach → WaitIdle
+
+**Main Loop:**
+2. Perceive → EnumerateActions → ChooseAction [LLM] → Act
+3. Verify [LLM] → Persist → DetectProgress [LLM] → ShouldContinue [LLM]
+
+**Policy Routing:**
+4. ShouldContinue → Perceive (continue) | SwitchPolicy [LLM] | RestartApp | Stop
+
+**Recovery:**
+5. RecoverFromError (transient errors)
+6. RestartApp (app crash, bounded)
+
+**Termination:**
+7. Stop (final summary)
+
+## Getting Started
+
+### Prerequisites
+
+- Python 3.9+
+- Appium server running (http://localhost:4723)
+- PostgreSQL or Supabase (for graph storage)
+- LLM API key (OpenAI, Anthropic, etc.)
+- (Optional) Redis for caching
+
+### Installation
 
 ```bash
-# One-time setup (from project root)
-npm run agent:setup
-
-# Or from agent directory
-cd screengraph-agent
-python3.13 -m venv venv
-source venv/bin/activate
+# Install dependencies
 pip install -r requirements.txt
+
+# Setup config
+cp .env.example .env
+# Edit .env with your credentials
+
+# Run via CLI
+python -m cli.app run --app-id com.example.app --max-steps 50
+
+# Or via BFF (FastAPI)
+python -m bff.main
+# Then: POST http://localhost:8000/sessions
 ```
 
-## 🚀 Running the Agent
+### Configuration
 
-### Development Mode (with hot reload)
+See `.env.example` for all configuration options:
+- `APPIUM_URL`: Appium server endpoint
+- `LLM_PROVIDER`: openai | anthropic | local
+- `DB_URL`: PostgreSQL connection string
+- `STORAGE_TYPE`: s3 | gcs | local
+- `CACHE_TYPE`: memory | redis
+
+## Testing
+
+Unit tests use fake ports (no real SDKs):
 
 ```bash
-# From project root
-npm run dev:agent
+# Run all tests
+pytest
 
-# Or manually
-cd screengraph-agent
-./start-dev.sh
-
-# Or with npm script
-source venv/bin/activate
-uvicorn main:app --reload --host 0.0.0.0 --port 8000
+# Run with coverage
+pytest --cov=src --cov-report=html
 ```
 
-### Production Mode
+## Documentation
 
-```bash
-# From project root
-npm run start:agent
+- **ARCHITECTURE.md**: Clean architecture principles
+- **ADAPTERS.md**: Adapter responsibilities and rules
+- **AGENT.md**: Node graph, decision plane, StateObject
+- **BFF.md**: DI and routes overview
 
-# Or manually
-cd screengraph-agent
-./start.sh
+## Roadmap
 
-# Or with venv
-source venv/bin/activate
-uvicorn main:app --host 0.0.0.0 --port 8000
-```
+- [ ] Implement all 17 nodes
+- [ ] Integrate Appium/LLM adapters
+- [ ] Add prompt templates and guardrails
+- [ ] Add cache warming strategies
+- [ ] Add admin web UI
+- [ ] Add baseline comparison
+- [ ] Add distributed tracing
 
-## 🧪 Testing
+## License
 
-All test commands automatically activate venv:
-
-```bash
-# From project root
-npm run test:agent              # All tests
-npm run test:agent:unit         # Unit tests only
-npm run test:agent:integration  # Integration tests only
-
-# Or manually in agent directory
-source venv/bin/activate
-pytest                          # All tests
-pytest -m unit                  # Unit tests
-pytest -m integration           # Integration tests
-pytest --watch                  # Watch mode
-```
-
-## 🛠️ Development Commands
-
-All these commands use venv automatically:
-
-```bash
-npm run dev:agent           # Start dev server with hot reload
-npm run start:agent         # Start production server
-npm run test:agent          # Run all tests
-npm run agent:setup         # Setup/recreate venv
-npm run agent:shell         # Open shell in venv
-npm run agent:pip           # Run pip in venv
-npm run agent:python        # Run python in venv
-```
-
-## 📦 Dependencies
-
-```bash
-# Add new dependency
-cd screengraph-agent
-source venv/bin/activate
-pip install package-name
-pip freeze > requirements.txt
-```
-
-## 🐳 Docker
-
-The Dockerfile uses venv as the boundary:
-
-```bash
-# Build
-docker build -t screengraph-agent .
-
-# Run
-docker run -p 8000:8000 screengraph-agent
-```
-
-## 🔧 CI/CD
-
-GitHub Actions workflow (`.github/workflows/test-agent.yml`) uses venv:
-
-```yaml
-- name: Create virtual environment
-  run: python3.13 -m venv venv
-
-- name: Run tests
-  run: |
-    source venv/bin/activate
-    pytest tests/
-```
-
-## 📊 Architecture
-
-```
-screengraph-agent/
-├── venv/                 # Python 3.13 virtual environment (gitignored)
-├── src/                  # Source code
-│   └── appium/          # Appium tools (80+ tools, 5000+ lines)
-├── tests/               # pytest tests (50+ tests)
-├── main.py              # FastAPI application
-├── requirements.txt     # Python dependencies
-├── start.sh            # Production start script
-├── start-dev.sh        # Development start script
-├── Dockerfile          # Production Docker image
-├── SETUP.md            # Detailed setup guide
-└── README.md           # This file
-```
-
-## 🎯 Key Points
-
-1. **Always use venv**: Never run Python commands outside venv
-2. **Automated**: npm scripts auto-activate venv
-3. **Isolated**: No system Python conflicts
-4. **Python 3.13**: Guaranteed version across all environments
-5. **Reproducible**: Same environment for dev, test, and prod
-
-## 📚 More Information
-
-- [SETUP.md](./SETUP.md) - Detailed setup and troubleshooting
-- [Root package.json](../package.json) - All npm scripts
-- [TEST_COMMANDS_DEMO.md](../TEST_COMMANDS_DEMO.md) - Testing reference
-
-## 🚨 Troubleshooting
-
-**venv not found:**
-```bash
-npm run agent:setup
-```
-
-**Import errors:**
-```bash
-cd screengraph-agent
-source venv/bin/activate
-pip install -r requirements.txt
-```
-
-**Wrong Python version:**
-```bash
-cd screengraph-agent
-source venv/bin/activate
-python --version  # Should show 3.13.x
-```
-
----
-
-**API Running**: http://localhost:8000  
-**API Docs**: http://localhost:8000/docs  
-**Health**: http://localhost:8000/health
+MIT

@@ -1,6 +1,6 @@
 # ScreenGraph Documentation Index
 
-> **Auto-generated on 2025-10-06T21:50:20.371Z**  
+> **Auto-generated on 2025-10-06T21:54:16.275Z**  
 > **Total Documents: 10**
 
 This is the comprehensive index of all documentation in the ScreenGraph project. Each document includes its title, description, and direct links to sections.
@@ -14,7 +14,7 @@ This is the comprehensive index of all documentation in the ScreenGraph project.
 
 ### Other Documentation
 - [ScreenGraph Credentials Reference](./CREDENTIALS.md) - **⚠️ CONFIDENTIAL - DO NOT COMMIT TO GIT**
-- [ScreenGraph Documentation Index](./DOCUMENT_INDEX.md) - > **Auto-generated on 2025-10-06T21:50:17.649Z**
+- [ScreenGraph Documentation Index](./DOCUMENT_INDEX.md) - > **Auto-generated on 2025-10-06T21:54:09.715Z**
 - [Session Summary - Testing Infrastructure & Python Venv](./session-summary.md) - ## 🎯 What We Accomplished
 - [Screengraph Deployment Guide](./setup/DEPLOYMENT.md) - ## 🚀 Quick Deploy
 - [ScreenGraph Local Development Setup](./setup/LOCAL_SETUP.md) - Complete guide for running ScreenGraph locally.
@@ -56,7 +56,7 @@ This is the comprehensive index of all documentation in the ScreenGraph project.
 
 ### 📄 [ScreenGraph Documentation Index](./DOCUMENT_INDEX.md)
 
-**Description:** > **Auto-generated on 2025-10-06T21:50:17.649Z**
+**Description:** > **Auto-generated on 2025-10-06T21:54:09.715Z**
 
 **Path:** `DOCUMENT_INDEX.md`
 **Last Modified:** 10/6/2025
@@ -89,8 +89,8 @@ This is the comprehensive index of all documentation in the ScreenGraph project.
 **Description:** Complete guide for running ScreenGraph locally.
 
 **Path:** `setup/LOCAL_SETUP.md`
-**Last Modified:** 10/4/2025
-**Size:** 6.22 KB
+**Last Modified:** 10/6/2025
+**Size:** 6.61 KB
 
 ---
 
@@ -130,7 +130,7 @@ This is the comprehensive index of all documentation in the ScreenGraph project.
 
 **Path:** `setup/TESTING.md`
 **Last Modified:** 10/6/2025
-**Size:** 10.53 KB
+**Size:** 11.89 KB
 
 ---
 
@@ -139,8 +139,8 @@ This is the comprehensive index of all documentation in the ScreenGraph project.
 - **Total Documents:** 10
 - **Total Categories:** 2
 - **Total Headlines:** 0
-- **Average Document Size:** 6.07 KB
-- **Total Size:** 60.72 KB
-- **Generated:** 10/6/2025, 4:50:20 PM
+- **Average Document Size:** 6.25 KB
+- **Total Size:** 62.47 KB
+- **Generated:** 10/6/2025, 4:54:16 PM
 
 ---

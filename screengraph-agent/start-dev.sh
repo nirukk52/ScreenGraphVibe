@@ -41,4 +41,4 @@ echo -e "${GREEN}✓ All dependencies available${NC}"
 # Start the server with hot reload
 echo -e "${GREEN}🔥 Starting FastAPI server with hot reload on port 8000...${NC}"
 echo -e "${YELLOW}Press Ctrl+C to stop${NC}"
-uvicorn main:app --reload --host 0.0.0.0 --port 8000
+uvicorn src.bff.main:app --reload --host 0.0.0.0 --port 8000
