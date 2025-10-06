@@ -84,24 +84,24 @@ case $ENVIRONMENT in
             npm install
         fi
 
-        # Start Agent in background
-        echo -e "${BLUE}🔧 Starting Agent (Backend API) on port 3000...${NC}"
-        cd agent
-        npm run dev > ../logs/agent.log 2>&1 &
-        AGENT_PID=$!
+        # Start Backend in background
+        echo -e "${BLUE}🔧 Starting Backend (Backend API) on port 3000...${NC}"
+        cd backend
+        npm run dev > ../logs/backend.log 2>&1 &
+        BACKEND_PID=$!
         cd ..
 
-        # Wait for agent to start
-        echo -e "${YELLOW}⏳ Waiting for Agent to start...${NC}"
+        # Wait for backend to start
+        echo -e "${YELLOW}⏳ Waiting for Backend to start...${NC}"
         sleep 5
 
-        # Check if agent is running
+        # Check if backend is running
         if curl -s http://localhost:3000/healthz > /dev/null 2>&1; then
-            echo -e "${GREEN}✅ Agent started successfully${NC}"
+            echo -e "${GREEN}✅ Backend started successfully${NC}"
         else
-            echo -e "${RED}❌ Agent failed to start${NC}"
-            echo -e "${YELLOW}📝 Check logs/agent.log for errors${NC}"
-            kill $AGENT_PID 2>/dev/null || true
+            echo -e "${RED}❌ Backend failed to start${NC}"
+            echo -e "${YELLOW}📝 Check logs/backend.log for errors${NC}"
+            kill $BACKEND_PID 2>/dev/null || true
             exit 1
         fi
 
@@ -129,14 +129,14 @@ case $ENVIRONMENT in
         echo -e "${GREEN}━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━${NC}\n"
 
         echo -e "${BLUE}📍 Services:${NC}"
-        echo -e "   Agent API:    ${GREEN}http://localhost:3000${NC}"
+        echo -e "   Backend API:  ${GREEN}http://localhost:3000${NC}"
         echo -e "   Health Check: ${GREEN}http://localhost:3000/healthz${NC}"
         echo -e "   API Docs:     ${GREEN}http://localhost:3000/docs${NC}"
         echo -e "   UI:           ${GREEN}http://localhost:3001${NC}\n"
 
         echo -e "${BLUE}📝 Logs:${NC}"
-        echo -e "   Agent: ${YELLOW}tail -f logs/agent.log${NC}"
-        echo -e "   UI:    ${YELLOW}tail -f logs/ui.log${NC}\n"
+        echo -e "   Backend: ${YELLOW}tail -f logs/backend.log${NC}"
+        echo -e "   UI:      ${YELLOW}tail -f logs/ui.log${NC}\n"
 
         echo -e "${BLUE}🛑 To stop:${NC}"
         echo -e "   ${YELLOW}./stop.sh${NC}"
@@ -146,7 +146,7 @@ case $ENVIRONMENT in
 
         # Save PIDs to file for stop script
         mkdir -p logs
-        echo "$AGENT_PID" > logs/agent.pid
+        echo "$BACKEND_PID" > logs/backend.pid
         echo "$UI_PID" > logs/ui.pid
 
         # Test the health endpoint
@@ -157,8 +157,8 @@ case $ENVIRONMENT in
         echo -e "\n${GREEN}🎉 All services are ready! Open ${BLUE}http://localhost:3001${GREEN} in your browser${NC}\n"
 
         # Keep script running and show logs
-        echo -e "${YELLOW}📊 Showing agent logs (Ctrl+C to exit):${NC}\n"
-        tail -f logs/agent.log
+        echo -e "${YELLOW}📊 Showing backend logs (Ctrl+C to exit):${NC}\n"
+        tail -f logs/backend.log
         ;;
         
     "prod"|"production")
@@ -180,9 +180,9 @@ case $ENVIRONMENT in
 
         echo -e "${GREEN}✅ flyctl authenticated${NC}\n"
 
-        # Deploy agent
-        echo -e "${BLUE}🚀 Deploying Agent to Fly.io...${NC}"
-        cd agent
+        # Deploy backend
+        echo -e "${BLUE}🚀 Deploying Backend to Fly.io...${NC}"
+        cd backend
         flyctl deploy
         cd ..
 
@@ -197,14 +197,14 @@ case $ENVIRONMENT in
         echo -e "${GREEN}━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━${NC}\n"
 
         echo -e "${BLUE}📍 Production URLs:${NC}"
-        echo -e "   Agent API:    ${GREEN}https://screengraph-agent.fly.dev${NC}"
-        echo -e "   Health Check: ${GREEN}https://screengraph-agent.fly.dev/healthz${NC}"
-        echo -e "   API Docs:     ${GREEN}https://screengraph-agent.fly.dev/docs${NC}"
+        echo -e "   Backend API:  ${GREEN}https://screengraph-backend.fly.dev${NC}"
+        echo -e "   Health Check: ${GREEN}https://screengraph-backend.fly.dev/healthz${NC}"
+        echo -e "   API Docs:     ${GREEN}https://screengraph-backend.fly.dev/docs${NC}"
         echo -e "   UI:           ${GREEN}https://screengraph-ui.fly.dev${NC}\n"
 
         echo -e "${BLUE}🛑 To manage:${NC}"
-        echo -e "   Status: ${YELLOW}flyctl status --app screengraph-agent${NC}"
-        echo -e "   Logs:   ${YELLOW}flyctl logs --app screengraph-agent${NC}\n"
+        echo -e "   Status: ${YELLOW}flyctl status --app screengraph-backend${NC}"
+        echo -e "   Logs:   ${YELLOW}flyctl logs --app screengraph-backend${NC}\n"
         ;;
         
     "status")
@@ -213,16 +213,16 @@ case $ENVIRONMENT in
         # Check local services
         echo -e "${YELLOW}🏠 Local Environment:${NC}"
         if curl -s http://localhost:3000/healthz > /dev/null 2>&1; then
-            echo -e "   Agent: ${GREEN}✅ Running${NC} (http://localhost:3000)"
+            echo -e "   Backend: ${GREEN}✅ Running${NC} (http://localhost:3000)"
             curl -s http://localhost:3000/healthz | jq -r '.message' 2>/dev/null || true
         else
-            echo -e "   Agent: ${RED}❌ Not running${NC}"
+            echo -e "   Backend: ${RED}❌ Not running${NC}"
         fi
         
         if curl -s http://localhost:3001 > /dev/null 2>&1; then
-            echo -e "   UI:    ${GREEN}✅ Running${NC} (http://localhost:3001)"
+            echo -e "   UI:      ${GREEN}✅ Running${NC} (http://localhost:3001)"
         else
-            echo -e "   UI:    ${RED}❌ Not running${NC}"
+            echo -e "   UI:      ${RED}❌ Not running${NC}"
         fi
         
         echo ""
@@ -230,17 +230,17 @@ case $ENVIRONMENT in
         # Check production services
         echo -e "${YELLOW}☁️  Production Environment:${NC}"
         if command -v flyctl &> /dev/null && flyctl auth whoami &> /dev/null; then
-            if curl -s https://screengraph-agent.fly.dev/healthz > /dev/null 2>&1; then
-                echo -e "   Agent: ${GREEN}✅ Running${NC} (https://screengraph-agent.fly.dev)"
-                curl -s https://screengraph-agent.fly.dev/healthz | jq -r '.message' 2>/dev/null || true
+            if curl -s https://screengraph-backend.fly.dev/healthz > /dev/null 2>&1; then
+                echo -e "   Backend: ${GREEN}✅ Running${NC} (https://screengraph-backend.fly.dev)"
+                curl -s https://screengraph-backend.fly.dev/healthz | jq -r '.message' 2>/dev/null || true
             else
-                echo -e "   Agent: ${RED}❌ Not running or unreachable${NC}"
+                echo -e "   Backend: ${RED}❌ Not running or unreachable${NC}"
             fi
             
             if curl -s https://screengraph-ui.fly.dev > /dev/null 2>&1; then
-                echo -e "   UI:    ${GREEN}✅ Running${NC} (https://screengraph-ui.fly.dev)"
+                echo -e "   UI:      ${GREEN}✅ Running${NC} (https://screengraph-ui.fly.dev)"
             else
-                echo -e "   UI:    ${RED}❌ Not running or unreachable${NC}"
+                echo -e "   UI:      ${RED}❌ Not running or unreachable${NC}"
             fi
         else
             echo -e "   Production: ${YELLOW}⚠️  flyctl not configured${NC}"

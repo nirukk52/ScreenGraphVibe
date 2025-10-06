@@ -44,7 +44,7 @@ export class Logger {
 
   child(context: LogContext): Logger {
     const childLogger = this.pino.child(context);
-    return new Logger({ logger: childLogger });
+    return new Logger();
   }
 }
 

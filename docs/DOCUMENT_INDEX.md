@@ -1,7 +1,7 @@
 # ScreenGraph Documentation Index
 
-> **Auto-generated on 2025-10-06T06:25:24.748Z**  
-> **Total Documents: 8**
+> **Auto-generated on 2025-10-06T07:12:38.103Z**  
+> **Total Documents: 9**
 
 This is the comprehensive index of all documentation in the ScreenGraph project. Each document includes its title, description, and direct links to sections.
 
@@ -14,11 +14,12 @@ This is the comprehensive index of all documentation in the ScreenGraph project.
 
 ### Other Documentation
 - [ScreenGraph Credentials Reference](./CREDENTIALS.md) - **⚠️ CONFIDENTIAL - DO NOT COMMIT TO GIT**
-- [ScreenGraph Documentation Index](./DOCUMENT_INDEX.md) - > **Auto-generated on 2025-10-06T06:22:02.643Z**
+- [ScreenGraph Documentation Index](./DOCUMENT_INDEX.md) - > **Auto-generated on 2025-10-06T07:12:33.081Z**
 - [Screengraph Deployment Guide](./setup/DEPLOYMENT.md) - ## 🚀 Quick Deploy
 - [ScreenGraph Local Development Setup](./setup/LOCAL_SETUP.md) - Complete guide for running ScreenGraph locally.
 - [ScreenGraph Production Setup & Deployment](./setup/PRODUCTION_SETUP.md) - Complete guide for deploying ScreenGraph to Fly.io production environment.
 - [ScreenGraph Scripts Guide](./setup/SCRIPTS_GUIDE.md) - Complete guide to the environment-aware start/stop scripts.
+- [Test Troubleshooting Guide](./setup/TEST_TROUBLESHOOTING.md) - This document captures common test issues and their solutions encountered during ScreenGraph development.
 - [Testing Guide](./setup/TESTING.md) - ScreenGraph uses a comprehensive testing strategy with unit, integration, and end-to-end tests across all modules.
 
 
@@ -54,11 +55,11 @@ This is the comprehensive index of all documentation in the ScreenGraph project.
 
 ### 📄 [ScreenGraph Documentation Index](./DOCUMENT_INDEX.md)
 
-**Description:** > **Auto-generated on 2025-10-06T06:22:02.643Z**
+**Description:** > **Auto-generated on 2025-10-06T07:12:33.081Z**
 
 **Path:** `DOCUMENT_INDEX.md`
 **Last Modified:** 10/6/2025
-**Size:** 3.71 KB
+**Size:** 4.16 KB
 
 ---
 
@@ -102,23 +103,33 @@ This is the comprehensive index of all documentation in the ScreenGraph project.
 
 ---
 
+### 📄 [Test Troubleshooting Guide](./setup/TEST_TROUBLESHOOTING.md)
+
+**Description:** This document captures common test issues and their solutions encountered during ScreenGraph development.
+
+**Path:** `setup/TEST_TROUBLESHOOTING.md`
+**Last Modified:** 10/6/2025
+**Size:** 4.47 KB
+
+---
+
 ### 📄 [Testing Guide](./setup/TESTING.md)
 
 **Description:** ScreenGraph uses a comprehensive testing strategy with unit, integration, and end-to-end tests across all modules.
 
 **Path:** `setup/TESTING.md`
 **Last Modified:** 10/6/2025
-**Size:** 9.37 KB
+**Size:** 10.53 KB
 
 ---
 
 ## 📊 Statistics
 
-- **Total Documents:** 8
+- **Total Documents:** 9
 - **Total Categories:** 2
 - **Total Headlines:** 0
-- **Average Document Size:** 6.29 KB
-- **Total Size:** 50.36 KB
-- **Generated:** 10/6/2025, 1:25:24 AM
+- **Average Document Size:** 6.27 KB
+- **Total Size:** 56.45 KB
+- **Generated:** 10/6/2025, 2:12:38 AM
 
 ---

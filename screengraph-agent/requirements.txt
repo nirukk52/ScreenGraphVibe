@@ -1,0 +1,15 @@
+fastapi==0.104.1
+uvicorn[standard]==0.24.0
+pydantic==2.5.0
+httpx==0.25.2
+python-multipart==0.0.6
+python-dotenv==1.0.0
+
+# Appium dependencies
+Appium-Python-Client==3.1.0
+selenium==4.15.2
+
+# Additional dependencies for mobile automation
+Pillow==10.1.0
+opencv-python==4.8.1.78
+numpy==1.24.3

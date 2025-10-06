@@ -7,9 +7,9 @@ set -e
 cleanup() {
   echo "Cleaning up processes..."
   # Kill specific processes by PID
-  if [ ! -z "$AGENT_PID" ]; then
-    kill $AGENT_PID 2>/dev/null || true
-    wait $AGENT_PID 2>/dev/null || true
+  if [ ! -z "$BACKEND_PID" ]; then
+    kill $BACKEND_PID 2>/dev/null || true
+    wait $BACKEND_PID 2>/dev/null || true
   fi
   if [ ! -z "$UI_PID" ]; then
     kill $UI_PID 2>/dev/null || true
@@ -32,23 +32,23 @@ echo "Starting E2E test setup..."
 # Kill any existing processes first
 cleanup
 
-# Start agent in background
-echo "Starting agent..."
-cd ../agent
+# Start backend in background
+echo "Starting backend..."
+cd ../backend
 POSTGRES_URL=postgresql://localhost:5432/test NODE_ENV=test npx tsx watch src/index.ts &
-AGENT_PID=$!
+BACKEND_PID=$!
 
-# Wait for agent to start
-echo "Waiting for agent to start..."
+# Wait for backend to start
+echo "Waiting for backend to start..."
 sleep 5
 
-# Check if agent is healthy
+# Check if backend is healthy
 for i in {1..10}; do
   if curl -f http://localhost:3000/healthz > /dev/null 2>&1; then
-    echo "Agent is healthy!"
+    echo "Backend is healthy!"
     break
   fi
-  echo "Waiting for agent... attempt $i"
+  echo "Waiting for backend... attempt $i"
   sleep 2
 done
 

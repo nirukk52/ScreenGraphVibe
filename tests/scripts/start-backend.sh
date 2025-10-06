@@ -1,3 +1,3 @@
 #!/bin/bash
-cd ../agent
+cd ../backend
 NODE_ENV=test npx tsx watch src/index.ts
