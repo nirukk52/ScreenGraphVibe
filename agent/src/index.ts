@@ -4,6 +4,7 @@ import cors from '@fastify/cors';
 import swagger from '@fastify/swagger';
 import swaggerUi from '@fastify/swagger-ui';
 import { healthRoutes } from './routes/health.js';
+import { graphRoutes } from './routes/graph.js';
 import { AGENT_CONFIG, API_ENDPOINTS } from './config/constants.js';
 
 // Configure logger based on environment
@@ -57,6 +58,7 @@ await fastify.register(swaggerUi, {
 
 // Register routes
 await fastify.register(healthRoutes);
+await fastify.register(graphRoutes);
 
 // Health check for the agent itself
 fastify.get('/', async (request, reply) => {

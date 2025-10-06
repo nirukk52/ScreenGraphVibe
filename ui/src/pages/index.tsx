@@ -1,5 +1,7 @@
 import Head from 'next/head';
 import HealthStatus from '../components/HealthStatus';
+import HealthIndicator from '../components/HealthIndicator';
+import Link from 'next/link';
 
 export default function Home() {
   return (
@@ -15,12 +17,27 @@ export default function Home() {
         <div className="container mx-auto px-4 py-8">
           {/* Header */}
           <div className="mb-8">
-            <h1 className="text-3xl font-bold text-gray-900 mb-2">
-              ScreenGraph
-            </h1>
-            <p className="text-gray-600">
-              AI-driven crawling and verification system
-            </p>
+            <div className="flex items-center justify-between">
+              <div>
+                <h1 className="text-3xl font-bold text-gray-900 mb-2">
+                  ScreenGraph
+                </h1>
+                <p className="text-gray-600">
+                  AI-driven crawling and verification system
+                </p>
+              </div>
+              
+              {/* Health Status Indicator */}
+              <div className="flex items-center space-x-4">
+                <HealthIndicator />
+                <Link 
+                  href="/graph"
+                  className="bg-blue-600 text-white px-4 py-2 rounded-lg hover:bg-blue-700 transition-colors"
+                >
+                  View Graphs
+                </Link>
+              </div>
+            </div>
           </div>
 
           {/* Health Status */}

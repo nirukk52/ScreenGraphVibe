@@ -63,10 +63,13 @@ cd ui && npm run dev
 ```
 
 **📖 Detailed Guides:**
-- [LOCAL_SETUP.md](./LOCAL_SETUP.md) - Complete local development guide
-- [PRODUCTION_SETUP.md](./PRODUCTION_SETUP.md) - Production deployment guide
-- [SCRIPTS_GUIDE.md](./SCRIPTS_GUIDE.md) - Environment-aware scripts guide
-- [CREDENTIALS.md](./CREDENTIALS.md) - All API keys and credentials
+- [Local Development Setup](./setup/LOCAL_SETUP.md) - Complete local development guide
+- [Production Setup](./setup/PRODUCTION_SETUP.md) - Production deployment guide
+- [Scripts Guide](./setup/SCRIPTS_GUIDE.md) - Environment-aware scripts guide
+- [Testing Guide](./setup/TESTING.md) - Comprehensive testing strategies
+- [Deployment Guide](./setup/DEPLOYMENT.md) - Quick deployment instructions
+- [Credentials](./CREDENTIALS.md) - All API keys and credentials
+- [Documentation Index](./DOCUMENT_INDEX.md) - Complete documentation index
 
 ## 📊 Test Status
 
@@ -87,6 +90,7 @@ The system is organized into modules using colon-prefixed labels:
 - **:infra** - Infrastructure management (Fly.io + Supabase)
 - **:tests** - Comprehensive testing suite with Vitest and Playwright
 - **:logging** - Structured logging with Pino and OpenTelemetry
+- **:docs** - Documentation index and management system with auto-update
 
 ## 🚀 Deployment (Fly.io + Supabase)
 
@@ -484,6 +488,18 @@ ScreenGraphVibe/
 │   │   ├── integration/ # Integration tests
 │   │   ├── e2e/         # End-to-end tests
 │   │   └── fixtures/    # Test fixtures
+├── docs/                # :docs module
+│   ├── src/
+│   │   ├── scanner.ts   # Document scanning and parsing
+│   │   ├── indexer.ts   # Index generation and formatting
+│   │   ├── memory.ts    # Memory system integration
+│   │   └── git-hooks.ts # Git hook management
+├── setup/               # Documentation organization
+│   ├── LOCAL_SETUP.md   # Local development guide
+│   ├── PRODUCTION_SETUP.md # Production deployment guide
+│   ├── TESTING.md       # Testing strategies
+│   ├── SCRIPTS_GUIDE.md # Scripts and automation
+│   └── DEPLOYMENT.md    # Quick deployment guide
 └── logging/             # :logging module
     └── src/             # Structured logging utilities
 ```
@@ -497,6 +513,9 @@ ScreenGraphVibe/
 - **Responsive UI** - Modern React interface with Tailwind CSS
 - **Comprehensive Testing** - Unit, integration, and E2E tests
 - **Structured Logging** - Pino-based logging with context
+- **Documentation Management** - Auto-updating documentation index with intelligent categorization
+- **Memory Integration** - MCP Graphiti memory system for persistent document metadata
+- **Git Hooks** - Automatic documentation updates on push/commit operations
 
 ## Development Guidelines
 
@@ -505,6 +524,8 @@ ScreenGraphVibe/
 - **Modular Design** - Each module has clear responsibilities
 - **Type Safety** - Full TypeScript coverage
 - **Real Infrastructure** - Prefer real databases over mocks in tests
+- **Documentation First** - Maintain comprehensive documentation with auto-update system
+- **Memory Integration** - Use MCP Graphiti memory system for persistent knowledge
 
 ## Troubleshooting
 
@@ -537,6 +558,13 @@ ScreenGraphVibe/
 3. Check that both agent and UI are running for E2E tests
    [![▶️ Start Services](https://img.shields.io/badge/▶️_Start_Services-2196F3?style=for-the-badge&logo=concurrently&logoColor=white)](javascript:void(0))
 4. Review test logs for specific failures
+
+### Documentation Issues
+
+1. **Document index not updating**: Run `cd docs && npm run update`
+2. **Git hooks not working**: Reinstall with `cd docs && npm run setup-hooks`
+3. **Memory integration failing**: Check MCP Graphiti connection with `cd docs && npm run status`
+4. **Missing documentation**: Check `DOCUMENT_INDEX.md` for complete documentation index
 
 ### Quick Fixes
 

@@ -17,8 +17,9 @@ ScreenGraph is intentionally polyglot but unified by a single Postgres database.
 | **:data** | Drizzle (TypeScript), Postgres, Supabase | Owns the schema, migrations and RLS policies. Provides the source of truth tables for runs, screens, actions, baselines and jobs. Coordinates crawling and verification. Exposes REST APIs. |
 | **:agent** | Node.js, Fastify, LangGraph JS, Appium JS, BullMQ + Redis | Exposes REST APIs (`/healthz`, `/crawl`, `/status/{runId}`, `/graph/{runId}`), coordinates crawls, writes to DB, queues jobs. |
 | **:ui** | Next.js (React/TypeScript), Tailwind CSS | Renders Screengraphs and diff views. Calls the agent API (never DB). Uses React Flow (or similar) for visualisation. |
-| **:tests** | Vitest, Playwright, Testcontainers, openapi‑typescript | Implements unit, integration, and end‑to‑end tests. Includes “god test” that drives Appium, runs crawls, checks graphs vs baselines. |
+| **:tests** | Vitest, Playwright, Testcontainers, openapi‑typescript | Implements unit, integration, and end‑to‑end tests. Includes "god test" that drives Appium, runs crawls, checks graphs vs baselines. |
 | **:logging** | Pino, OpenTelemetry | Provides structured logging and distributed tracing across all services. |
+| **:docs** | TypeScript, Node.js, MCP Graphiti | Maintains comprehensive documentation index with auto-update system. Scans, categorizes, and indexes all markdown files with intelligent routing and memory integration. |
 
 ---
 
@@ -53,6 +54,14 @@ ScreenGraph is intentionally polyglot but unified by a single Postgres database.
 - Uses React Query/SWR, openapi‑typescript generated types.
 - Validates with Zod.
 - Testing via Vitest, RTL, Playwright.
+
+### Docs module (:docs)
+- Maintains comprehensive documentation index with auto-update system.
+- Scans, categorizes, and indexes all markdown files with intelligent routing.
+- Integrates with MCP Graphiti memory system for persistent storage.
+- Auto-updates on git push/commit operations via git hooks.
+- CLI interface for manual document index operations.
+- Supports multiple output formats (Markdown, JSON, HTML).
 
 ---
 
@@ -98,6 +107,15 @@ CLAUDE-config-variables.md - Configuration variables reference (if exists)
 - Avoid creating new files unless necessary.
 - Use fast CLI tools (fd, rg).
 - Constants defined in `src/config/constants.ts`.
+
+## Documentation Management
+
+- **Auto-update system**: Documentation index automatically updates on git push/commit.
+- **Modular structure**: All setup guides organized in `setup/` directory.
+- **Memory integration**: Document metadata stored in MCP Graphiti memory system.
+- **CLI operations**: Use `cd docs && npm run update` for manual index updates.
+- **Categories**: Documents automatically categorized (Setup, Testing, Deployment, etc.).
+- **Routing**: GitHub/local friendly links generated automatically.
 
 ---
 
