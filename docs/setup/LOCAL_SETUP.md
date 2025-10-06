@@ -77,7 +77,22 @@ npm run build
 
 ---
 
-## Step 4: Run Services
+## Step 4: Run Tests (Optional)
+
+Before starting services, you can verify everything works:
+
+```bash
+# Run all tests with comprehensive report
+npm run test:all:report
+
+# Or run tests by module
+npm run test:data          # Data layer tests
+npm run test:backend       # Backend tests  
+npm run test:agent         # Python agent tests (uses venv)
+npm run test:e2e           # End-to-end tests
+```
+
+## Step 5: Run Services
 
 ### Option A: Environment-Aware Script (Recommended)
 

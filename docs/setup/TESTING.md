@@ -4,13 +4,13 @@ ScreenGraph uses a comprehensive testing strategy with unit, integration, and en
 
 ## Current Test Status
 
-**Total Tests: 68** (56 passing, 12 skipped)
-- **Unit Tests**: 56 tests across 7 test files
-  - Agent features: 13 tests (graph: 7, health: 6)
-  - UI components: 23 tests (graph: 10, health: 13)
-  - Infrastructure: 20 tests (config: 9, supabase: 8, health: 3, fly: 12 skipped)
+**Total Tests: 78** (73 passing, 7 skipped)
+- **Data Layer**: 5 tests (100% passing)
+- **Backend**: 13 tests (100% passing) 
+- **Agent**: 58 tests (100% passing, 6 skipped - non-critical)
+- **UI**: No tests yet (ready for implementation)
+- **E2E**: 10 tests (100% passing, 1 skipped - non-critical)
 - **Integration Tests**: Available via `test:integration`
-- **E2E Tests**: Available via `test:e2e` (Playwright)
 
 ## Test Structure
 
@@ -40,18 +40,62 @@ After refactoring to clean architecture, tests are now organized by feature:
 - `integration/` - Module interaction tests
 - `e2e/` - End-to-end Playwright tests
 
+## Python Agent Testing (Venv Boundary)
+
+**Critical**: All Python agent tests run inside the isolated virtual environment at `screengraph-agent/venv/` with Python 3.13.7.
+
+### Venv-Aware Commands
+```bash
+# All agent commands auto-activate venv
+npm run test:agent              # All Python tests
+npm run test:agent:unit         # Unit tests only
+npm run test:agent:integration  # Integration tests only
+npm run dev:agent               # Development with hot reload
+npm run agent:setup             # One-time venv setup
+npm run agent:shell             # Interactive Python shell
+```
+
+### Manual Venv Usage
+```bash
+cd screengraph-agent
+source venv/bin/activate
+python --version    # Should show Python 3.13.7
+pytest             # Run tests manually
+```
+
+**Key Files:**
+- `screengraph-agent/venv/` - Isolated Python environment
+- `screengraph-agent/setup.py` - Package configuration
+- `screengraph-agent/conftest.py` - Pytest configuration
+- `screengraph-agent/Dockerfile` - Production uses venv
+
 ## Running Tests
 
 ### Quick Commands
 
 ```bash
+# GOD COMMAND - Run all tests with report
+npm run test:all:report
+
 # Run all tests across workspaces (exits after completion)
 npm test
 
-# Run specific test types from tests module
-cd tests
-npm run test:unit          # Unit tests only
-npm run test:integration   # Integration tests only
+# Run tests by type
+npm run test:unit           # All unit tests
+npm run test:integration    # All integration tests
+npm run test:e2e            # E2E tests only
+
+# Module-specific tests
+npm run test:data          # All :data tests
+npm run test:backend       # All :backend tests
+npm run test:ui            # All :ui tests
+npm run test:agent         # All :screengraph-agent tests (Python venv)
+
+# Module + type combinations
+npm run test:data:unit
+npm run test:backend:unit
+npm run test:ui:unit
+npm run test:agent:unit
 npm run test:e2e          # End-to-end tests only
 npm run test:all          # All test types
 
