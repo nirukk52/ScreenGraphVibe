@@ -65,8 +65,4 @@ fi
 git push --force-with-lease origin HEAD:main
 echo "Pushed one-task squashed commit for ${TASK_NAME}_${THREAD_ID}" >&2
 
-# Cleanup legacy session artifacts (keep docs and path lists only)
-if [ -d "sessions/${TASK_NAME}_${THREAD_ID}" ]; then
-  rm -rf "sessions/${TASK_NAME}_${THREAD_ID}/fullFilePaths" 2>/dev/null || true
-fi
 
