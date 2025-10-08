@@ -13,64 +13,64 @@ export const DOCS_CONSTANTS = {
     '**/*.tmp',
     '**/package-lock.json',
     '**/yarn.lock',
-    '**/pnpm-lock.yaml'
+    '**/pnpm-lock.yaml',
   ],
-  
+
   // Output paths
   INDEX_FILE: 'DOCUMENT_INDEX.md',
   JSON_INDEX_FILE: 'document-index.json',
-  
+
   // Headline patterns
   HEADLINE_REGEX: /^(#{1,6})\s+(.+)$/gm,
   TITLE_REGEX: /^#\s+(.+)$/m,
   DESCRIPTION_REGEX: /^#\s+.+\n\n(.+)$/m,
-  
+
   // Categories
   CATEGORIES: {
-    'README': {
+    README: {
       name: 'Project Overview',
       description: 'Main project documentation and quick start guides',
-      patterns: ['README.md', 'readme.md']
+      patterns: ['README.md', 'readme.md'],
     },
-    'SETUP': {
+    SETUP: {
       name: 'Setup & Configuration',
       description: 'Environment setup, installation, and configuration guides',
-      patterns: ['docs/setup/*.md', 'docs/*SETUP*.md', 'docs/*CONFIG*.md', 'docs/*ENV*.md']
+      patterns: ['docs/setup/*.md', 'docs/*SETUP*.md', 'docs/*CONFIG*.md', 'docs/*ENV*.md'],
     },
-    'DEPLOYMENT': {
+    DEPLOYMENT: {
       name: 'Deployment & Infrastructure',
       description: 'Production deployment, infrastructure, and hosting guides',
-      patterns: ['docs/setup/*DEPLOY*.md', 'docs/setup/*PROD*.md', 'docs/*INFRA*.md']
+      patterns: ['docs/setup/*DEPLOY*.md', 'docs/setup/*PROD*.md', 'docs/*INFRA*.md'],
     },
-    'TESTING': {
+    TESTING: {
       name: 'Testing & Quality',
       description: 'Testing strategies, quality assurance, and debugging guides',
-      patterns: ['docs/setup/*TEST*.md', 'docs/*DEBUG*.md', 'docs/*QA*.md']
+      patterns: ['docs/setup/*TEST*.md', 'docs/*DEBUG*.md', 'docs/*QA*.md'],
     },
-    'DEVELOPMENT': {
+    DEVELOPMENT: {
       name: 'Development Guidelines',
       description: 'Coding standards, development workflows, and best practices',
-      patterns: ['CLAUDE.md', 'docs/*DEV*.md', 'docs/*GUIDE*.md']
+      patterns: ['CLAUDE.md', 'docs/*DEV*.md', 'docs/*GUIDE*.md'],
     },
-    'CREDENTIALS': {
+    CREDENTIALS: {
       name: 'Credentials & Security',
       description: 'API keys, credentials, and security-related documentation',
-      patterns: ['docs/*CRED*.md', 'docs/*SECRET*.md', 'docs/*KEY*.md']
+      patterns: ['docs/*CRED*.md', 'docs/*SECRET*.md', 'docs/*KEY*.md'],
     },
-    'SCRIPTS': {
+    SCRIPTS: {
       name: 'Scripts & Automation',
       description: 'Automation scripts, deployment scripts, and utility guides',
-      patterns: ['docs/setup/*SCRIPT*.md', 'docs/*AUTO*.md']
-    }
+      patterns: ['docs/setup/*SCRIPT*.md', 'docs/*AUTO*.md'],
+    },
   },
-  
+
   // Memory keys
   MEMORY_KEYS: {
     DOCUMENT_INDEX: 'document_index',
     LAST_SCAN: 'last_document_scan',
-    SCAN_STATS: 'scan_statistics'
+    SCAN_STATS: 'scan_statistics',
   },
-  
+
   // Default options
   DEFAULT_SCAN_OPTIONS: {
     includePatterns: ['**/*.md'] as string[],
@@ -83,16 +83,16 @@ export const DOCS_CONSTANTS = {
       '**/playwright-report/**',
       '**/test-results/**',
       '**/*.log',
-      '**/*.tmp'
+      '**/*.tmp',
     ] as string[],
     maxDepth: 10,
-    followSymlinks: false
+    followSymlinks: false,
   },
-  
+
   DEFAULT_INDEX_OPTIONS: {
     outputPath: 'DOCUMENT_INDEX.md',
     format: 'markdown' as const,
     includeToc: true,
-    includeStats: true
-  }
+    includeStats: true,
+  },
 } as const;

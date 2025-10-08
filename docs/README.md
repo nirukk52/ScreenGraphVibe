@@ -87,7 +87,7 @@ const indexer = new DocumentIndexer({
   outputPath: 'DOCUMENT_INDEX.md',
   format: 'markdown',
   includeToc: true,
-  includeStats: true
+  includeStats: true,
 });
 const index = await indexer.generateIndex(documents);
 
@@ -160,10 +160,12 @@ npm run remove-hooks
 ## 📚 Table of Contents
 
 ### Project Overview
+
 - [README](./README.md) - AI-driven crawling and verification system
 - [CLAUDE](./CLAUDE.md) - Development guidelines and architecture
 
 ### Setup & Configuration
+
 - [LOCAL_SETUP](./LOCAL_SETUP.md) - Complete local development guide
 - [PRODUCTION_SETUP](./PRODUCTION_SETUP.md) - Production deployment guide
 ```
@@ -198,7 +200,7 @@ const scanner = new DocumentScanner({
   includePatterns: ['**/*.md', '**/*.MD'],
   excludePatterns: ['node_modules/**', 'dist/**'],
   maxDepth: 10,
-  followSymlinks: false
+  followSymlinks: false,
 });
 ```
 
@@ -209,7 +211,7 @@ const indexer = new DocumentIndexer({
   outputPath: 'DOCUMENT_INDEX.md',
   format: 'markdown', // 'markdown' | 'json' | 'html'
   includeToc: true,
-  includeStats: true
+  includeStats: true,
 });
 ```
 
@@ -260,7 +262,7 @@ Add custom file patterns:
 ```typescript
 const scanner = new DocumentScanner({
   includePatterns: ['**/*.md', '**/*.rst', '**/*.txt'],
-  excludePatterns: ['**/temp/**', '**/cache/**']
+  excludePatterns: ['**/temp/**', '**/cache/**'],
 });
 ```
 
@@ -304,18 +306,21 @@ const scanner = new DocumentScanner({
 ### Common Issues
 
 **Scan fails with "Cannot find module"**
+
 ```bash
 cd docs
 npm install
 ```
 
 **Memory integration fails**
+
 ```bash
 # Check if MCP Graphiti is running
 npm run status
 ```
 
 **Git hooks not working**
+
 ```bash
 # Reinstall hooks
 npm run setup-hooks

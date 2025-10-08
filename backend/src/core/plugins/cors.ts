@@ -12,5 +12,3 @@ export const registerCors = fp(async (app: FastifyInstance) => {
     credentials: true,
   });
 });
-
-

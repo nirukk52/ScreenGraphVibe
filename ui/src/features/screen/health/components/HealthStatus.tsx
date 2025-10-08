@@ -17,12 +17,12 @@ export default function HealthStatus({ className = '' }: HealthStatusProps) {
     if (!isRefresh) {
       setLoading(true);
     }
-    
+
     try {
       setError(null);
-      
+
       const response = await apiClient.healthCheck();
-      
+
       setHealthStatus({
         isHealthy: response.status === 'ok',
         message: response.message,
@@ -52,10 +52,10 @@ export default function HealthStatus({ className = '' }: HealthStatusProps) {
 
   useEffect(() => {
     checkHealth();
-    
+
     // Check health every 30 seconds
     const interval = setInterval(checkHealth, 30000);
-    
+
     return () => clearInterval(interval);
   }, []);
 
@@ -76,10 +76,15 @@ export default function HealthStatus({ className = '' }: HealthStatusProps) {
   const statusText = isHealthy ? 'Healthy' : 'Unhealthy';
 
   return (
-    <div className={`border rounded-lg p-4 ${statusColor} ${className}`} data-testid="health-status">
+    <div
+      className={`border rounded-lg p-4 ${statusColor} ${className}`}
+      data-testid="health-status"
+    >
       <div className="flex items-center justify-between">
         <div className="flex items-center space-x-3">
-          <div className={`w-3 h-3 rounded-full ${isHealthy ? 'bg-green-500' : 'bg-red-500'} animate-pulse`}></div>
+          <div
+            className={`w-3 h-3 rounded-full ${isHealthy ? 'bg-green-500' : 'bg-red-500'} animate-pulse`}
+          ></div>
           <div>
             <h3 className={`text-sm font-medium ${isHealthy ? 'text-green-800' : 'text-red-800'}`}>
               {statusText}
@@ -89,10 +94,13 @@ export default function HealthStatus({ className = '' }: HealthStatusProps) {
             </p>
           </div>
         </div>
-        
+
         <div className="text-right">
           <div className="text-xs text-gray-500" data-testid="health-last-checked">
-            Last checked: {healthStatus?.lastChecked ? new Date(healthStatus.lastChecked).toLocaleTimeString() : 'Never'}
+            Last checked:{' '}
+            {healthStatus?.lastChecked
+              ? new Date(healthStatus.lastChecked).toLocaleTimeString()
+              : 'Never'}
           </div>
           <div className="text-xs text-gray-400">
             Request ID: {healthStatus?.requestId || 'N/A'}
@@ -108,20 +116,24 @@ export default function HealthStatus({ className = '' }: HealthStatusProps) {
           </button>
         </div>
       </div>
-      
+
       {error && (
         <div className="mt-3 p-2 bg-red-100 border border-red-200 rounded text-sm text-red-700">
           Error: {error}
         </div>
       )}
-      
+
       <div className="mt-3 grid grid-cols-2 gap-4 text-xs">
         <div className="flex items-center space-x-2">
-          <div className={`w-2 h-2 rounded-full ${healthStatus?.services.database ? 'bg-green-500' : 'bg-red-500'}`}></div>
+          <div
+            className={`w-2 h-2 rounded-full ${healthStatus?.services.database ? 'bg-green-500' : 'bg-red-500'}`}
+          ></div>
           <span className="text-gray-600">Database</span>
         </div>
         <div className="flex items-center space-x-2">
-          <div className={`w-2 h-2 rounded-full ${healthStatus?.services.redis ? 'bg-green-500' : 'bg-red-500'}`}></div>
+          <div
+            className={`w-2 h-2 rounded-full ${healthStatus?.services.redis ? 'bg-green-500' : 'bg-red-500'}`}
+          ></div>
           <span className="text-gray-600">Redis</span>
         </div>
       </div>

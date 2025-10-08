@@ -5,7 +5,10 @@
 import type { FastifyInstance } from 'fastify';
 
 export class BaseError extends Error {
-  constructor(public readonly code: string, message?: string) {
+  constructor(
+    public readonly code: string,
+    message?: string,
+  ) {
     super(message ?? code);
   }
 }
@@ -49,5 +52,3 @@ export function setErrorHandling(app: FastifyInstance) {
     reply.status(500).send({ error: 'internal_error' });
   });
 }
-
-

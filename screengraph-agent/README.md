@@ -61,6 +61,7 @@ ScreenGraph Agent automatically explores Android/iOS apps, builds ScreenGraphs (
 5. **SwitchPolicy**: Change exploration policy (when triggered)
 
 **Cost Reduction:**
+
 - Prompt caching (7-day TTL)
 - Delta-first prompts (only changes)
 - Top-K elements (not full hierarchy)
@@ -76,25 +77,25 @@ class AgentState:
     # Identity
     run_id: str
     app_id: str
-    
+
     # Perception (refs only, no blobs)
     signature: ScreenSignature
     previous_signature: ScreenSignature | None
     bundle: Bundle  # refs to screenshot/page_source
-    
+
     # Planning
     enumerated_actions: List[EnumeratedAction]
     advice: Advice
     plan_cursor: int
-    
+
     # Progress
     counters: Counters
     budgets: Budgets
-    
+
     # Persistence
     persist_result: PersistResultSummary | None
     stop_reason: str | None
-    
+
     # Lifecycle
     timestamps: Timestamps
 ```
@@ -104,21 +105,16 @@ class AgentState:
 ## Node Graph
 
 **Setup Phase:**
+
 1. EnsureDevice → ProvisionApp → LaunchOrAttach → WaitIdle
 
-**Main Loop:**
-2. Perceive → EnumerateActions → ChooseAction [LLM] → Act
-3. Verify [LLM] → Persist → DetectProgress [LLM] → ShouldContinue [LLM]
+**Main Loop:** 2. Perceive → EnumerateActions → ChooseAction [LLM] → Act 3. Verify [LLM] → Persist → DetectProgress [LLM] → ShouldContinue [LLM]
 
-**Policy Routing:**
-4. ShouldContinue → Perceive (continue) | SwitchPolicy [LLM] | RestartApp | Stop
+**Policy Routing:** 4. ShouldContinue → Perceive (continue) | SwitchPolicy [LLM] | RestartApp | Stop
 
-**Recovery:**
-5. RecoverFromError (transient errors)
-6. RestartApp (app crash, bounded)
+**Recovery:** 5. RecoverFromError (transient errors) 6. RestartApp (app crash, bounded)
 
-**Termination:**
-7. Stop (final summary)
+**Termination:** 7. Stop (final summary)
 
 ## Getting Started
 
@@ -151,6 +147,7 @@ python -m bff.main
 ### Configuration
 
 See `.env.example` for all configuration options:
+
 - `APPIUM_URL`: Appium server endpoint
 - `LLM_PROVIDER`: openai | anthropic | local
 - `DB_URL`: PostgreSQL connection string

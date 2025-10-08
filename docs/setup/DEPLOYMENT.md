@@ -11,22 +11,22 @@ npm run deploy
 ## 📍 Target Regions
 
 - **🇺🇸 US East (Virginia)** - `iad` - Primary region
-- **🇺🇸 US Central (Texas)** - `dfw` - Secondary US region  
+- **🇺🇸 US Central (Texas)** - `dfw` - Secondary US region
 - **🇮🇳 India (Mumbai)** - `bom` - Asia Pacific region
 
 ## 🌐 Live URLs
 
 ### Production Dashboards
 
-| Region | Service | URL | Status |
-|--------|---------|-----|--------|
-| US East | UI Dashboard | https://screengraph-ui.fly.dev | 🟢 Live |
-| US East | Agent API | https://screengraph-agent.fly.dev | 🟢 Live |
-| US East | Health Check | https://screengraph-agent.fly.dev/healthz | 🟢 Live |
-| US Central | UI Dashboard | https://screengraph-ui.fly.dev | 🟢 Live |
-| US Central | Agent API | https://screengraph-agent.fly.dev | 🟢 Live |
-| India | UI Dashboard | https://screengraph-ui.fly.dev | 🟢 Live |
-| India | Agent API | https://screengraph-agent.fly.dev | 🟢 Live |
+| Region     | Service      | URL                                       | Status  |
+| ---------- | ------------ | ----------------------------------------- | ------- |
+| US East    | UI Dashboard | https://screengraph-ui.fly.dev            | 🟢 Live |
+| US East    | Agent API    | https://screengraph-agent.fly.dev         | 🟢 Live |
+| US East    | Health Check | https://screengraph-agent.fly.dev/healthz | 🟢 Live |
+| US Central | UI Dashboard | https://screengraph-ui.fly.dev            | 🟢 Live |
+| US Central | Agent API    | https://screengraph-agent.fly.dev         | 🟢 Live |
+| India      | UI Dashboard | https://screengraph-ui.fly.dev            | 🟢 Live |
+| India      | Agent API    | https://screengraph-agent.fly.dev         | 🟢 Live |
 
 ### Monitoring URLs
 
@@ -43,6 +43,7 @@ npm run health
 ```
 
 This script checks:
+
 - ✅ Agent API health in all 3 regions
 - ✅ UI Dashboard availability
 - ✅ Response times and status codes
@@ -61,20 +62,23 @@ curl https://screengraph-ui.fly.dev
 ## 🔧 Deployment Commands
 
 ### Full Deployment
+
 ```bash
 npm run deploy
 ```
 
 ### Individual Services
+
 ```bash
 # Deploy Agent only
 cd agent && fly deploy --app screengraph-agent
 
-# Deploy UI only  
+# Deploy UI only
 cd ui && fly deploy --app screengraph-ui
 ```
 
 ### Specific Region
+
 ```bash
 # Deploy to US East
 cd agent && fly deploy --region iad --app screengraph-agent
@@ -92,11 +96,13 @@ cd ui && fly deploy --region bom --app screengraph-ui
 ## 📊 Status Monitoring
 
 ### Real-time Status
+
 - Use `npm run health` for comprehensive status
 - Check Fly.io dashboard for infrastructure status
 - Monitor logs for real-time debugging
 
 ### Performance Metrics
+
 - Response times per region
 - Uptime statistics
 - Error rates and patterns
@@ -106,19 +112,21 @@ cd ui && fly deploy --region bom --app screengraph-ui
 ### Common Issues
 
 1. **Deployment Fails**
+
    ```bash
    # Check Fly.io authentication
    fly auth whoami
-   
+
    # Check app status
    fly status --app screengraph-agent
    ```
 
 2. **Health Checks Fail**
+
    ```bash
    # Check logs
    fly logs --app screengraph-agent
-   
+
    # Restart services
    fly deploy --app screengraph-agent
    ```
@@ -135,7 +143,7 @@ cd ui && fly deploy --region bom --app screengraph-ui
 # Agent logs
 fly logs --app screengraph-agent
 
-# UI logs  
+# UI logs
 fly logs --app screengraph-ui
 
 # Follow logs in real-time
@@ -156,6 +164,7 @@ Before deploying to production:
 ## 📞 Support
 
 For deployment issues:
+
 1. Check the health status: `npm run health`
 2. Review logs: `fly logs --app screengraph-agent`
 3. Verify Fly.io dashboard: https://fly.io/dashboard

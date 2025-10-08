@@ -61,5 +61,3 @@ describe('Health Check Tests', () => {
     expect(checkDatabaseHealth).toHaveBeenCalled();
   });
 });
-
-

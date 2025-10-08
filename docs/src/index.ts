@@ -25,25 +25,28 @@ program
   .action(async (options) => {
     try {
       console.log(chalk.blue('🔍 Scanning documentation files...'));
-      
+
       const scanner = new DocumentScanner();
       const documents = await scanner.scanDocuments(options.root);
-      
+
       console.log(chalk.green(`✅ Found ${documents.length} documents`));
-      
+
       const indexer = new DocumentIndexer({
         outputPath: options.output,
         format: options.format as any,
         includeToc: options.toc,
-        includeStats: options.stats
+        includeStats: options.stats,
       });
-      
+
       const index = await indexer.generateIndex(documents);
-      
+
       console.log(chalk.green(`📄 Generated index: ${options.output}`));
       console.log(chalk.blue(`📊 Categories: ${index.categories.length}`));
-      console.log(chalk.blue(`📝 Total headlines: ${index.documents.reduce((sum, doc) => sum + doc.headlines.length, 0)}`));
-      
+      console.log(
+        chalk.blue(
+          `📝 Total headlines: ${index.documents.reduce((sum, doc) => sum + doc.headlines.length, 0)}`,
+        ),
+      );
     } catch (error) {
       console.error(chalk.red('❌ Scan failed:'), error);
       process.exit(1);
@@ -59,29 +62,28 @@ program
   .action(async (options) => {
     try {
       console.log(chalk.blue('🔄 Updating document index...'));
-      
+
       const scanner = new DocumentScanner();
       const documents = await scanner.scanDocuments(options.root);
-      
+
       console.log(chalk.green(`✅ Found ${documents.length} documents`));
-      
+
       const indexer = new DocumentIndexer({
         outputPath: options.output,
         format: 'markdown',
         includeToc: true,
-        includeStats: true
+        includeStats: true,
       });
-      
+
       const index = await indexer.generateIndex(documents);
-      
+
       if (options.saveMemory) {
         const memory = new DocumentMemory();
         await memory.saveDocumentIndex(index);
         console.log(chalk.green('💾 Saved to memory system'));
       }
-      
+
       console.log(chalk.green(`📄 Updated index: ${options.output}`));
-      
     } catch (error) {
       console.error(chalk.red('❌ Update failed:'), error);
       process.exit(1);
@@ -95,10 +97,10 @@ program
   .action(async (query) => {
     try {
       console.log(chalk.blue(`🔍 Searching for: "${query}"`));
-      
+
       const memory = new DocumentMemory();
       const results = await memory.searchDocuments(query);
-      
+
       if (results.length === 0) {
         console.log(chalk.yellow('No results found'));
       } else {
@@ -109,7 +111,6 @@ program
           console.log(chalk.gray(`   ${result.route}`));
         });
       }
-      
     } catch (error) {
       console.error(chalk.red('❌ Search failed:'), error);
       process.exit(1);
@@ -122,10 +123,10 @@ program
   .action(async () => {
     try {
       console.log(chalk.blue('📊 Document Index Status'));
-      
+
       const memory = new DocumentMemory();
       const lastScan = await memory.getLastScanInfo();
-      
+
       if (lastScan) {
         console.log(chalk.green('✅ Memory system connected'));
         console.log(chalk.blue(`📅 Last scan: ${lastScan.lastScan?.toLocaleString() || 'Never'}`));
@@ -135,7 +136,6 @@ program
       } else {
         console.log(chalk.yellow('⚠️ No scan information available'));
       }
-      
     } catch (error) {
       console.error(chalk.red('❌ Status check failed:'), error);
       process.exit(1);
@@ -148,12 +148,11 @@ program
   .action(async () => {
     try {
       console.log(chalk.yellow('🗑️ Clearing document memory...'));
-      
+
       const memory = new DocumentMemory();
       await memory.clearMemory();
-      
+
       console.log(chalk.green('✅ Memory cleared'));
-      
     } catch (error) {
       console.error(chalk.red('❌ Clear failed:'), error);
       process.exit(1);

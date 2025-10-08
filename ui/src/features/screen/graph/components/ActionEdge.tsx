@@ -9,9 +9,9 @@ interface ActionEdgeProps {
 
 export function ActionEdge({ data }: ActionEdgeProps) {
   const action = data?.action;
-  
+
   if (!action) return null;
-  
+
   const getVerbIcon = (verb: Verb) => {
     switch (verb) {
       case Verb.TAP:
@@ -35,9 +35,7 @@ export function ActionEdge({ data }: ActionEdgeProps) {
     <div className="flex items-center space-x-1">
       <span className="text-xs">{getVerbIcon(action.verb)}</span>
       <span className="text-xs font-medium text-gray-700">{action.verb}</span>
-      {action.targetText && (
-        <span className="text-xs text-gray-500">({action.targetText})</span>
-      )}
+      {action.targetText && <span className="text-xs text-gray-500">({action.targetText})</span>}
     </div>
   );
 }

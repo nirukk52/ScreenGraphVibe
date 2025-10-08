@@ -19,15 +19,22 @@ describe('HealthIndicator', () => {
 
   it('should render health indicator with loading state initially', () => {
     vi.mocked(apiClient.healthCheck).mockImplementation(
-      () => new Promise(resolve => setTimeout(() => resolve({
-        status: 'ok',
-        message: 'All services operational',
-        timestamp: new Date().toISOString(),
-        requestId: 'test-123',
-        region: 'local',
-        environment: 'test',
-        services: { database: 'healthy' }
-      }), 100))
+      () =>
+        new Promise((resolve) =>
+          setTimeout(
+            () =>
+              resolve({
+                status: 'ok',
+                message: 'All services operational',
+                timestamp: new Date().toISOString(),
+                requestId: 'test-123',
+                region: 'local',
+                environment: 'test',
+                services: { database: 'healthy' },
+              }),
+            100,
+          ),
+        ),
     );
 
     render(<HealthIndicator />);
@@ -44,7 +51,7 @@ describe('HealthIndicator', () => {
       requestId: 'test-123',
       region: 'local',
       environment: 'test',
-      services: { database: 'healthy' }
+      services: { database: 'healthy' },
     });
 
     render(<HealthIndicator />);
@@ -62,7 +69,7 @@ describe('HealthIndicator', () => {
       requestId: 'test-123',
       region: 'local',
       environment: 'test',
-      services: { database: 'unhealthy' }
+      services: { database: 'unhealthy' },
     });
 
     render(<HealthIndicator />);
@@ -90,7 +97,7 @@ describe('HealthIndicator', () => {
       requestId: 'test-123',
       region: 'local',
       environment: 'test',
-      services: { database: 'healthy' }
+      services: { database: 'healthy' },
     });
 
     render(<HealthIndicator className="custom-class" />);
@@ -107,15 +114,22 @@ describe('HealthStatus', () => {
 
   it('should render health status with loading state initially', () => {
     vi.mocked(apiClient.healthCheck).mockImplementation(
-      () => new Promise(resolve => setTimeout(() => resolve({
-        status: 'ok',
-        message: 'All services operational',
-        timestamp: new Date().toISOString(),
-        requestId: 'test-123',
-        region: 'local',
-        environment: 'test',
-        services: { database: 'healthy' }
-      }), 100))
+      () =>
+        new Promise((resolve) =>
+          setTimeout(
+            () =>
+              resolve({
+                status: 'ok',
+                message: 'All services operational',
+                timestamp: new Date().toISOString(),
+                requestId: 'test-123',
+                region: 'local',
+                environment: 'test',
+                services: { database: 'healthy' },
+              }),
+            100,
+          ),
+        ),
     );
 
     render(<HealthStatus />);
@@ -131,7 +145,7 @@ describe('HealthStatus', () => {
       requestId: 'test-123',
       region: 'local',
       environment: 'test',
-      services: { database: 'healthy' }
+      services: { database: 'healthy' },
     });
 
     render(<HealthStatus />);
@@ -155,7 +169,7 @@ describe('HealthStatus', () => {
       requestId: 'test-123',
       region: 'local',
       environment: 'test',
-      services: { database: 'unhealthy' }
+      services: { database: 'unhealthy' },
     });
 
     render(<HealthStatus />);
@@ -179,7 +193,7 @@ describe('HealthStatus', () => {
       requestId: 'test-123',
       region: 'local',
       environment: 'test',
-      services: { database: 'healthy' }
+      services: { database: 'healthy' },
     });
 
     render(<HealthStatus />);
@@ -207,7 +221,7 @@ describe('HealthStatus', () => {
       requestId: 'test-123',
       region: 'local',
       environment: 'test',
-      services: { database: 'healthy' }
+      services: { database: 'healthy' },
     });
 
     render(<HealthStatus className="custom-class" />);
@@ -230,7 +244,7 @@ describe('HealthStatus', () => {
       requestId: 'test-123',
       region: 'local',
       environment: 'test',
-      services: { database: 'healthy' }
+      services: { database: 'healthy' },
     });
 
     render(<HealthStatus />);
@@ -248,7 +262,7 @@ describe('HealthStatus', () => {
       requestId: 'test-request-123',
       region: 'local',
       environment: 'test',
-      services: { database: 'healthy' }
+      services: { database: 'healthy' },
     });
 
     render(<HealthStatus />);

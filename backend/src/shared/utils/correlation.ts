@@ -6,5 +6,3 @@ export function getRequestId(headers: Record<string, unknown>, fallback: string)
   const rid = headers['x-request-id'];
   return typeof rid === 'string' && rid.length > 0 ? rid : fallback;
 }
-
-

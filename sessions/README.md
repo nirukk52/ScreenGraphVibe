@@ -8,7 +8,7 @@ Each log entry follows this format (one line each):
 
 ```
 S: Search
-F: Fact (discovery/verified truth)  
+F: Fact (discovery/verified truth)
 P: Procedure (actionable guidance)
 ```
 

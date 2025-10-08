@@ -1,6 +1,6 @@
 /**
  * AppiumTools Types and Interfaces
- * 
+ *
  * This module defines the core types and interfaces for the AppiumTools system.
  * All tools are designed to work with LangGraph and provide a unified interface
  * for mobile app automation across Android and iOS platforms.
@@ -27,7 +27,7 @@ export enum SelectorType {
   TAG_NAME = 'tagName',
   LINK_TEXT = 'linkText',
   PARTIAL_LINK_TEXT = 'partialLinkText',
-  NAME = 'name'
+  NAME = 'name',
 }
 
 // Element bounds for positioning
@@ -43,7 +43,7 @@ export enum DeviceOrientation {
   PORTRAIT = 'portrait',
   LANDSCAPE_LEFT = 'landscapeLeft',
   LANDSCAPE_RIGHT = 'landscapeRight',
-  PORTRAIT_UPSIDE_DOWN = 'portraitUpsideDown'
+  PORTRAIT_UPSIDE_DOWN = 'portraitUpsideDown',
 }
 
 // Platform information
@@ -78,7 +78,7 @@ export enum SystemPermission {
   CALENDAR = 'calendar',
   PHONE = 'phone',
   SMS = 'sms',
-  NOTIFICATIONS = 'notifications'
+  NOTIFICATIONS = 'notifications',
 }
 
 // App management information
@@ -136,7 +136,7 @@ export enum ToolCategory {
   APP_MANAGEMENT = 'app_management',
   SYSTEM_INTERACTION = 'system_interaction',
   NAVIGATION = 'navigation',
-  UTILITIES = 'utilities'
+  UTILITIES = 'utilities',
 }
 
 // Error types for better error handling
@@ -148,7 +148,7 @@ export enum ToolErrorType {
   PLATFORM_NOT_SUPPORTED = 'platform_not_supported',
   PERMISSION_DENIED = 'permission_denied',
   NETWORK_ERROR = 'network_error',
-  UNKNOWN_ERROR = 'unknown_error'
+  UNKNOWN_ERROR = 'unknown_error',
 }
 
 export interface ToolError {

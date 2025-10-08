@@ -5,5 +5,3 @@
 export interface HealthDataPort {
   ping(): Promise<{ ok: true }>;
 }
-
-

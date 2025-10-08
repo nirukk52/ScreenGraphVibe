@@ -13,14 +13,14 @@ export class DocumentScanner {
 
   async scanDocuments(rootPath: string): Promise<DocumentInfo[]> {
     const documents: DocumentInfo[] = [];
-    
+
     try {
       // Find all markdown files
       const files = await glob(this.options.includePatterns, {
         cwd: rootPath,
         ignore: this.options.excludePatterns,
         absolute: true,
-        maxDepth: this.options.maxDepth
+        maxDepth: this.options.maxDepth,
       });
 
       console.log(`Found ${files.length} markdown files`);
@@ -49,15 +49,15 @@ export class DocumentScanner {
       const content = await readFile(filePath, 'utf-8');
       const stats = await stat(filePath);
       const relativePath = relative(rootPath, filePath);
-      
+
       // Extract title and description
       const title = this.extractTitle(content);
       const description = this.extractDescription(content);
       const headlines = this.extractHeadlines(content);
-      
+
       // Generate route (GitHub/local friendly)
       const route = this.generateRoute(relativePath);
-      
+
       return {
         path: relativePath,
         title: title || this.generateTitleFromPath(relativePath),
@@ -65,7 +65,7 @@ export class DocumentScanner {
         headlines,
         lastModified: stats.mtime,
         size: stats.size,
-        route
+        route,
       };
     } catch (error) {
       console.warn(`Failed to process document ${filePath}:`, error);
@@ -86,19 +86,19 @@ export class DocumentScanner {
   private extractHeadlines(content: string): Headline[] {
     const headlines: Headline[] = [];
     const lines = content.split('\n');
-    
+
     lines.forEach((line, index) => {
       const match = line.match(DOCS_CONSTANTS.HEADLINE_REGEX);
       if (match && match[1] && match[2]) {
         const level = match[1].length;
         const text = match[2].trim();
         const id = this.generateId(text);
-        
+
         headlines.push({
           level,
           text,
           id,
-          line: index + 1
+          line: index + 1,
         });
       }
     });
@@ -117,9 +117,8 @@ export class DocumentScanner {
 
   private generateRoute(relativePath: string): string {
     // Convert to GitHub/local friendly route
-    const route = relativePath
-      .replace(/\\/g, '/');
-    
+    const route = relativePath.replace(/\\/g, '/');
+
     return `./${route}`;
   }
 
@@ -128,14 +127,14 @@ export class DocumentScanner {
     return filename
       .replace(/\.md$/i, '')
       .replace(/[-_]/g, ' ')
-      .replace(/\b\w/g, l => l.toUpperCase());
+      .replace(/\b\w/g, (l) => l.toUpperCase());
   }
 
   private generateDescriptionFromContent(content: string): string {
     // Extract first paragraph or first few lines
     const lines = content.split('\n');
     let description = '';
-    
+
     for (const line of lines) {
       const trimmed = line.trim();
       if (trimmed && !trimmed.startsWith('#')) {
@@ -143,12 +142,12 @@ export class DocumentScanner {
         break;
       }
     }
-    
+
     // Limit to 150 characters
     if (description.length > 150) {
       description = description.substring(0, 147) + '...';
     }
-    
+
     return description || 'No description available';
   }
 }

@@ -15,7 +15,7 @@ export default defineConfig({
       'src/**/tests/*.test.tsx',
       'src/**/tests/*.test.ts',
       'src/**/tests/*.integration.test.tsx',
-      'src/**/tests/*.integration.test.ts'
+      'src/**/tests/*.integration.test.ts',
     ],
   },
 });

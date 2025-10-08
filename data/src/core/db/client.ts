@@ -11,7 +11,10 @@ const connection = postgres(DB_CONFIG.POSTGRES_URL, { max: 1 });
 export const db = drizzle(connection, { schema });
 
 // Health check function
-export async function checkDatabaseHealth(): Promise<{ status: 'healthy' | 'unhealthy'; message: string }> {
+export async function checkDatabaseHealth(): Promise<{
+  status: 'healthy' | 'unhealthy';
+  message: string;
+}> {
   try {
     await db.execute(sql`SELECT 1 as health_check`);
     return { status: 'healthy', message: 'Database connection successful' };
@@ -24,5 +27,3 @@ export async function checkDatabaseHealth(): Promise<{ status: 'healthy' | 'unhe
 }
 
 export { schema };
-
-

@@ -23,11 +23,11 @@ describe('Health Routes', () => {
 
       const response = await fastify.inject({
         method: 'GET',
-        url: '/healthz'
+        url: '/healthz',
       });
 
       expect(response.statusCode).toBe(200);
-      
+
       const data: HealthCheckResponse = response.json();
       expect(data).toHaveProperty('status');
       expect(data).toHaveProperty('message');
@@ -60,11 +60,11 @@ describe('Health Routes', () => {
 
       const response = await fastify.inject({
         method: 'GET',
-        url: '/healthz'
+        url: '/healthz',
       });
 
       expect(response.statusCode).toBe(503);
-      
+
       const data: HealthCheckResponse = response.json();
       expect(data.status).toBe('db_down');
       expect(data.services.database).toBe('unhealthy');
@@ -79,13 +79,13 @@ describe('Health Routes', () => {
     it('should include proper cache control headers', async () => {
       const response = await fastify.inject({
         method: 'GET',
-        url: '/healthz'
+        url: '/healthz',
       });
 
       expect(response.headers).toHaveProperty('cache-control');
       expect(response.headers).toHaveProperty('pragma');
       expect(response.headers).toHaveProperty('expires');
-      
+
       expect(response.headers['cache-control']).toContain('no-store');
       expect(response.headers['pragma']).toBe('no-cache');
       expect(response.headers['expires']).toBe('0');
@@ -94,12 +94,12 @@ describe('Health Routes', () => {
     it('should return valid ISO timestamp', async () => {
       const response = await fastify.inject({
         method: 'GET',
-        url: '/healthz'
+        url: '/healthz',
       });
 
       const data: HealthCheckResponse = response.json();
       const timestamp = new Date(data.timestamp);
-      
+
       expect(timestamp).toBeInstanceOf(Date);
       expect(isNaN(timestamp.getTime())).toBe(false);
     });
@@ -107,12 +107,12 @@ describe('Health Routes', () => {
     it('should return unique request IDs for each call', async () => {
       const response1 = await fastify.inject({
         method: 'GET',
-        url: '/healthz'
+        url: '/healthz',
       });
 
       const response2 = await fastify.inject({
         method: 'GET',
-        url: '/healthz'
+        url: '/healthz',
       });
 
       const data1: HealthCheckResponse = response1.json();
@@ -131,12 +131,12 @@ describe('Health Routes', () => {
       // This test ensures the error handling path works
       const response = await fastify.inject({
         method: 'GET',
-        url: '/healthz'
+        url: '/healthz',
       });
 
       // Should still return a response (either 200 or 503)
       expect([200, 503]).toContain(response.statusCode);
-      
+
       const data = response.json();
       expect(data).toHaveProperty('status');
       expect(data).toHaveProperty('message');

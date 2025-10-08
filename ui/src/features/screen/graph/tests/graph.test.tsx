@@ -144,7 +144,7 @@ describe('GraphPage', () => {
       },
     });
     vi.clearAllMocks();
-    
+
     // Mock health check to return a successful response
     vi.mocked(apiClient.healthCheck).mockResolvedValue({
       status: 'ok',
@@ -153,7 +153,7 @@ describe('GraphPage', () => {
       requestId: 'test-123',
       region: 'local',
       environment: 'test',
-      services: { database: 'healthy' }
+      services: { database: 'healthy' },
     });
   });
 
@@ -161,7 +161,7 @@ describe('GraphPage', () => {
     return render(
       <QueryClientProvider client={queryClient}>
         <GraphPage />
-      </QueryClientProvider>
+      </QueryClientProvider>,
     );
   };
 
@@ -264,7 +264,7 @@ describe('GraphPage', () => {
   it('should display loading state while fetching data', async () => {
     // Mock a delayed response
     vi.mocked(apiClient.getRuns).mockImplementation(
-      () => new Promise(resolve => setTimeout(() => resolve({ runs: mockRuns }), 100))
+      () => new Promise((resolve) => setTimeout(() => resolve({ runs: mockRuns }), 100)),
     );
 
     renderGraphPage();
@@ -313,7 +313,7 @@ describe('HealthIndicator Integration', () => {
     render(
       <QueryClientProvider client={queryClient}>
         <GraphPage />
-      </QueryClientProvider>
+      </QueryClientProvider>,
     );
 
     // Health status should be present in the header (it shows loading state initially)

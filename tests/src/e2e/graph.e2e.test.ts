@@ -196,7 +196,7 @@ test.describe('Graph Page E2E Tests', () => {
 
     // Check React Flow elements are present
     await expect(page.locator('.react-flow')).toBeVisible();
-    
+
     // Check for React Flow controls
     await expect(page.locator('.react-flow__controls')).toBeVisible();
   });
@@ -242,7 +242,7 @@ test.describe('Graph Page E2E Tests', () => {
   test('should show loading state while fetching', async ({ page }) => {
     // Mock delayed API response
     await page.route('**/runs', async (route) => {
-      await new Promise(resolve => setTimeout(resolve, 1000));
+      await new Promise((resolve) => setTimeout(resolve, 1000));
       await route.fulfill({
         status: 200,
         contentType: 'application/json',
@@ -272,7 +272,7 @@ test.describe('Graph Page E2E Tests', () => {
   test.skip('should be responsive on mobile viewport', async ({ page }) => {
     // Set mobile viewport
     await page.setViewportSize({ width: 375, height: 667 });
-    
+
     await page.goto('http://localhost:3001/graph');
 
     // Check header is responsive

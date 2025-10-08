@@ -1,9 +1,9 @@
-import { 
-  AppLaunchConfig, 
-  NewAppLaunchConfig, 
-  AppLaunchConfigRequest, 
+import {
+  AppLaunchConfig,
+  NewAppLaunchConfig,
+  AppLaunchConfigRequest,
   AppLaunchConfigResponse,
-  AppLaunchConfigListResponse 
+  AppLaunchConfigListResponse,
 } from '@screengraph/data';
 
 // Re-export data types for agent use
@@ -20,7 +20,10 @@ export interface AppLaunchConfigService {
   getAllConfigs(): Promise<AppLaunchConfigResponse[]>;
   getConfigById(id: string): Promise<AppLaunchConfigResponse | null>;
   createConfig(config: AppLaunchConfigRequest): Promise<AppLaunchConfigResponse>;
-  updateConfig(id: string, config: Partial<AppLaunchConfigRequest>): Promise<AppLaunchConfigResponse>;
+  updateConfig(
+    id: string,
+    config: Partial<AppLaunchConfigRequest>,
+  ): Promise<AppLaunchConfigResponse>;
   deleteConfig(id: string): Promise<boolean>;
   getDefaultConfig(): Promise<AppLaunchConfigResponse | null>;
   setDefaultConfig(id: string): Promise<AppLaunchConfigResponse>;

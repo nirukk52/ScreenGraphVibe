@@ -22,5 +22,3 @@ export function getConfig(): AppConfig {
   };
   return cached;
 }
-
-

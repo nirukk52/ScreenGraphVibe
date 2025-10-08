@@ -87,7 +87,7 @@ npm run test:all:report
 
 # Or run tests by module
 npm run test:data          # Data layer tests
-npm run test:backend       # Backend tests  
+npm run test:backend       # Backend tests
 npm run test:agent         # Python agent tests (uses venv)
 npm run test:e2e           # End-to-end tests
 ```
@@ -116,12 +116,14 @@ To stop: `./stop.sh`
 Open **2 separate terminal windows**:
 
 #### Terminal 1 - Agent (Backend API)
+
 ```bash
 cd agent
 npm run dev
 ```
 
 #### Terminal 2 - UI (Frontend)
+
 ```bash
 cd ui
 npm run dev
@@ -145,6 +147,7 @@ curl http://localhost:3000/healthz | jq '.'
 ```
 
 **Expected response:**
+
 ```json
 {
   "status": "ok",
@@ -164,6 +167,7 @@ curl http://localhost:3000/healthz | jq '.'
 Visit http://localhost:3001 in your browser.
 
 You should see:
+
 - ✅ **System Healthy** badge (green)
 - ✅ Database status: healthy
 - ✅ No errors
@@ -184,6 +188,7 @@ cat .env.local | grep POSTGRES_URL
 ### Issue: "Cannot find module 'dotenv'"
 
 **Solution:** Install dependencies:
+
 ```bash
 npm install
 cd agent && npm install
@@ -193,6 +198,7 @@ cd ../ui && npm install
 ### Issue: Port 3000 already in use
 
 **Solution:** Kill the existing process:
+
 ```bash
 lsof -ti:3000 | xargs kill -9
 ```
@@ -200,6 +206,7 @@ lsof -ti:3000 | xargs kill -9
 ### Issue: UI shows "Failed to connect to agent"
 
 **Solution:**
+
 1. Make sure agent is running on port 3000
 2. Check that `NEXT_PUBLIC_AGENT_URL=http://localhost:3000` is in `.env.local`
 3. Restart the UI: `cd ui && npm run dev`
@@ -207,6 +214,7 @@ lsof -ti:3000 | xargs kill -9
 ### Issue: Agent crashes with "pino-pretty" error
 
 **Solution:** This should only happen in production. In dev mode, pino-pretty is available. If it still fails:
+
 ```bash
 cd agent
 npm install pino-pretty --save-dev
@@ -327,4 +335,3 @@ If you encounter issues:
 4. Try restarting services with `pkill -f "tsx watch" && cd agent && npm run dev`
 
 **Happy coding! 🚀**
-

@@ -16,9 +16,9 @@ export default function HealthIndicator({ className = '' }: HealthIndicatorProps
   const checkHealth = async () => {
     try {
       setError(null);
-      
+
       const response = await apiClient.healthCheck();
-      
+
       setHealthStatus({
         isHealthy: response.status === 'ok',
         message: response.message,
@@ -48,10 +48,10 @@ export default function HealthIndicator({ className = '' }: HealthIndicatorProps
 
   useEffect(() => {
     checkHealth();
-    
+
     // Check health every 30 seconds
     const interval = setInterval(checkHealth, 30000);
-    
+
     return () => clearInterval(interval);
   }, []);
 
@@ -68,18 +68,16 @@ export default function HealthIndicator({ className = '' }: HealthIndicatorProps
   };
 
   return (
-    <div 
+    <div
       data-testid="health-indicator"
       className={`flex items-center space-x-2 ${className}`}
       title={healthStatus?.message || 'Health status'}
     >
-      <div 
+      <div
         className={`w-2 h-2 rounded-full ${getStatusColor()} animate-pulse`}
         aria-label={`Health status: ${getStatusText()}`}
       />
-      <span className="text-sm text-gray-600 hidden sm:inline">
-        {getStatusText()}
-      </span>
+      <span className="text-sm text-gray-600 hidden sm:inline">{getStatusText()}</span>
     </div>
   );
 }

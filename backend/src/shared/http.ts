@@ -10,5 +10,3 @@ export const HTTP_STATUS = {
   UNPROCESSABLE: 422,
   INTERNAL: 500,
 } as const;
-
-

@@ -3,6 +3,7 @@
 Purpose: API server built on Fastify (TypeScript). Exposes HTTP endpoints, validates external inputs, orchestrates business logic, and talks to `:data` and other providers via well-defined ports/adapters. Provides a clean boundary to `:ui` and never leaks infra concerns upstream.
 
 ### Directory Layout (authoritative)
+
 ```text
 backend/
 ├─ src/
@@ -79,36 +80,44 @@ backend/
 ```
 
 Notes
+
 - No side effects on import. `createApp()` registers everything; `startServer()` listens.
 - Ports live with consumers (backend), adapters live with providers (implemented here using provider SDKs such as `@screengraph/data`).
 - Features are isolated; no cross-feature imports. Share logic via `features/core` (if truly feature-shared) or `src/shared`.
 - Existing files under `src/features/*` remain operational. This structure introduces a clean migration path without breaking current code.
 
 ### Dependency Direction
+
 - `:ui → :backend → :data`
 - Backend defines its own ports (interfaces). Adapters translate backend’s domain to provider calls/types.
 
 ### Public API Surface
+
 - `src/index.ts` is the runtime entry. Library consumers (tests) may import `src/core/app.ts` to spin a server instance without listening.
 
 ### Plugin & Boot Strategy
+
 - `src/core/app.ts`: `createApp()` returns a configured Fastify instance.
 - `src/core/server.ts`: `startServer()` reads env, creates app, sets error handler, and `listen()`.
 - `src/core/plugins/*`: logging, CORS, security, OpenTelemetry, hooks.
 
 ### Configuration & Env
+
 - `src/core/env.ts`: Zod-validated env. Load once; inject required parts.
 - `src/core/config.ts`: Derived configuration (timeouts, limits). No direct `process.env` reads here—only via `env.ts`.
 
 ### Error Handling
+
 - Use typed errors only. Map errors to HTTP status in `src/core/error.ts`.
 - No `console.log`. Use Pino from `@screengraph/logging` with correlation/trace IDs, and OpenTelemetry spans on critical paths.
 
 ### Validation
+
 - All external inputs validated with Zod at route boundaries (`*.validators.ts`).
 - Controllers only receive already-validated, typed data.
 
 ### Feature Layout (authoritative)
+
 ```text
 features/<name>/
 ├─ <name>.controller.ts   # HTTP boundary (req/res)
@@ -127,37 +136,40 @@ features/<name>/
 ```
 
 ### Ports & Adapters
+
 - Define the interface you need in `src/ports/<provider>/<feature>.port.ts`.
 - Implement it using providers in `src/adapters/<provider>/*.adapter.ts`.
 - Wire in `src/core/di.ts`, injecting adapters into services.
 
 ### Logging & Tracing
+
 - Use `@screengraph/logging` (Pino). Include request ID and trace context.
 - Add OpenTelemetry instrumentation via `src/core/plugins/otel.ts`. Annotate spans for critical operations.
 
 ### Testing Strategy
+
 - Unit: Test services with port mocks (`__tests__/unit`).
 - Integration: Spin `createApp()` or Fastify instance and register only the feature under test (`__tests__/integration`).
 - E2E: Only in top-level `:tests` package.
 - Every logic branch must have a test.
 
 ### Clean Architecture Rules (backend-specific)
-1) Boundaries: `:ui → :backend → :data`. No reverse deps.
-2) Ports & adapters: Interfaces in backend; adapters call providers.
-3) Validation at boundaries: Zod on all inputs/outputs crossing HTTP.
-4) Constants/enums SoT: All literals from `src/shared/constants.ts`. Exhaustive unions on unions.
-5) No implicit `any`. No widening types.
-6) Files < 400 lines; functions < 50; nesting ≤ 3.
-7) No cross-feature imports. Share only via `shared` or feature/core.
-8) Error discipline: Typed errors → unified mapper → HTTP.
-9) Observability: Structured logs + OTel spans. Never log secrets.
-10) Documentation: File headers with purpose, dependencies, public API. Record decisions in `DECISIONS.md`.
+
+1. Boundaries: `:ui → :backend → :data`. No reverse deps.
+2. Ports & adapters: Interfaces in backend; adapters call providers.
+3. Validation at boundaries: Zod on all inputs/outputs crossing HTTP.
+4. Constants/enums SoT: All literals from `src/shared/constants.ts`. Exhaustive unions on unions.
+5. No implicit `any`. No widening types.
+6. Files < 400 lines; functions < 50; nesting ≤ 3.
+7. No cross-feature imports. Share only via `shared` or feature/core.
+8. Error discipline: Typed errors → unified mapper → HTTP.
+9. Observability: Structured logs + OTel spans. Never log secrets.
+10. Documentation: File headers with purpose, dependencies, public API. Record decisions in `DECISIONS.md`.
 
 ### Migration Notes (non-breaking)
+
 - Existing `src/index.ts` and current `features/*` remain as-is.
 - New structure can be adopted incrementally per feature.
 - Prefer creating new files under the proposed layout and gradually refactor.
 
 Last updated: 2025-10-08
-
-

@@ -26,7 +26,7 @@ async function main() {
     // Health check after deployment
     console.log('🏥 Running health checks...');
     const healthResults = await deployer.checkHealth();
-    
+
     const failedRegions = Object.entries(healthResults)
       .filter(([_, healthy]) => !healthy)
       .map(([region, _]) => region);
@@ -40,7 +40,6 @@ async function main() {
 
     console.log('🎉 Deployment completed successfully!');
     console.log(`🌐 App URL: https://${config.FLY_APP_NAME}.fly.dev`);
-
   } catch (error) {
     console.error('❌ Deployment failed:', error);
     process.exit(1);

@@ -11,5 +11,3 @@ export const appLaunchConfigs = pgTable('app_launch_configs', {
   createdAt: timestamp('created_at').notNull().defaultNow(),
   updatedAt: timestamp('updated_at').notNull().defaultNow(),
 });
-
-

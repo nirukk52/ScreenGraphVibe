@@ -15,7 +15,7 @@ export class GitHooks {
   async setupHooks(): Promise<void> {
     try {
       console.log(chalk.blue('🔧 Setting up git hooks for document index...'));
-      
+
       // Check if we're in a git repository
       if (!existsSync('.git')) {
         console.log(chalk.yellow('⚠️ Not in a git repository, skipping hook setup'));
@@ -24,12 +24,11 @@ export class GitHooks {
 
       // Create pre-push hook
       await this.createPrePushHook();
-      
+
       // Create post-commit hook
       await this.createPostCommitHook();
-      
+
       console.log(chalk.green('✅ Git hooks installed successfully'));
-      
     } catch (error) {
       console.error(chalk.red('❌ Failed to setup git hooks:'), error);
       throw error;
@@ -124,10 +123,10 @@ echo "✅ Post-commit hook completed"
       // Write the hook file
       const fs = await import('fs/promises');
       await fs.writeFile(hookPath, content, 'utf-8');
-      
+
       // Make it executable
       execSync(`chmod +x ${hookPath}`);
-      
+
       console.log(chalk.green(`✅ Created hook: ${hookPath}`));
     } catch (error) {
       console.error(chalk.red(`❌ Failed to create hook ${hookPath}:`), error);
@@ -138,16 +137,15 @@ echo "✅ Post-commit hook completed"
   async removeHooks(): Promise<void> {
     try {
       console.log(chalk.blue('🗑️ Removing git hooks...'));
-      
+
       const hooks = ['.git/hooks/pre-push', '.git/hooks/post-commit'];
-      
+
       for (const hook of hooks) {
         if (existsSync(hook)) {
           execSync(`rm ${hook}`);
           console.log(chalk.green(`✅ Removed hook: ${hook}`));
         }
       }
-      
     } catch (error) {
       console.error(chalk.red('❌ Failed to remove hooks:'), error);
       throw error;
@@ -157,12 +155,12 @@ echo "✅ Post-commit hook completed"
   async checkHooks(): Promise<void> {
     try {
       console.log(chalk.blue('🔍 Checking git hooks status...'));
-      
+
       const hooks = [
         { path: '.git/hooks/pre-push', name: 'Pre-push' },
-        { path: '.git/hooks/post-commit', name: 'Post-commit' }
+        { path: '.git/hooks/post-commit', name: 'Post-commit' },
       ];
-      
+
       for (const hook of hooks) {
         if (existsSync(hook.path)) {
           console.log(chalk.green(`✅ ${hook.name} hook: installed`));
@@ -170,7 +168,6 @@ echo "✅ Post-commit hook completed"
           console.log(chalk.yellow(`⚠️ ${hook.name} hook: not installed`));
         }
       }
-      
     } catch (error) {
       console.error(chalk.red('❌ Failed to check hooks:'), error);
       throw error;

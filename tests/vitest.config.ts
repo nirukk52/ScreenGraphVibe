@@ -11,7 +11,7 @@ export default defineConfig({
     include: [
       'src/unit/**/*.test.ts',
       '../agent/src/features/**/tests/*.test.ts',
-      '../ui/src/features/**/tests/*.test.tsx'
+      '../ui/src/features/**/tests/*.test.tsx',
     ],
     exclude: ['**/e2e/**/*'],
   },

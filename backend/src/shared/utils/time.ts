@@ -3,5 +3,3 @@
  * @description Time utilities.
  */
 export const nowIso = () => new Date().toISOString();
-
-

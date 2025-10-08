@@ -11,5 +11,3 @@ export const statusResponse = z.object({
 });
 
 export type StatusResponse = z.infer<typeof statusResponse>;
-
-

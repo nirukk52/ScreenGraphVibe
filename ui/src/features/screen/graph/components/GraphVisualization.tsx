@@ -1,14 +1,7 @@
 'use client';
 
 import { useCallback } from 'react';
-import ReactFlow, {
-  Node,
-  Edge,
-  Controls,
-  Background,
-  NodeTypes,
-  EdgeTypes,
-} from 'reactflow';
+import ReactFlow, { Node, Edge, Controls, Background, NodeTypes, EdgeTypes } from 'reactflow';
 import 'reactflow/dist/style.css';
 import type { ScreenGraph, Screen, Action, Verb } from '../../../../shared/types';
 import { ScreenNode } from './ScreenNode';
@@ -35,13 +28,13 @@ export function GraphVisualization({ graph, loading = false }: GraphVisualizatio
       console.error('Invalid screenGraph.screens:', screenGraph.screens);
       return { nodes: [], edges: [] };
     }
-    
+
     const nodes: Node[] = screenGraph.screens.map((screen, index) => ({
       id: screen.screenId,
       type: 'screen',
-      position: { 
-        x: index * 300, 
-        y: Math.sin(index * 0.5) * 100 
+      position: {
+        x: index * 300,
+        y: Math.sin(index * 0.5) * 100,
       },
       data: { screen },
     }));
@@ -51,7 +44,7 @@ export function GraphVisualization({ graph, loading = false }: GraphVisualizatio
       console.error('Invalid screenGraph.actions:', screenGraph.actions);
       return { nodes, edges: [] };
     }
-    
+
     const edges: Edge[] = screenGraph.actions.map((action) => ({
       id: action.actionId,
       source: action.fromScreenId,
@@ -59,9 +52,7 @@ export function GraphVisualization({ graph, loading = false }: GraphVisualizatio
       type: 'smoothstep',
       animated: true,
       data: { action },
-      label: (
-        <ActionEdge data={{ action }} />
-      ),
+      label: <ActionEdge data={{ action }} />,
     }));
 
     return { nodes, edges };
@@ -85,12 +76,8 @@ export function GraphVisualization({ graph, loading = false }: GraphVisualizatio
       <div className="flex items-center justify-center h-full">
         <div className="text-center">
           <div className="text-gray-400 text-6xl mb-4">📱</div>
-          <h3 className="text-lg font-medium text-gray-900 mb-2">
-            No Graph Data
-          </h3>
-          <p className="text-gray-600">
-            Select a run to view its ScreenGraph
-          </p>
+          <h3 className="text-lg font-medium text-gray-900 mb-2">No Graph Data</h3>
+          <p className="text-gray-600">Select a run to view its ScreenGraph</p>
         </div>
       </div>
     );

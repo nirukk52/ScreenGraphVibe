@@ -19,7 +19,7 @@ const SetupPage: React.FC<SetupPageProps> = () => {
         setLoading(true);
         const response = await fetch('http://localhost:3000/app-launch-configs');
         const data = await response.json();
-        
+
         if (data.success) {
           setConfigs(data.data);
           // Set the first config as default selection
@@ -49,9 +49,9 @@ const SetupPage: React.FC<SetupPageProps> = () => {
     try {
       setIsStarting(true);
       setError(null);
-      
+
       // Get the selected configuration
-      const config = configs.find(c => c.id === selectedConfig);
+      const config = configs.find((c) => c.id === selectedConfig);
       if (!config) {
         setError('Selected configuration not found');
         return;
@@ -60,7 +60,7 @@ const SetupPage: React.FC<SetupPageProps> = () => {
       // Here you would typically start the crawl with the selected configuration
       // For now, we'll just show a success message
       console.log('Starting crawl with config:', config);
-      
+
       // Simulate API call to start crawl
       const response = await fetch('http://localhost:3000/crawl', {
         method: 'POST',
@@ -73,7 +73,7 @@ const SetupPage: React.FC<SetupPageProps> = () => {
             packageName: config.packageName,
             appActivity: config.appActivity,
             appiumServerUrl: config.appiumServerUrl,
-          }
+          },
         }),
       });
 
@@ -122,7 +122,11 @@ const SetupPage: React.FC<SetupPageProps> = () => {
                 <div className="flex">
                   <div className="flex-shrink-0">
                     <svg className="h-5 w-5 text-red-400" viewBox="0 0 20 20" fill="currentColor">
-                      <path fillRule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zM8.707 7.293a1 1 0 00-1.414 1.414L8.586 10l-1.293 1.293a1 1 0 101.414 1.414L10 11.414l1.293 1.293a1 1 0 001.414-1.414L11.414 10l1.293-1.293a1 1 0 00-1.414-1.414L10 8.586 8.707 7.293z" clipRule="evenodd" />
+                      <path
+                        fillRule="evenodd"
+                        d="M10 18a8 8 0 100-16 8 8 0 000 16zM8.707 7.293a1 1 0 00-1.414 1.414L8.586 10l-1.293 1.293a1 1 0 101.414 1.414L10 11.414l1.293 1.293a1 1 0 001.414-1.414L11.414 10l1.293-1.293a1 1 0 00-1.414-1.414L10 8.586 8.707 7.293z"
+                        clipRule="evenodd"
+                      />
                     </svg>
                   </div>
                   <div className="ml-3">
@@ -154,9 +158,7 @@ const SetupPage: React.FC<SetupPageProps> = () => {
 
               {/* App Package */}
               <div>
-                <label className="block text-sm font-medium text-gray-700 mb-2">
-                  App Package
-                </label>
+                <label className="block text-sm font-medium text-gray-700 mb-2">App Package</label>
                 <select
                   value={selectedConfig}
                   onChange={(e) => setSelectedConfig(e.target.value)}
@@ -173,9 +175,7 @@ const SetupPage: React.FC<SetupPageProps> = () => {
 
               {/* APK Path */}
               <div>
-                <label className="block text-sm font-medium text-gray-700 mb-2">
-                  APK Path
-                </label>
+                <label className="block text-sm font-medium text-gray-700 mb-2">APK Path</label>
                 <select
                   value={selectedConfig}
                   onChange={(e) => setSelectedConfig(e.target.value)}
@@ -195,14 +195,24 @@ const SetupPage: React.FC<SetupPageProps> = () => {
                 <div className="bg-gray-50 rounded-md p-4">
                   <h3 className="text-sm font-medium text-gray-900 mb-3">Selected Configuration</h3>
                   {(() => {
-                    const config = configs.find(c => c.id === selectedConfig);
+                    const config = configs.find((c) => c.id === selectedConfig);
                     return config ? (
                       <div className="space-y-2 text-sm text-gray-600">
-                        <div><span className="font-medium">Name:</span> {config.name}</div>
-                        <div><span className="font-medium">Appium URL:</span> {config.appiumServerUrl}</div>
-                        <div><span className="font-medium">Package:</span> {config.packageName}</div>
-                        <div><span className="font-medium">Activity:</span> {config.appActivity}</div>
-                        <div><span className="font-medium">APK Path:</span> {config.apkPath}</div>
+                        <div>
+                          <span className="font-medium">Name:</span> {config.name}
+                        </div>
+                        <div>
+                          <span className="font-medium">Appium URL:</span> {config.appiumServerUrl}
+                        </div>
+                        <div>
+                          <span className="font-medium">Package:</span> {config.packageName}
+                        </div>
+                        <div>
+                          <span className="font-medium">Activity:</span> {config.appActivity}
+                        </div>
+                        <div>
+                          <span className="font-medium">APK Path:</span> {config.apkPath}
+                        </div>
                       </div>
                     ) : null;
                   })()}
@@ -217,9 +227,25 @@ const SetupPage: React.FC<SetupPageProps> = () => {
               >
                 {isStarting ? (
                   <>
-                    <svg className="animate-spin -ml-1 mr-3 h-5 w-5 text-white" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24">
-                      <circle className="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" strokeWidth="4"></circle>
-                      <path className="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path>
+                    <svg
+                      className="animate-spin -ml-1 mr-3 h-5 w-5 text-white"
+                      xmlns="http://www.w3.org/2000/svg"
+                      fill="none"
+                      viewBox="0 0 24 24"
+                    >
+                      <circle
+                        className="opacity-25"
+                        cx="12"
+                        cy="12"
+                        r="10"
+                        stroke="currentColor"
+                        strokeWidth="4"
+                      ></circle>
+                      <path
+                        className="opacity-75"
+                        fill="currentColor"
+                        d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"
+                      ></path>
                     </svg>
                     Starting...
                   </>
@@ -231,10 +257,7 @@ const SetupPage: React.FC<SetupPageProps> = () => {
 
             {/* Navigation Links */}
             <div className="mt-8 text-center">
-              <Link
-                href="/"
-                className="text-sm text-blue-600 hover:text-blue-500"
-              >
+              <Link href="/" className="text-sm text-blue-600 hover:text-blue-500">
                 ← Back to Dashboard
               </Link>
             </div>

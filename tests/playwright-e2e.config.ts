@@ -20,13 +20,13 @@ export default defineConfig({
   projects: [
     {
       name: 'chromium',
-      use: { 
+      use: {
         ...devices['Desktop Chrome'],
         // Force browser to close after tests
         launchOptions: {
           headless: true,
-          args: ['--no-sandbox', '--disable-setuid-sandbox']
-        }
+          args: ['--no-sandbox', '--disable-setuid-sandbox'],
+        },
       },
     },
   ],
@@ -34,7 +34,7 @@ export default defineConfig({
   // Disable any global setup that might conflict with Vitest
   globalSetup: undefined,
   globalTeardown: undefined,
-  
+
   // Ensure proper exit
   webServer: undefined,
 });

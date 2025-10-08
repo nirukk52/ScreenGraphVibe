@@ -1,0 +1,29 @@
+# dependencies
+node_modules/
+
+# builds
+dist/
+build/
+.next/
+out/
+
+# tests and reports
+coverage/
+playwright-report/
+test-results/
+
+# generated or compiled
+data/db/migrations/
+*.d.ts
+
+# logs and pid files
+logs/
+*.log
+*.pid
+
+# Python venv
+screengraph-agent/venv/
+
+# misc
+.DS_Store
+

@@ -21,6 +21,7 @@ ScreenGraph consists of two services:
 2. **UI** (`screengraph-ui`) - Frontend on port 3000 (internal)
 
 Both deployed to:
+
 - **Primary Region**: `iad` (US East - Virginia)
 - **Platform**: Fly.io
 
@@ -45,6 +46,7 @@ flyctl apps list
 ```
 
 You should see:
+
 - `screengraph-agent`
 - `screengraph-ui`
 
@@ -121,6 +123,7 @@ flyctl logs --app screengraph-agent
 ```
 
 **Expected output:**
+
 ```
 PROCESS ID              VERSION REGION STATE   CHECKS
 app     286e124b6ee4d8 4       iad    started 1 total, 1 passing
@@ -133,6 +136,7 @@ curl https://screengraph-agent.fly.dev/healthz | jq '.'
 ```
 
 **Expected response:**
+
 ```json
 {
   "status": "ok",
@@ -161,13 +165,13 @@ flyctl open --app screengraph-ui
 
 ## Production URLs
 
-| Service | URL | Purpose |
-|---------|-----|---------|
-| **Agent API** | https://screengraph-agent.fly.dev | Backend API |
-| **Agent Health** | https://screengraph-agent.fly.dev/healthz | Health check endpoint |
-| **Agent Docs** | https://screengraph-agent.fly.dev/docs | Swagger API documentation |
-| **UI** | https://screengraph-ui.fly.dev | Frontend application |
-| **Fly Dashboard** | https://fly.io/dashboard | Manage deployments |
+| Service           | URL                                       | Purpose                   |
+| ----------------- | ----------------------------------------- | ------------------------- |
+| **Agent API**     | https://screengraph-agent.fly.dev         | Backend API               |
+| **Agent Health**  | https://screengraph-agent.fly.dev/healthz | Health check endpoint     |
+| **Agent Docs**    | https://screengraph-agent.fly.dev/docs    | Swagger API documentation |
+| **UI**            | https://screengraph-ui.fly.dev            | Frontend application      |
+| **Fly Dashboard** | https://fly.io/dashboard                  | Manage deployments        |
 
 ---
 
@@ -315,12 +319,12 @@ flyctl releases rollback --app screengraph-agent
 
 ### Current Configuration
 
-| Resource | Agent | UI | Monthly Cost (est.) |
-|----------|-------|-----|---------------------|
-| **RAM** | 256MB | 512MB | $0 (free tier) |
-| **CPU** | Shared 1x | Shared 1x | $0 (free tier) |
-| **Storage** | None | None | $0 |
-| **Traffic** | ~1GB | ~5GB | $0 (within free tier) |
+| Resource    | Agent     | UI        | Monthly Cost (est.)   |
+| ----------- | --------- | --------- | --------------------- |
+| **RAM**     | 256MB     | 512MB     | $0 (free tier)        |
+| **CPU**     | Shared 1x | Shared 1x | $0 (free tier)        |
+| **Storage** | None      | None      | $0                    |
+| **Traffic** | ~1GB      | ~5GB      | $0 (within free tier) |
 
 **Total:** ~$0-5/month (depending on usage)
 
@@ -331,6 +335,7 @@ flyctl releases rollback --app screengraph-agent
 Add your credit card at: https://fly.io/trial
 
 After adding:
+
 ```bash
 # Restart machines
 flyctl machine start --app screengraph-agent
@@ -437,6 +442,7 @@ flyctl deploy
 ### Database Connection Pooling
 
 Already configured! Using Supabase pooler:
+
 ```
 postgresql://postgres.cfmywntdiygatvagqucn:ranchordas@aws-1-us-east-2.pooler.supabase.com:6543/postgres
 ```
@@ -444,6 +450,7 @@ postgresql://postgres.cfmywntdiygatvagqucn:ranchordas@aws-1-us-east-2.pooler.sup
 ### Redis Caching
 
 Configure in agent for faster responses:
+
 ```typescript
 // Cache health checks for 10 seconds
 const cachedHealth = await redis.get('health');
@@ -496,4 +503,3 @@ curl https://screengraph-ui.fly.dev
 ---
 
 **Deployment complete! 🚀 Your app is live!**
-

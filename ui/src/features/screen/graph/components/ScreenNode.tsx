@@ -8,7 +8,7 @@ interface ScreenNodeProps {
 
 export function ScreenNode({ data }: ScreenNodeProps) {
   const { screen } = data;
-  
+
   return (
     <div className="bg-white border-2 border-gray-300 rounded-lg shadow-sm min-w-48">
       <div className="p-3 border-b border-gray-200">
@@ -26,9 +26,7 @@ export function ScreenNode({ data }: ScreenNodeProps) {
             </span>
           ))}
           {screen.textStems.length > 3 && (
-            <span className="text-xs text-gray-500">
-              +{screen.textStems.length - 3} more
-            </span>
+            <span className="text-xs text-gray-500">+{screen.textStems.length - 3} more</span>
           )}
         </div>
       </div>

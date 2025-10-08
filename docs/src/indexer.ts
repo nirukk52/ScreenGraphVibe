@@ -12,16 +12,16 @@ export class DocumentIndexer {
 
   async generateIndex(documents: DocumentInfo[], outputPath?: string): Promise<DocumentIndex> {
     const categories = this.categorizeDocuments(documents);
-    
+
     const index: DocumentIndex = {
       generatedAt: new Date(),
       totalDocuments: documents.length,
       documents,
-      categories
+      categories,
     };
 
     const finalOutputPath = outputPath || this.options.outputPath;
-    
+
     switch (this.options.format) {
       case 'markdown':
         await this.generateMarkdownIndex(index, finalOutputPath);
@@ -39,35 +39,33 @@ export class DocumentIndexer {
 
   private categorizeDocuments(documents: DocumentInfo[]): CategoryInfo[] {
     const categories: CategoryInfo[] = [];
-    
+
     for (const [categoryKey, categoryConfig] of Object.entries(DOCS_CONSTANTS.CATEGORIES)) {
-      const categoryDocs = documents.filter(doc => 
-        categoryConfig.patterns.some(pattern => 
-          this.matchesPattern(doc.path, pattern)
-        )
+      const categoryDocs = documents.filter((doc) =>
+        categoryConfig.patterns.some((pattern) => this.matchesPattern(doc.path, pattern)),
       );
 
       if (categoryDocs.length > 0) {
         categories.push({
           name: categoryConfig.name,
           documents: categoryDocs,
-          description: categoryConfig.description
+          description: categoryConfig.description,
         });
       }
     }
 
     // Add uncategorized documents
     const categorizedPaths = new Set(
-      categories.flatMap(cat => cat.documents.map(doc => doc.path))
+      categories.flatMap((cat) => cat.documents.map((doc) => doc.path)),
     );
-    
-    const uncategorized = documents.filter(doc => !categorizedPaths.has(doc.path));
-    
+
+    const uncategorized = documents.filter((doc) => !categorizedPaths.has(doc.path));
+
     if (uncategorized.length > 0) {
       categories.push({
         name: 'Other Documentation',
         documents: uncategorized,
-        description: 'Additional documentation files'
+        description: 'Additional documentation files',
       });
     }
 
@@ -76,12 +74,7 @@ export class DocumentIndexer {
 
   private matchesPattern(path: string, pattern: string): boolean {
     // Simple pattern matching (can be enhanced with glob patterns)
-    const regex = new RegExp(
-      pattern
-        .replace(/\*/g, '.*')
-        .replace(/\?/g, '.')
-        .toLowerCase()
-    );
+    const regex = new RegExp(pattern.replace(/\*/g, '.*').replace(/\?/g, '.').toLowerCase());
     return regex.test(path.toLowerCase());
   }
 
@@ -117,7 +110,7 @@ This is the comprehensive index of all documentation in the ScreenGraph project.
 
   private generateTableOfContents(index: DocumentIndex): string {
     let toc = '## 📚 Table of Contents\n\n';
-    
+
     for (const category of index.categories) {
       toc += `### ${category.name}\n`;
       for (const doc of category.documents) {
@@ -125,7 +118,7 @@ This is the comprehensive index of all documentation in the ScreenGraph project.
       }
       toc += '\n';
     }
-    
+
     return toc;
   }
 
@@ -159,9 +152,9 @@ This is the comprehensive index of all documentation in the ScreenGraph project.
   private generateStatistics(index: DocumentIndex): string {
     const totalSize = index.documents.reduce((sum, doc) => sum + doc.size, 0);
     const avgSize = Math.round(totalSize / index.documents.length);
-    
+
     const headlinesCount = index.documents.reduce((sum, doc) => sum + doc.headlines.length, 0);
-    
+
     return `## 📊 Statistics
 
 - **Total Documents:** ${index.totalDocuments}
@@ -179,7 +172,7 @@ This is the comprehensive index of all documentation in the ScreenGraph project.
     const sizes = ['B', 'KB', 'MB', 'GB'];
     if (bytes === 0) return '0 B';
     const i = Math.floor(Math.log(bytes) / Math.log(1024));
-    return Math.round(bytes / Math.pow(1024, i) * 100) / 100 + ' ' + sizes[i];
+    return Math.round((bytes / Math.pow(1024, i)) * 100) / 100 + ' ' + sizes[i];
   }
 
   private async generateJsonIndex(index: DocumentIndex, outputPath: string): Promise<void> {

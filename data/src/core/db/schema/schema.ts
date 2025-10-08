@@ -17,7 +17,9 @@ export const runs = pgTable('runs', {
 });
 
 export const screens = pgTable('screens', {
-  runId: uuid('run_id').notNull().references(() => runs.id),
+  runId: uuid('run_id')
+    .notNull()
+    .references(() => runs.id),
   screenId: uuid('screen_id').primaryKey().defaultRandom(),
   name: text('name').notNull(),
   payload: jsonb('payload').notNull(),
@@ -26,7 +28,9 @@ export const screens = pgTable('screens', {
 
 export const actions = pgTable('actions', {
   actionId: uuid('action_id').primaryKey().defaultRandom(),
-  screenId: uuid('screen_id').notNull().references(() => screens.screenId),
+  screenId: uuid('screen_id')
+    .notNull()
+    .references(() => screens.screenId),
   type: text('type').notNull(),
   payload: jsonb('payload').notNull(),
   targetScreenId: uuid('target_screen_id').references(() => screens.screenId),
@@ -44,7 +48,9 @@ export const baselines = pgTable('baselines', {
 
 export const jobs = pgTable('jobs', {
   jobId: uuid('job_id').primaryKey().defaultRandom(),
-  runId: uuid('run_id').notNull().references(() => runs.id),
+  runId: uuid('run_id')
+    .notNull()
+    .references(() => runs.id),
   packageName: text('package_name').notNull(),
   status: jobStatusEnum('status').notNull().default('pending'),
   enqueuedAt: timestamp('enqueued_at').notNull().defaultNow(),
@@ -92,5 +98,3 @@ export const jobsRelations = relations(jobs, ({ one }) => ({
 }));
 
 // app-launch-config relations moved with its schema
-
-

@@ -9,7 +9,7 @@ export default defineConfig({
       'src/**/*.test.ts',
       'src/**/*.integration.test.ts',
       'src/**/tests/*.test.ts',
-      'src/**/tests/*.integration.test.ts'
+      'src/**/tests/*.integration.test.ts',
     ],
   },
 });

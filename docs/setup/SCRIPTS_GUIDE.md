@@ -63,6 +63,7 @@ When running locally, the script:
 ```
 
 **What it does:**
+
 1. ✅ Checks for `.env.local` file
 2. ✅ Verifies Node.js is installed
 3. ✅ Checks if ports 3000 and 3001 are available
@@ -71,15 +72,17 @@ When running locally, the script:
 6. ✅ Runs both services in background with logging
 
 **Services started:**
+
 - **Agent**: http://localhost:3000 (Fastify API)
 - **UI**: http://localhost:3001 (Next.js frontend)
 
 **Logs available:**
+
 ```bash
 # View agent logs
 tail -f /tmp/agent-dev.log
 
-# View UI logs  
+# View UI logs
 tail -f /tmp/ui-dev.log
 ```
 
@@ -94,6 +97,7 @@ When deploying to production:
 ```
 
 **What it does:**
+
 1. ✅ Checks Fly.io CLI is installed and authenticated
 2. ✅ Verifies apps exist (`screengraph-agent`, `screengraph-ui`)
 3. ✅ Deploys agent to Fly.io
@@ -102,10 +106,12 @@ When deploying to production:
 6. ✅ Runs health checks on both services
 
 **Services deployed:**
+
 - **Agent**: https://screengraph-agent.fly.dev
 - **UI**: https://screengraph-ui.fly.dev
 
 **Health checks:**
+
 ```bash
 # Check agent health
 curl https://screengraph-agent.fly.dev/healthz
@@ -125,6 +131,7 @@ Check what's currently running:
 ```
 
 **What it shows:**
+
 - Environment detection results
 - Running processes (agent, UI)
 - Port usage (3000, 3001)
@@ -132,6 +139,7 @@ Check what's currently running:
 - Log file locations
 
 **Example output:**
+
 ```
 🔍 Environment Detection:
    Command: local
@@ -144,7 +152,7 @@ Check what's currently running:
 📊 Service Status:
    Agent: ✅ Running (PID 12345) - http://localhost:3000
    UI: ✅ Running (PID 12346) - http://localhost:3001
-   
+
 📝 Logs:
    Agent: /tmp/agent-dev.log
    UI: /tmp/ui-dev.log
@@ -157,6 +165,7 @@ Check what's currently running:
 ### Issue: "Command not found: ./start.sh"
 
 **Solution:** Make script executable:
+
 ```bash
 chmod +x start.sh stop.sh
 ```
@@ -164,6 +173,7 @@ chmod +x start.sh stop.sh
 ### Issue: "Environment detection failed"
 
 **Solution:** Run with explicit environment:
+
 ```bash
 ./start.sh local  # Force local
 ./start.sh prod   # Force production
@@ -172,6 +182,7 @@ chmod +x start.sh stop.sh
 ### Issue: "Port 3000 already in use"
 
 **Solution:** Stop existing services first:
+
 ```bash
 ./stop.sh
 ./start.sh local
@@ -180,6 +191,7 @@ chmod +x start.sh stop.sh
 ### Issue: "Fly.io deployment failed"
 
 **Solution:** Check authentication and app existence:
+
 ```bash
 flyctl auth login
 flyctl apps list
@@ -188,6 +200,7 @@ flyctl apps list
 ### Issue: "Services won't start"
 
 **Solution:** Check logs and dependencies:
+
 ```bash
 # Check logs
 tail -f /tmp/agent-dev.log
@@ -333,13 +346,13 @@ To customize the scripts:
 
 ## Quick Reference
 
-| Command | Purpose | Environment |
-|---------|---------|-------------|
-| `./start.sh` | Auto-detect and start | Auto |
-| `./start.sh local` | Start local development | Local |
-| `./start.sh prod` | Deploy to production | Production |
-| `./start.sh status` | Check running services | Any |
-| `./stop.sh` | Stop all services | Any |
+| Command             | Purpose                 | Environment |
+| ------------------- | ----------------------- | ----------- |
+| `./start.sh`        | Auto-detect and start   | Auto        |
+| `./start.sh local`  | Start local development | Local       |
+| `./start.sh prod`   | Deploy to production    | Production  |
+| `./start.sh status` | Check running services  | Any         |
+| `./stop.sh`         | Stop all services       | Any         |
 
 ---
 

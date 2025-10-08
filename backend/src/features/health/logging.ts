@@ -9,7 +9,11 @@ export interface LogContext {
 }
 
 // Health check logging helper - moved from logging module to health feature
-export function logHealthCheck(status: 'healthy' | 'unhealthy', message: string, context?: LogContext): void {
+export function logHealthCheck(
+  status: 'healthy' | 'unhealthy',
+  message: string,
+  context?: LogContext,
+): void {
   if (status === 'healthy') {
     logger.info(`Health check passed: ${message}`, context);
   } else {

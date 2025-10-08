@@ -1,4 +1,13 @@
-import type { ScreenGraph, Screen, Action, Counters, Diffs, Provenance, Verb, Postcondition } from './types.js';
+import type {
+  ScreenGraph,
+  Screen,
+  Action,
+  Counters,
+  Diffs,
+  Provenance,
+  Verb,
+  Postcondition,
+} from './types.js';
 
 // Stub data generator for demonstration
 export function generateStubScreenGraph(runId: string): ScreenGraph {
@@ -10,14 +19,14 @@ export function generateStubScreenGraph(runId: string): ScreenGraph {
       artifacts: {
         screenshotUrl: 'https://example.com/screenshots/login.png',
         pageSourceDigest: 'abc123',
-        axDigest: 'def456'
+        axDigest: 'def456',
       },
       signature: {
         sketchHash: 'sketch-1',
         layoutBucket: 'auth',
-        screenshotCoarseHash: 'coarse-1'
+        screenshotCoarseHash: 'coarse-1',
       },
-      indexPath: '0'
+      indexPath: '0',
     },
     {
       screenId: 'screen-2',
@@ -26,15 +35,15 @@ export function generateStubScreenGraph(runId: string): ScreenGraph {
       artifacts: {
         screenshotUrl: 'https://example.com/screenshots/dashboard.png',
         pageSourceDigest: 'ghi789',
-        axDigest: 'jkl012'
+        axDigest: 'jkl012',
       },
       signature: {
         sketchHash: 'sketch-2',
         layoutBucket: 'main',
-        screenshotCoarseHash: 'coarse-2'
+        screenshotCoarseHash: 'coarse-2',
       },
-      indexPath: '0/1'
-    }
+      indexPath: '0/1',
+    },
   ];
 
   const actions: Action[] = [
@@ -47,15 +56,15 @@ export function generateStubScreenGraph(runId: string): ScreenGraph {
       targetText: 'Sign In',
       postcondition: 'ROUTE_CHANGE' as Postcondition,
       signature: {
-        verbPostconditionHash: 'tap-route-hash'
-      }
-    }
+        verbPostconditionHash: 'tap-route-hash',
+      },
+    },
   ];
 
   const counters: Counters = {
     screenCount: screens.length,
     actionCount: actions.length,
-    interactiveCount: actions.filter(a => a.verb === 'TAP').length
+    interactiveCount: actions.filter((a) => a.verb === 'TAP').length,
   };
 
   const diffs: Diffs = {
@@ -63,7 +72,7 @@ export function generateStubScreenGraph(runId: string): ScreenGraph {
     removedScreens: [],
     addedActions: [],
     removedActions: [],
-    changedActions: []
+    changedActions: [],
   };
 
   const provenance: Provenance = {
@@ -71,7 +80,7 @@ export function generateStubScreenGraph(runId: string): ScreenGraph {
     matcherVersion: '1.0.0',
     toleranceProfile: 'local-relaxed',
     jobId: `job-${runId}`,
-    agentId: 'agent-123'
+    agentId: 'agent-123',
   };
 
   const result = {
@@ -87,8 +96,8 @@ export function generateStubScreenGraph(runId: string): ScreenGraph {
     provenance,
     annotations: {
       tags: ['demo', 'stub'],
-      notes: 'This is a stub ScreenGraph for demonstration purposes'
-    }
+      notes: 'This is a stub ScreenGraph for demonstration purposes',
+    },
   };
 
   return result;
@@ -100,13 +109,13 @@ export function generateStubRuns() {
       runId: 'run-123',
       appId: 'demo-app',
       createdAt: new Date().toISOString(),
-      status: 'completed'
+      status: 'completed',
     },
     {
       runId: 'run-456',
       appId: 'demo-app',
       createdAt: new Date(Date.now() - 3600000).toISOString(),
-      status: 'completed'
-    }
+      status: 'completed',
+    },
   ];
 }

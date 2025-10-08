@@ -49,9 +49,9 @@ describe('Config Validation', () => {
 
     const result = envSchema.safeParse(invalidEnv);
     expect(result.success).toBe(false);
-    
+
     if (!result.success) {
-      expect(result.error.errors.some(e => e.path.includes('SUPABASE_URL'))).toBe(true);
+      expect(result.error.errors.some((e) => e.path.includes('SUPABASE_URL'))).toBe(true);
     }
   });
 
@@ -67,9 +67,11 @@ describe('Config Validation', () => {
 
     const result = envSchema.safeParse(invalidEnv);
     expect(result.success).toBe(false);
-    
+
     if (!result.success) {
-      expect(result.error.errors.some(e => e.message.includes('Invalid POSTGRES_URL'))).toBe(true);
+      expect(result.error.errors.some((e) => e.message.includes('Invalid POSTGRES_URL'))).toBe(
+        true,
+      );
     }
   });
 
@@ -84,7 +86,7 @@ describe('Config Validation', () => {
     };
 
     const result = envSchema.parse(minimalEnv);
-    
+
     expect(result.NODE_ENV).toBe('development');
     expect(result.AGENT_PORT).toBe(3000);
     expect(result.AGENT_HOST).toBe('0.0.0.0');
@@ -95,8 +97,8 @@ describe('Config Validation', () => {
 
   it('should validate NODE_ENV values', () => {
     const validEnvs = ['development', 'production', 'test'];
-    
-    validEnvs.forEach(env => {
+
+    validEnvs.forEach((env) => {
       const testEnv = {
         POSTGRES_URL: 'postgresql://localhost:5432/test',
         SUPABASE_URL: 'https://test.supabase.co',
@@ -114,8 +116,8 @@ describe('Config Validation', () => {
 
   it('should validate LOG_LEVEL values', () => {
     const validLevels = ['debug', 'info', 'warn', 'error'];
-    
-    validLevels.forEach(level => {
+
+    validLevels.forEach((level) => {
       const testEnv = {
         POSTGRES_URL: 'postgresql://localhost:5432/test',
         SUPABASE_URL: 'https://test.supabase.co',
@@ -135,7 +137,7 @@ describe('Config Validation', () => {
     const validPorts = [1, 3000, 65535];
     const invalidPorts = [0, 65536, -1];
 
-    validPorts.forEach(port => {
+    validPorts.forEach((port) => {
       const testEnv = {
         POSTGRES_URL: 'postgresql://localhost:5432/test',
         SUPABASE_URL: 'https://test.supabase.co',
@@ -150,7 +152,7 @@ describe('Config Validation', () => {
       expect(result.success).toBe(true);
     });
 
-    invalidPorts.forEach(port => {
+    invalidPorts.forEach((port) => {
       const testEnv = {
         POSTGRES_URL: 'postgresql://localhost:5432/test',
         SUPABASE_URL: 'https://test.supabase.co',
@@ -184,7 +186,9 @@ describe('Config Validation', () => {
 
     expect(() => getConfig()).toThrow('process.exit called');
     expect(exitSpy).toHaveBeenCalledWith(1);
-    expect(consoleSpy).toHaveBeenCalledWith(expect.stringContaining('Environment validation failed'));
+    expect(consoleSpy).toHaveBeenCalledWith(
+      expect.stringContaining('Environment validation failed'),
+    );
 
     exitSpy.mockRestore();
     consoleSpy.mockRestore();

@@ -12,5 +12,3 @@ export async function startServer() {
   await app.listen({ host: '0.0.0.0', port: env.PORT });
   return app;
 }
-
-

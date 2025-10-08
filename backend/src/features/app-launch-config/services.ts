@@ -1,18 +1,18 @@
 import { eq, and } from 'drizzle-orm';
 import { db } from '@screengraph/data';
 import { appLaunchConfigs } from '@screengraph/data';
-import type { 
-  AppLaunchConfigService, 
-  AppLaunchConfigResponse, 
+import type {
+  AppLaunchConfigService,
+  AppLaunchConfigResponse,
   AppLaunchConfigRequest,
-  ApiResponse 
+  ApiResponse,
 } from './types.js';
 
 export class AppLaunchConfigServiceImpl implements AppLaunchConfigService {
   async getAllConfigs(): Promise<AppLaunchConfigResponse[]> {
     try {
       const configs = await db.select().from(appLaunchConfigs).orderBy(appLaunchConfigs.createdAt);
-      
+
       return configs.map(this.mapToResponse);
     } catch (error) {
       console.error('Error fetching app launch configs:', error);
@@ -23,7 +23,7 @@ export class AppLaunchConfigServiceImpl implements AppLaunchConfigService {
   async getConfigById(id: string): Promise<AppLaunchConfigResponse | null> {
     try {
       const [config] = await db.select().from(appLaunchConfigs).where(eq(appLaunchConfigs.id, id));
-      
+
       return config ? this.mapToResponse(config) : null;
     } catch (error) {
       console.error('Error fetching app launch config by id:', error);
@@ -35,19 +35,23 @@ export class AppLaunchConfigServiceImpl implements AppLaunchConfigService {
     try {
       // If this is being set as default, unset any existing default
       if (config.isDefault) {
-        await db.update(appLaunchConfigs)
+        await db
+          .update(appLaunchConfigs)
           .set({ isDefault: 'false' })
           .where(eq(appLaunchConfigs.isDefault, 'true'));
       }
 
-      const [newConfig] = await db.insert(appLaunchConfigs).values({
-        name: config.name,
-        apkPath: config.apkPath,
-        packageName: config.packageName,
-        appActivity: config.appActivity,
-        appiumServerUrl: config.appiumServerUrl,
-        isDefault: config.isDefault ? 'true' : 'false',
-      }).returning();
+      const [newConfig] = await db
+        .insert(appLaunchConfigs)
+        .values({
+          name: config.name,
+          apkPath: config.apkPath,
+          packageName: config.packageName,
+          appActivity: config.appActivity,
+          appiumServerUrl: config.appiumServerUrl,
+          isDefault: config.isDefault ? 'true' : 'false',
+        })
+        .returning();
 
       return this.mapToResponse(newConfig);
     } catch (error) {
@@ -56,11 +60,15 @@ export class AppLaunchConfigServiceImpl implements AppLaunchConfigService {
     }
   }
 
-  async updateConfig(id: string, config: Partial<AppLaunchConfigRequest>): Promise<AppLaunchConfigResponse> {
+  async updateConfig(
+    id: string,
+    config: Partial<AppLaunchConfigRequest>,
+  ): Promise<AppLaunchConfigResponse> {
     try {
       // If this is being set as default, unset any existing default
       if (config.isDefault) {
-        await db.update(appLaunchConfigs)
+        await db
+          .update(appLaunchConfigs)
           .set({ isDefault: 'false' })
           .where(eq(appLaunchConfigs.isDefault, 'true'));
       }
@@ -74,9 +82,11 @@ export class AppLaunchConfigServiceImpl implements AppLaunchConfigService {
       if (config.packageName !== undefined) updateData.packageName = config.packageName;
       if (config.appActivity !== undefined) updateData.appActivity = config.appActivity;
       if (config.appiumServerUrl !== undefined) updateData.appiumServerUrl = config.appiumServerUrl;
-      if (config.isDefault !== undefined) updateData.isDefault = config.isDefault ? 'true' : 'false';
+      if (config.isDefault !== undefined)
+        updateData.isDefault = config.isDefault ? 'true' : 'false';
 
-      const [updatedConfig] = await db.update(appLaunchConfigs)
+      const [updatedConfig] = await db
+        .update(appLaunchConfigs)
         .set(updateData)
         .where(eq(appLaunchConfigs.id, id))
         .returning();
@@ -104,7 +114,8 @@ export class AppLaunchConfigServiceImpl implements AppLaunchConfigService {
 
   async getDefaultConfig(): Promise<AppLaunchConfigResponse | null> {
     try {
-      const [config] = await db.select()
+      const [config] = await db
+        .select()
         .from(appLaunchConfigs)
         .where(eq(appLaunchConfigs.isDefault, 'true'));
 
@@ -118,15 +129,17 @@ export class AppLaunchConfigServiceImpl implements AppLaunchConfigService {
   async setDefaultConfig(id: string): Promise<AppLaunchConfigResponse> {
     try {
       // First unset any existing default
-      await db.update(appLaunchConfigs)
+      await db
+        .update(appLaunchConfigs)
         .set({ isDefault: 'false' })
         .where(eq(appLaunchConfigs.isDefault, 'true'));
 
       // Set the new default
-      const [updatedConfig] = await db.update(appLaunchConfigs)
-        .set({ 
+      const [updatedConfig] = await db
+        .update(appLaunchConfigs)
+        .set({
           isDefault: 'true',
-          updatedAt: new Date()
+          updatedAt: new Date(),
         })
         .where(eq(appLaunchConfigs.id, id))
         .returning();

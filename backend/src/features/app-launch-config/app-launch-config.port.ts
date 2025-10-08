@@ -12,5 +12,3 @@
 //   getDefault(): Promise<unknown | null>;
 //   setDefault(id: string): Promise<unknown>;
 // }
-
-

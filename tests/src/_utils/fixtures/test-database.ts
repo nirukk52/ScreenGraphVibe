@@ -29,7 +29,7 @@ export async function startTestDatabase(): Promise<{
   }
 
   console.log('🐳 Starting Postgres test container...');
-  
+
   testContainer = await new PostgreSqlContainer('postgres:15')
     .withDatabase('screengraph_test')
     .withUsername('test')
@@ -38,7 +38,7 @@ export async function startTestDatabase(): Promise<{
     .start();
 
   const connectionString = testContainer.getConnectionUri();
-  
+
   // Create connection
   const connection = postgres(connectionString, { max: 1 });
   testDb = drizzle(connection);
@@ -80,7 +80,10 @@ export function getTestDatabase(): ReturnType<typeof drizzle> {
  * Health check function for the test database
  * Uses the same interface as the production checkDatabaseHealth
  */
-export async function testCheckDatabaseHealth(): Promise<{ status: 'healthy' | 'unhealthy'; message: string }> {
+export async function testCheckDatabaseHealth(): Promise<{
+  status: 'healthy' | 'unhealthy';
+  message: string;
+}> {
   try {
     if (!testDb) {
       return {
@@ -91,7 +94,7 @@ export async function testCheckDatabaseHealth(): Promise<{ status: 'healthy' | '
 
     // Simple query to check database connectivity
     await testDb.execute(sql`SELECT 1 as health_check`);
-    
+
     return {
       status: 'healthy',
       message: 'Test database connection successful',

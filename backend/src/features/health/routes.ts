@@ -1,6 +1,10 @@
 import { FastifyInstance } from 'fastify';
 import { HealthCheckResponse } from './types.js';
-import { checkDatabaseHealth, createHealthResponse, createErrorHealthResponse } from './services.js';
+import {
+  checkDatabaseHealth,
+  createHealthResponse,
+  createErrorHealthResponse,
+} from './services.js';
 import { randomUUID } from 'crypto';
 
 export async function healthRoutes(fastify: FastifyInstance) {
@@ -10,7 +14,7 @@ export async function healthRoutes(fastify: FastifyInstance) {
       // Check database health
       const dbHealth = await checkDatabaseHealth();
       const requestId = randomUUID();
-      
+
       const response: HealthCheckResponse = createHealthResponse(dbHealth, requestId);
 
       // Set cache control headers to prevent caching
@@ -27,12 +31,12 @@ export async function healthRoutes(fastify: FastifyInstance) {
     } catch (error) {
       const requestId = randomUUID();
       const response: HealthCheckResponse = createErrorHealthResponse(error, requestId);
-      
+
       // Set cache control headers
       reply.header('Cache-Control', 'no-store, no-cache, must-revalidate, proxy-revalidate');
       reply.header('Pragma', 'no-cache');
       reply.header('Expires', '0');
-      
+
       return reply.code(503).send(response);
     }
   });

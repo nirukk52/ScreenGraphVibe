@@ -33,7 +33,7 @@ export async function teardownTestEnvironment() {
   if (testEnv) {
     await stopTestDatabase();
     testEnv = null;
-    
+
     // Clean up environment variables
     delete process.env.POSTGRES_URL;
     delete process.env.NODE_ENV;

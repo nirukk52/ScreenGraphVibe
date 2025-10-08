@@ -13,21 +13,23 @@ export async function statusRoutes(app: FastifyInstance) {
   const service = new StatusService({ nowIso });
   const controller = makeStatusController(service);
 
-  app.get(ROUTES.STATUS, {
-    schema: {
-      response: {
-        200: {
-          type: 'object',
-          properties: {
-            ok: { const: true },
-            service: { const: 'backend' },
-            timestamp: { type: 'string' },
+  app.get(
+    ROUTES.STATUS,
+    {
+      schema: {
+        response: {
+          200: {
+            type: 'object',
+            properties: {
+              ok: { const: true },
+              service: { const: 'backend' },
+              timestamp: { type: 'string' },
+            },
+            required: ['ok', 'service', 'timestamp'],
           },
-          required: ['ok', 'service', 'timestamp'],
         },
       },
     },
-  }, controller.get);
+    controller.get,
+  );
 }
-
-

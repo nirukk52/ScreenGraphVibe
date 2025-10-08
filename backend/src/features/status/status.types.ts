@@ -7,5 +7,3 @@ export interface StatusResponse {
   service: 'backend';
   timestamp: string;
 }
-
-

@@ -68,8 +68,8 @@ These are your **life and soul**. Follow for every line of code:
 9. **If backend adds a new field** → update schema → regenerate → map via adapter → test → commit.
 
 ### File & Function Size (Rules 10-11)
-10. **No file over 400 lines**. Split when it grows.
-11. **No function over 50 lines**. Extract helpers or private methods.
+10. **No file over 150 lines**. Split when it grows.
+11. **No function over 75 lines**. Extract helpers or private methods.
 
 ### Design Principles (Rules 12-14)
 12. **Each class has one reason to change**. SRP (Single Responsibility Principle).

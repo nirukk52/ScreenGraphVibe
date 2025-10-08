@@ -7,7 +7,7 @@ vi.mock('child_process', async (importOriginal) => {
   const actual = await importOriginal();
   return {
     ...actual,
-    execSync: vi.fn()
+    execSync: vi.fn(),
   };
 });
 
@@ -22,8 +22,8 @@ vi.mock('@screengraph/infra/config.js', async (importOriginal) => {
     getConfig: vi.fn(() => ({
       FLY_APP_NAME: 'screengraph',
       FLY_REGION: 'iad',
-      NODE_ENV: 'production'
-    }))
+      NODE_ENV: 'production',
+    })),
   };
 });
 
@@ -52,16 +52,13 @@ describe.skip('FlyDeployer', () => {
 
     await deployer.deployToRegion('iad');
 
-    expect(mockExecSync).toHaveBeenCalledWith(
-      'fly deploy --region iad --app screengraph',
-      {
-        stdio: 'inherit',
-        env: {
-          ...process.env,
-          FLY_REGION: 'iad'
-        }
-      }
-    );
+    expect(mockExecSync).toHaveBeenCalledWith('fly deploy --region iad --app screengraph', {
+      stdio: 'inherit',
+      env: {
+        ...process.env,
+        FLY_REGION: 'iad',
+      },
+    });
   });
 
   it('should handle deployment failure', async () => {
@@ -78,7 +75,7 @@ describe.skip('FlyDeployer', () => {
     const mockFetch = vi.mocked(fetch);
     mockFetch.mockResolvedValue({
       ok: true,
-      status: 200
+      status: 200,
     } as Response);
 
     const results = await deployer.checkHealth();
@@ -99,7 +96,7 @@ describe.skip('FlyDeployer', () => {
     const results = await deployer.checkHealth();
 
     // All regions should show as unhealthy
-    Object.values(results).forEach(healthy => {
+    Object.values(results).forEach((healthy) => {
       expect(healthy).toBe(false);
     });
   });
@@ -112,10 +109,9 @@ describe.skip('FlyDeployer', () => {
     const logs = deployer.getLogs('iad');
 
     expect(logs).toBe('Log output for region');
-    expect(mockExecSync).toHaveBeenCalledWith(
-      'fly logs --app screengraph --region iad',
-      { encoding: 'utf-8' }
-    );
+    expect(mockExecSync).toHaveBeenCalledWith('fly logs --app screengraph --region iad', {
+      encoding: 'utf-8',
+    });
   });
 
   it('should get logs for all regions', async () => {
@@ -126,10 +122,7 @@ describe.skip('FlyDeployer', () => {
     const logs = deployer.getLogs();
 
     expect(logs).toBe('Log output for all regions');
-    expect(mockExecSync).toHaveBeenCalledWith(
-      'fly logs --app screengraph',
-      { encoding: 'utf-8' }
-    );
+    expect(mockExecSync).toHaveBeenCalledWith('fly logs --app screengraph', { encoding: 'utf-8' });
   });
 
   it('should handle log retrieval failure', async () => {

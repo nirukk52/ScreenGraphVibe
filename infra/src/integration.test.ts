@@ -7,7 +7,7 @@ import { getConfig } from '@screengraph/infra/config.js';
 vi.mock('@screengraph/infra/fly.js');
 vi.mock('@screengraph/infra/config.js');
 vi.mock('child_process', () => ({
-  execSync: vi.fn()
+  execSync: vi.fn(),
 }));
 
 describe('Deployment Integration', () => {
@@ -16,12 +16,12 @@ describe('Deployment Integration', () => {
 
   beforeEach(() => {
     vi.clearAllMocks();
-    
+
     // Mock config
     mockConfig = {
       NODE_ENV: 'production',
       FLY_APP_NAME: 'screengraph',
-      FLY_REGION: 'iad'
+      FLY_REGION: 'iad',
     };
 
     // Mock deployer
@@ -33,8 +33,8 @@ describe('Deployment Integration', () => {
         sea: true,
         lhr: true,
         fra: true,
-        sin: true
-      })
+        sin: true,
+      }),
     };
 
     vi.mocked(FlyDeployer).mockImplementation(() => mockDeployer);
@@ -78,7 +78,7 @@ describe('Deployment Integration', () => {
     const { execSync } = await import('child_process');
     const mockExecSync = vi.mocked(execSync);
     mockExecSync.mockReturnValue(Buffer.from('Build successful')).toString();
-    
+
     mockDeployer.deployToAllRegions.mockRejectedValue(new Error('Deployment failed'));
 
     const exitSpy = vi.spyOn(process, 'exit').mockImplementation(() => {
@@ -95,15 +95,15 @@ describe('Deployment Integration', () => {
     const { execSync } = await import('child_process');
     const mockExecSync = vi.mocked(execSync);
     mockExecSync.mockReturnValue(Buffer.from('Build successful')).toString();
-    
+
     // Mock some regions failing
     mockDeployer.checkHealth.mockResolvedValue({
       iad: true,
-      dfw: false,  // Failed
+      dfw: false, // Failed
       sea: true,
-      lhr: false,  // Failed
+      lhr: false, // Failed
       fra: true,
-      sin: true
+      sin: true,
     });
 
     const consoleWarnSpy = vi.spyOn(console, 'warn').mockImplementation(() => {});
@@ -111,7 +111,7 @@ describe('Deployment Integration', () => {
     await deploy();
 
     expect(consoleWarnSpy).toHaveBeenCalledWith(
-      expect.stringContaining('Health checks failed in regions: dfw, lhr')
+      expect.stringContaining('Health checks failed in regions: dfw, lhr'),
     );
 
     consoleWarnSpy.mockRestore();
@@ -147,7 +147,7 @@ describe('Health Check Integration', () => {
   it('should return correct status format', async () => {
     // This would be an integration test with actual health endpoint
     // For now, we'll test the expected format
-    
+
     const expectedHealthResponse = {
       status: 'ok',
       message: 'All services operational',
@@ -156,14 +156,14 @@ describe('Health Check Integration', () => {
       region: 'iad',
       environment: 'production',
       services: {
-        database: 'healthy'
-      }
+        database: 'healthy',
+      },
     };
 
     // Mock fetch for health check
     global.fetch = vi.fn().mockResolvedValue({
       ok: true,
-      json: () => Promise.resolve(expectedHealthResponse)
+      json: () => Promise.resolve(expectedHealthResponse),
     });
 
     const response = await fetch('https://screengraph.fly.dev/healthz');
@@ -183,14 +183,14 @@ describe('Health Check Integration', () => {
       region: 'iad',
       environment: 'production',
       services: {
-        database: 'unhealthy'
-      }
+        database: 'unhealthy',
+      },
     };
 
     global.fetch = vi.fn().mockResolvedValue({
       ok: false,
       status: 503,
-      json: () => Promise.resolve(expectedHealthResponse)
+      json: () => Promise.resolve(expectedHealthResponse),
     });
 
     const response = await fetch('https://screengraph.fly.dev/healthz');

@@ -13,6 +13,7 @@ To keep the repository clean, we maintain only **essential documentation** in th
 ### 🗑️ Auto-Cleaned on Push
 
 All other documentation files are **automatically indexed and deleted** before push:
+
 - ARCHITECTURE.md
 - ADAPTERS.md
 - AGENT.md
@@ -39,6 +40,7 @@ All other documentation files are **automatically indexed and deleted** before p
 ### 🔍 Finding Deleted Content
 
 All indexed content is searchable in:
+
 - `docs/DOCUMENT_INDEX.md` - Full text index
 - **Graphiti Memory** - Semantic search of all documentation
 - **Git History** - Previous commits retain full docs
@@ -46,6 +48,7 @@ All indexed content is searchable in:
 ### 🛠️ For AI Assistants
 
 When scaffolding or documenting:
+
 1. Create detailed docs as needed (ARCHITECTURE.md, etc.)
 2. Don't worry about cleanup - git hooks handle it
 3. Important content is preserved in DOCUMENT_INDEX.md
@@ -67,4 +70,3 @@ cat docs/DOCUMENT_INDEX.md
 ---
 
 **Policy**: Keep repository minimal, preserve knowledge in index and memory.
-

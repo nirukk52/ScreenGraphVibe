@@ -1,0 +1,17 @@
+{
+  "version": 1,
+  "graphiti": {
+    "url": "http://localhost:8765",
+    "groupId": "screengraph-vibe",
+    "apiKey": "",
+    "timeoutMs": 10000
+  },
+  "server": {
+    "host": "127.0.0.1",
+    "port": 4888
+  },
+  "logging": {
+    "level": "info",
+    "file": ""
+  }
+}

@@ -10,11 +10,13 @@ This is the comprehensive index of all documentation in the ScreenGraph project.
 ## 📚 Table of Contents
 
 ### Project Overview
+
 - [:docs - ScreenGraph Documentation Index System](./docs/README.md) - A fully runnable module for maintaining a comprehensive index of all documentation in the ScreenGraph project. Automatically scans, categorizes, and indexes all markdown files with intelligent routing and memory integration.
 - [ScreenGraph](./README.md) - AI-driven crawling and verification system for mobile and web apps. Automatically explores applications, captures UI states and actions as structured graphs (Screengraphs), and compares them against baselines.
 - [:sessions](./sessions/README.md) - Simple folder for maintaining MCP knowledge graph search logs.
 
 ### Setup & Configuration
+
 - [Screengraph Deployment Guide](./docs/setup/DEPLOYMENT.md) - ## 🚀 Quick Deploy
 - [ScreenGraph Local Development Setup](./docs/setup/LOCAL_SETUP.md) - Complete guide for running ScreenGraph locally.
 - [ScreenGraph Production Setup & Deployment](./docs/setup/PRODUCTION_SETUP.md) - Complete guide for deploying ScreenGraph to Fly.io production environment.
@@ -22,32 +24,37 @@ This is the comprehensive index of all documentation in the ScreenGraph project.
 - [Testing Guide](./docs/setup/TESTING.md) - ScreenGraph uses a comprehensive testing strategy with unit, integration, and end-to-end tests across all modules.
 
 ### Deployment & Infrastructure
+
 - [Screengraph Deployment Guide](./docs/setup/DEPLOYMENT.md) - ## 🚀 Quick Deploy
 - [ScreenGraph Production Setup & Deployment](./docs/setup/PRODUCTION_SETUP.md) - Complete guide for deploying ScreenGraph to Fly.io production environment.
 
 ### Testing & Quality
+
 - [Testing Guide](./docs/setup/TESTING.md) - ScreenGraph uses a comprehensive testing strategy with unit, integration, and end-to-end tests across all modules.
 
 ### Development Guidelines
+
 - [CLAUDE.md](./CLAUDE.md) - ## ScreenGraph CLAUDE Configuration
 - [ScreenGraph Scripts Guide](./docs/setup/SCRIPTS_GUIDE.md) - Complete guide to the environment-aware start/stop scripts.
 
 ### Credentials & Security
+
 - [ScreenGraph Credentials Reference](./docs/CREDENTIALS.md) - **⚠️ CONFIDENTIAL - DO NOT COMMIT TO GIT**
 
 ### Scripts & Automation
+
 - [ScreenGraph Scripts Guide](./docs/setup/SCRIPTS_GUIDE.md) - Complete guide to the environment-aware start/stop scripts.
 
 ### Other Documentation
+
 - [ScreenGraph Documentation Index](./docs/DOCUMENT_INDEX.md) - > **Auto-generated on 2025-10-06T04:01:16.248Z**
 - [ScreenGraph Documentation Index](./DOCUMENT_INDEX.md) - > **Auto-generated on 2025-10-06T04:01:02.210Z**
-
 
 ---
 
 ## Project Overview
 
-*Main project documentation and quick start guides*
+_Main project documentation and quick start guides_
 
 ### 📄 [:docs - ScreenGraph Documentation Index System](./docs/README.md)
 
@@ -81,7 +88,7 @@ This is the comprehensive index of all documentation in the ScreenGraph project.
 
 ## Setup & Configuration
 
-*Environment setup, installation, and configuration guides*
+_Environment setup, installation, and configuration guides_
 
 ### 📄 [Screengraph Deployment Guide](./docs/setup/DEPLOYMENT.md)
 
@@ -135,7 +142,7 @@ This is the comprehensive index of all documentation in the ScreenGraph project.
 
 ## Deployment & Infrastructure
 
-*Production deployment, infrastructure, and hosting guides*
+_Production deployment, infrastructure, and hosting guides_
 
 ### 📄 [Screengraph Deployment Guide](./docs/setup/DEPLOYMENT.md)
 
@@ -159,7 +166,7 @@ This is the comprehensive index of all documentation in the ScreenGraph project.
 
 ## Testing & Quality
 
-*Testing strategies, quality assurance, and debugging guides*
+_Testing strategies, quality assurance, and debugging guides_
 
 ### 📄 [Testing Guide](./docs/setup/TESTING.md)
 
@@ -173,7 +180,7 @@ This is the comprehensive index of all documentation in the ScreenGraph project.
 
 ## Development Guidelines
 
-*Coding standards, development workflows, and best practices*
+_Coding standards, development workflows, and best practices_
 
 ### 📄 [CLAUDE.md](./CLAUDE.md)
 
@@ -197,7 +204,7 @@ This is the comprehensive index of all documentation in the ScreenGraph project.
 
 ## Credentials & Security
 
-*API keys, credentials, and security-related documentation*
+_API keys, credentials, and security-related documentation_
 
 ### 📄 [ScreenGraph Credentials Reference](./docs/CREDENTIALS.md)
 
@@ -211,7 +218,7 @@ This is the comprehensive index of all documentation in the ScreenGraph project.
 
 ## Scripts & Automation
 
-*Automation scripts, deployment scripts, and utility guides*
+_Automation scripts, deployment scripts, and utility guides_
 
 ### 📄 [ScreenGraph Scripts Guide](./docs/setup/SCRIPTS_GUIDE.md)
 
@@ -225,7 +232,7 @@ This is the comprehensive index of all documentation in the ScreenGraph project.
 
 ## Other Documentation
 
-*Additional documentation files*
+_Additional documentation files_
 
 ### 📄 [ScreenGraph Documentation Index](./docs/DOCUMENT_INDEX.md)
 

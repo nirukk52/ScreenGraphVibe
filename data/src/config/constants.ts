@@ -14,7 +14,7 @@ export const MIGRATION_CONFIG = {
 
 export const TABLE_NAMES = {
   RUNS: 'runs',
-  SCREENS: 'screens', 
+  SCREENS: 'screens',
   ACTIONS: 'actions',
   BASELINES: 'baselines',
   JOBS: 'jobs',

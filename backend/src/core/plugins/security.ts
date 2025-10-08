@@ -12,5 +12,3 @@ export const registerSecurity = fp(async (app: FastifyInstance) => {
     reply.header('Referrer-Policy', 'no-referrer');
   });
 });
-
-

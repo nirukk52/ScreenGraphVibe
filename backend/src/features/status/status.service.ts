@@ -16,5 +16,3 @@ export class StatusService {
     } as const;
   }
 }
-
-

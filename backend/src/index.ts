@@ -9,18 +9,19 @@ import { appLaunchConfigRoutes } from './features/app-launch-config/routes.js';
 import { AGENT_CONFIG, API_ENDPOINTS } from './config/constants.js';
 
 // Configure logger based on environment
-const loggerConfig = process.env.NODE_ENV === 'production'
-  ? { level: 'info' } // Plain JSON logging in production
-  : {
-      level: 'info',
-      transport: {
-        target: 'pino-pretty',
-        options: {
-          translateTime: 'HH:MM:ss Z',
-          ignore: 'pid,hostname',
+const loggerConfig =
+  process.env.NODE_ENV === 'production'
+    ? { level: 'info' } // Plain JSON logging in production
+    : {
+        level: 'info',
+        transport: {
+          target: 'pino-pretty',
+          options: {
+            translateTime: 'HH:MM:ss Z',
+            ignore: 'pid,hostname',
+          },
         },
-      },
-    };
+      };
 
 const fastify = Fastify({
   logger: loggerConfig,
@@ -64,8 +65,8 @@ await fastify.register(appLaunchConfigRoutes);
 
 // Health check for the agent itself
 fastify.get('/', async (request, reply) => {
-  return { 
-    message: 'ScreenGraph Agent API', 
+  return {
+    message: 'ScreenGraph Agent API',
     version: '0.1.0',
     endpoints: {
       health: API_ENDPOINTS.HEALTH_CHECK,
@@ -94,9 +95,9 @@ process.on('SIGINT', () => gracefulShutdown('SIGINT'));
 // Start server
 const start = async () => {
   try {
-    await fastify.listen({ 
-      port: AGENT_CONFIG.PORT, 
-      host: AGENT_CONFIG.HOST 
+    await fastify.listen({
+      port: AGENT_CONFIG.PORT,
+      host: AGENT_CONFIG.HOST,
     });
     console.log(`🚀 Agent server running at http://${AGENT_CONFIG.HOST}:${AGENT_CONFIG.PORT}`);
     console.log(`📚 API docs available at http://${AGENT_CONFIG.HOST}:${AGENT_CONFIG.PORT}/docs`);

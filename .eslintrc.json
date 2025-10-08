@@ -1,0 +1,75 @@
+{
+  "root": true,
+  "env": {
+    "es2023": true,
+    "node": true,
+    "browser": true
+  },
+  "ignorePatterns": [
+    "node_modules",
+    "dist",
+    "build",
+    ".next",
+    "out",
+    "coverage",
+    "playwright-report",
+    "test-results",
+    "data/db/migrations",
+    "screengraph-agent"
+  ],
+  "extends": [
+    "prettier"
+  ],
+  "overrides": [
+    {
+      "files": ["**/*.{ts,tsx}"],
+      "parser": "@typescript-eslint/parser",
+      "parserOptions": {
+        "sourceType": "module",
+        "ecmaVersion": "latest"
+      },
+      "plugins": ["@typescript-eslint", "import"],
+      "settings": {
+        "import/resolver": {
+          "typescript": {
+            "project": [
+              "./tsconfig.json",
+              "./backend/tsconfig.json",
+              "./data/tsconfig.json",
+              "./infra/tsconfig.json",
+              "./logging/tsconfig.json",
+              "./mcp/tsconfig.json",
+              "./ui/tsconfig.json",
+              "./tests/tsconfig.json",
+              "./docs/tsconfig.json"
+            ]
+          }
+        }
+      },
+      "rules": {
+        "import/extensions": [
+          "error",
+          "ignorePackages",
+          { "js": "never", "jsx": "never", "ts": "never", "tsx": "never" }
+        ],
+        "import/prefer-default-export": "off"
+      }
+    },
+    {
+      "files": ["**/*.{test,spec}.{ts,tsx,js,jsx}", "**/*.config.{ts,js}", "tests/**"],
+      "rules": {
+        "import/no-extraneous-dependencies": [
+          "error",
+          { "devDependencies": true }
+        ]
+      }
+    },
+    {
+      "files": ["ui/**/*.{ts,tsx,js,jsx}"],
+      "settings": {
+        "next": { "rootDir": ["ui/"] }
+      }
+    }
+  ]
+}
+

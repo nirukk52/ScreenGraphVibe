@@ -10,5 +10,3 @@ describe('StatusService', () => {
     expect(res).toEqual({ ok: true, service: 'backend', timestamp: '2025-01-02T03:04:05.000Z' });
   });
 });
-
-

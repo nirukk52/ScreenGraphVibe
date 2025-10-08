@@ -5,5 +5,3 @@
 export function withSpan<T>(name: string, fn: () => Promise<T>): Promise<T> {
   return fn();
 }
-
-

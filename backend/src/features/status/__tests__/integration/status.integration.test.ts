@@ -14,5 +14,3 @@ describe('Status routes (integration)', () => {
     expect(typeof body.timestamp).toBe('string');
   });
 });
-
-

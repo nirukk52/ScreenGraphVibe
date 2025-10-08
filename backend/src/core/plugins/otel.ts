@@ -8,5 +8,3 @@ import fp from 'fastify-plugin';
 export const registerOtel = fp(async (_app: FastifyInstance) => {
   // Integrate Fastify OTel instrumentation here if needed.
 });
-
-

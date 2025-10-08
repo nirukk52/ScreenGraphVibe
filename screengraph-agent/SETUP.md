@@ -73,6 +73,7 @@ pip freeze > requirements.txt   # Update requirements file
 ### Troubleshooting
 
 **pytest not found:**
+
 ```bash
 cd screengraph-agent
 source venv/bin/activate
@@ -81,12 +82,14 @@ pip install pytest pytest-asyncio pytest-mock
 
 **Import errors:**
 Make sure all dependencies are installed:
+
 ```bash
 source venv/bin/activate
 pip install -r requirements.txt
 ```
 
 **Wrong Python version:**
+
 ```bash
 rm -rf venv
 python3.13 -m venv venv
@@ -105,6 +108,7 @@ The `venv/` directory is already ignored in `.gitignore`. Never commit your virt
 ### VS Code
 
 Add to `.vscode/settings.json`:
+
 ```json
 {
   "python.defaultInterpreterPath": "${workspaceFolder}/screengraph-agent/venv/bin/python",

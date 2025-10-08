@@ -5,11 +5,12 @@
   "description": "AI-driven crawling and verification system for mobile and web apps",
   "workspaces": [
     "data",
-    "backend", 
+    "backend",
     "ui",
     "tests",
     "logging",
-    "infra"
+    "infra",
+    "mcp"
   ],
   "scripts": {
     "dev": "concurrently \"cd backend && npm run dev\" \"cd ui && npm run dev\" \"npm run dev:agent\"",
@@ -18,8 +19,10 @@
     "dev:backend": "cd backend && npm run dev",
     "dev:ui": "cd ui && npm run dev",
     "dev:agent": "cd screengraph-agent && source venv/bin/activate && uvicorn main:app --reload --host 0.0.0.0 --port 8000",
+    "dev:mcp": "cd mcp && npm run dev",
     "start": "concurrently \"cd backend && npm start\" \"cd ui && npm start\" \"npm run start:agent\"",
     "start:agent": "cd screengraph-agent && source venv/bin/activate && uvicorn main:app --host 0.0.0.0 --port 8000",
+    "start:mcp": "cd mcp && npm start",
     "ports:kill": "lsof -ti tcp:3000 | xargs -r kill -9 && lsof -ti tcp:3001 | xargs -r kill -9 && lsof -ti tcp:8000 | xargs -r kill -9",
     "test:kill": "npm run ports:kill && pkill -f 'tsx watch' && pkill -f 'next dev' && pkill -f 'playwright'",
     "ports:check": "lsof -i :3000 && lsof -i :3001 && lsof -i :8000",
@@ -54,9 +57,14 @@
     "health": "./scripts/health-check.sh",
     "db:generate": "cd data && npm run db:generate",
     "db:migrate": "cd data && npm run db:migrate",
-    "db:studio": "cd data && npm run db:studio"
+    "db:studio": "cd data && npm run db:studio",
+    "format": "prettier --cache --write .",
+    "format:check": "prettier --check .",
+    "lint": "eslint . --ext .js,.jsx,.ts,.tsx",
+    "lint:fix": "eslint . --ext .js,.jsx,.ts,.tsx --fix"
   },
   "devDependencies": {
-    "concurrently": "^8.2.2"
+    "concurrently": "^8.2.2",
+    "prettier": "^3.6.2"
   }
 }

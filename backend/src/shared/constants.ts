@@ -10,5 +10,3 @@ export const ROUTES = {
 export const HEADERS = {
   REQUEST_ID: 'x-request-id',
 } as const;
-
-

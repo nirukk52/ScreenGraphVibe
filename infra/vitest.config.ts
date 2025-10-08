@@ -5,10 +5,7 @@ export default defineConfig({
     environment: 'node',
     globals: true,
     testTimeout: 10000,
-    include: [
-      'src/**/*.test.ts',
-      'src/**/*.integration.test.ts'
-    ],
+    include: ['src/**/*.test.ts', 'src/**/*.integration.test.ts'],
   },
   resolve: {
     alias: {
@@ -17,4 +14,3 @@ export default defineConfig({
     },
   },
 });
-

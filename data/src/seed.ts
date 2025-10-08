@@ -17,9 +17,10 @@ async function seed() {
     console.log('🌱 Starting database seed...');
 
     // Check if default config already exists
-    const existingConfigs = await db.select().from(appLaunchConfigs).where(
-      eq(appLaunchConfigs.isDefault, 'true')
-    );
+    const existingConfigs = await db
+      .select()
+      .from(appLaunchConfigs)
+      .where(eq(appLaunchConfigs.isDefault, 'true'));
 
     if (existingConfigs.length === 0) {
       // Insert default app launch configuration

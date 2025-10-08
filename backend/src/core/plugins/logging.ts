@@ -20,5 +20,3 @@ declare module 'fastify' {
     logger: typeof baseLogger;
   }
 }
-
-

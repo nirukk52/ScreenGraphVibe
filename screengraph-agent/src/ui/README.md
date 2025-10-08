@@ -20,8 +20,8 @@ This directory is reserved for a future admin web interface.
 ## API Integration
 
 The UI will consume the BFF REST API:
+
 - `POST /sessions` - Create new session
 - `POST /sessions/{id}/iterate` - Trigger iteration
 - `GET /sessions/{id}/summary` - Get summary
 - `WS /sessions/{id}/stream` - Real-time updates (future)
-

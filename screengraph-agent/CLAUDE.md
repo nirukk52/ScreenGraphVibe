@@ -10,6 +10,7 @@
 **ScreenGraph Agent** is an AI-driven mobile app crawler with **LLM decision-making at every iteration**. It automatically explores Android/iOS apps, builds ScreenGraphs (nodes = screens, edges = actions), and maintains deterministic state throughout.
 
 **Core Technology**:
+
 - **Agent Core**: Pure Python (framework-free, testable)
 - **BFF**: FastAPI (composition root, HTTP layer)
 - **LLM**: OpenAI/Anthropic (5 decision nodes, always-on)
@@ -206,16 +207,16 @@ NEVER REVERSE: Domain never imports ports/adapters
 class AgentState:
     """
     The canonical state object for the ScreenGraph Agent.
-    
+
     IMMUTABILITY RITUAL:
     - Clone/replace only; never mutate in place
     - Nested collections replaced whole
     - Use `replace(state, field=new_value)` or `state.clone_with(field=new_value)`
-    
+
     NO BLOBS INLINE:
     - Screenshots/page_sources stored via FileStorePort
     - Only refs (keys/hashes) in bundle
-    
+
     MONOTONIC UPDATES:
     - timestamps.updated_at changes on every state return
     - counters never decrease
@@ -224,27 +225,27 @@ class AgentState:
     run_id: str
     app_id: str
     timestamps: Timestamps
-    
+
     # Perception (refs only)
     signature: ScreenSignature
     previous_signature: Optional[ScreenSignature]
     bundle: Bundle  # refs to screenshot/page_source/ocr
-    
+
     # Enumerated Actions
     enumerated_actions: List[EnumeratedAction]
-    
+
     # Plan & Advice
     advice: Advice
     plan_cursor: int
-    
+
     # Progress Accounting
     counters: Counters
     budgets: Budgets
-    
+
     # Persistence & Caching
     cache: Dict[str, CacheEntry]
     persist_result: Optional[PersistResultSummary]
-    
+
     # Lifecycle
     stop_reason: Optional[str]
 ```
@@ -252,6 +253,7 @@ class AgentState:
 ### Node Contract
 
 Every node must follow:
+
 ```python
 class SomeNode(BaseNode):
     def run(self, state: AgentState) -> AgentState:
@@ -261,10 +263,10 @@ class SomeNode(BaseNode):
         # Read from state
         signature = state.signature
         counters = state.counters
-        
+
         # Perform logic (via ports)
         result = self.some_port.some_method()
-        
+
         # Return new state
         return replace(
             state,
@@ -281,6 +283,7 @@ class SomeNode(BaseNode):
 **5 LLM nodes invoked EVERY iteration:**
 
 ### 1. ChooseActionNode
+
 - **DECISION_PLANE**: `True`
 - **Purpose**: Select next action from enumerated candidates
 - **Cache Key**: `(choose_action, model, signature, delta_hash, topK_hash, plan_cursor)`
@@ -289,6 +292,7 @@ class SomeNode(BaseNode):
 - **Next Transitions**: → ActNode
 
 ### 2. VerifyNode
+
 - **DECISION_PLANE**: `True`
 - **Purpose**: Arbitrate whether expected change occurred
 - **Cache Key**: `(verify, model, prev_sig, curr_sig, expected_postcondition)`
@@ -297,6 +301,7 @@ class SomeNode(BaseNode):
 - **Next Transitions**: → PersistNode
 
 ### 3. DetectProgressNode
+
 - **DECISION_PLANE**: `True`
 - **Purpose**: Label progress (MADE_PROGRESS, NO_PROGRESS, REGRESSED)
 - **Cache Key**: `(detect_progress, model, signature, delta_hash, counters_hash)`
@@ -305,6 +310,7 @@ class SomeNode(BaseNode):
 - **Next Transitions**: → ShouldContinueNode
 
 ### 4. ShouldContinueNode
+
 - **DECISION_PLANE**: `True`
 - **Purpose**: Propose next route (CONTINUE, SWITCH_POLICY, RESTART_APP, STOP)
 - **Cache Key**: `(should_continue, model, counters_hash, budgets_hash, progress_flag)`
@@ -313,6 +319,7 @@ class SomeNode(BaseNode):
 - **Next Transitions**: → PerceiveNode | SwitchPolicyNode | RestartAppNode | StopNode
 
 ### 5. SwitchPolicyNode
+
 - **DECISION_PLANE**: `True`
 - **Purpose**: Deterministically change exploration policy
 - **Cache Key**: `(switch_policy, model, counters_hash, current_policy)`
@@ -338,7 +345,7 @@ class SomeNode(BaseNode):
 class DriverPort(ABC):
     """
     Device automation capabilities.
-    
+
     METHODS:
     - tap(x, y): Tap at normalized coords [0.0, 1.0]
     - type_text(text): Enter text into focused element
@@ -350,11 +357,11 @@ class DriverPort(ABC):
     - restart_app(package): Force stop + relaunch
     - get_page_source(): Capture UI hierarchy XML/JSON
     - get_screenshot(): Capture PNG bytes
-    
+
     TIMEOUTS:
     - All methods have bounded timeouts (default 10s)
     - Configurable via adapter constructor
-    
+
     ERROR ENUMS:
     - DeviceOfflineError: Device unreachable
     - AppCrashedError: App stopped unexpectedly
@@ -368,10 +375,10 @@ class DriverPort(ABC):
 class LLMPort(ABC):
     """
     LLM decision-making with structured outputs.
-    
+
     METHOD:
     - invoke(node_type: str, input_payload: dict) -> StructuredOutput
-    
+
     STRUCTURED OUTPUT:
     @dataclass
     class StructuredOutput:
@@ -381,14 +388,14 @@ class LLMPort(ABC):
         tokens_out: int
         cache_hit: bool
         latency_ms: int
-    
+
     NODE TYPES:
     - "choose_action": Returns ChosenAction
     - "verify": Returns VerificationResult
     - "detect_progress": Returns ProgressAssessment
     - "should_continue": Returns RoutingDecision
     - "switch_policy": Returns PolicySwitch
-    
+
     TELEMETRY:
     - Surface model_id, tokens, cache_hit, latency for every call
     - TelemetryPort logs these automatically
@@ -401,21 +408,21 @@ class LLMPort(ABC):
 class FileStorePort(ABC):
     """
     Asset storage with content-addressed refs.
-    
+
     METHODS:
     - put_blob(data: bytes, content_type: str) -> str
       Returns content-addressed ref (SHA256 hash or URL)
-    
+
     - get_ref_metadata(ref: str) -> dict
       Returns {size_bytes, content_type, created_at}
       NO get_blob in agent core (only in adapters for debugging)
-    
+
     - exists(ref: str) -> bool
     - delete(ref: str) -> bool
-    
+
     - generate_key(run_id, category, screen_id, ext) -> str
       Deterministic key generation
-    
+
     CONTENT-ADDRESSED:
     - put_blob returns hash-based key (immutable)
     - Same content → same ref (deduplication)
@@ -428,21 +435,21 @@ class FileStorePort(ABC):
 class CachePort(ABC):
     """
     Opaque prompt caching with composite keys.
-    
+
     KEY STRUCTURE:
     (node_type, model, signature, delta_hash, topK_hash, policy_capsule)
-    
+
     METHODS:
     - get(key: str) -> Optional[bytes]
     - set(key: str, value: bytes, ttl: int, metadata: dict)
     - invalidate(pattern: str) -> int
     - get_stats() -> dict
-    
+
     METADATA:
     - version: Cache schema version
     - ttl: Time-to-live in seconds
     - created_at: Timestamp
-    
+
     PAYLOAD:
     - Opaque bytes (JSON, pickle, msgpack)
     - Adapter handles serialization
@@ -455,22 +462,22 @@ class CachePort(ABC):
 class BudgetPort(ABC):
     """
     Query+consume pattern for budget enforcement.
-    
+
     METHODS:
     - query_remaining(run_id: str) -> Usage
       Returns {steps_left, tokens_left, time_left_ms}
-    
+
     - consume_step(run_id: str)
     - consume_tokens(run_id: str, tokens: int, cost_usd: float)
     - consume_time(run_id: str, elapsed_ms: int)
-    
+
     - is_exceeded(run_id: str, budgets: Budgets) -> bool
-    
+
     ENFORCEMENT:
     - Per-loop caps: tokens_per_loop, time_per_loop_ms
     - Per-run caps: max_steps, max_tokens, max_time_ms
     - ShouldContinue can force STOP if caps breached
-    
+
     LOGGING:
     - Return remaining quotas for telemetry
     """
@@ -482,7 +489,7 @@ class BudgetPort(ABC):
 class TelemetryPort(ABC):
     """
     Structured event logging.
-    
+
     EVENT TAXONOMY:
     - agent.session_started
     - agent.loop_start
@@ -491,7 +498,7 @@ class TelemetryPort(ABC):
     - agent.llm_invocation
     - agent.persist_delta
     - agent.stop
-    
+
     FIELDS:
     - event: str
     - run_id: str
@@ -503,7 +510,7 @@ class TelemetryPort(ABC):
     - cache_hit: bool
     - budget_remaining: dict
     - errors: List[str]
-    
+
     PII REDACTION:
     - No screenshots or page_source in logs
     - Only refs and hashes
@@ -524,7 +531,7 @@ class SessionRequest:
     VERSIONING:
     - version: semver (e.g., "1.0.0")
     - schema_id: "session_request_v1"
-    
+
     BACK-COMPAT:
     - Never delete fields
     - Only add with defaults
@@ -532,7 +539,7 @@ class SessionRequest:
     """
     version: str = "1.0.0"
     schema_id: str = "session_request_v1"
-    
+
     app_id: str
     budgets: Optional[BudgetsDTO] = None
 ```
@@ -554,27 +561,27 @@ class SessionRequest:
 class Dependencies:
     """
     DI container for adapters and usecases.
-    
+
     WIRING:
     1. Read config from env (only in BFF)
     2. Instantiate adapters (behind ports)
     3. Inject adapters into usecases
     4. Provide usecases to routes via Depends()
-    
+
     NO SDK IMPORTS IN AGENT CORE:
     - All SDK imports in /adapters
     - deps.py composes adapters → ports → usecases
     """
-    
+
     def __init__(self):
         # Read config from env (ONLY here)
         self.config = RuntimeConfig.from_env()
-        
+
         # Adapters (not yet instantiated)
         self.driver_adapter = None
         self.llm_adapter = None
         # ...
-    
+
     async def initialize(self):
         """
         Lifespan startup: Instantiate adapters, open connections.
@@ -583,16 +590,16 @@ class Dependencies:
         self.llm_adapter = LLMAdapter(self.config.llm)
         self.repo_adapter = RepoAdapter(self.config.storage)
         # ...
-        
+
         # Open connections
         await self.repo_adapter.connect()
-    
+
     async def shutdown(self):
         """
         Lifespan shutdown: Close connections, cleanup.
         """
         await self.repo_adapter.disconnect()
-    
+
     def get_iterate_usecase(self):
         """
         Factory: Build graph with injected adapters.
@@ -623,13 +630,13 @@ async def iterate_session(
     """
     # Load state from repo
     state = await load_state(session_id)
-    
+
     # Call usecase
     new_state = await usecase.execute(state)
-    
+
     # Persist updated state
     await save_state(session_id, new_state)
-    
+
     # Convert to DTO
     return IterateResponseDTO.from_state(new_state)
 ```
@@ -647,6 +654,7 @@ async def iterate_session(
 ### Reproducibility
 
 **ScreenSignature must be deterministic**:
+
 ```python
 def compute_signature(elements: List[UIElement], ocr_text: str) -> ScreenSignature:
     """
@@ -656,11 +664,11 @@ def compute_signature(elements: List[UIElement], ocr_text: str) -> ScreenSignatu
     - Quantize floats to 2 decimals
     - Sort elements by z-order/hierarchy
     - Normalize OCR text (lowercase, stem, remove stopwords)
-    
+
     INPUTS (for stable hashing):
     - Element roles, bounds (quantized), hierarchy
     - OCR stems (normalized, sorted)
-    
+
     OUTPUTS:
     - layout_hash: SHA256 of element structure
     - ocr_stems_hash: SHA256 of normalized text
@@ -700,7 +708,7 @@ def validate_chosen_action(output: dict, state: AgentState) -> ChosenAction:
     1. Validate action_index in [0, len(enumerated_actions))
     2. Validate confidence in [0.0, 1.0]
     3. Reject destructive actions without high confidence (>0.8)
-    
+
     FALLBACK:
     - If validation fails: return cached advice or deterministic heuristic
     - Log guardrail_violation=True
@@ -708,11 +716,11 @@ def validate_chosen_action(output: dict, state: AgentState) -> ChosenAction:
     if not 0 <= output["action_index"] < len(state.enumerated_actions):
         log_guardrail_violation("action_index_out_of_bounds")
         return fallback_choose_action(state)
-    
+
     if not 0.0 <= output["confidence"] <= 1.0:
         log_guardrail_violation("confidence_out_of_range")
         return fallback_choose_action(state)
-    
+
     return ChosenAction(**output)
 ```
 
@@ -723,6 +731,7 @@ def validate_chosen_action(output: dict, state: AgentState) -> ChosenAction:
 ### Loop Contract
 
 Every iteration must record:
+
 ```python
 @dataclass
 class LoopMetrics:
@@ -745,13 +754,13 @@ def run(self, state: AgentState) -> AgentState:
     - Log budget_remaining for telemetry
     """
     usage = self.budget.query_remaining(state.run_id)
-    
+
     if usage.steps_left <= 0 or usage.tokens_left <= 0:
         return replace(state, stop_reason="budget_exhausted")
-    
+
     # Call LLM for routing decision
     decision = self.llm.should_continue(state)
-    
+
     # Return with budget info
     return replace(state, advice=decision, budget_remaining=usage)
 ```
@@ -765,7 +774,7 @@ class SalienceRanker:
     - K=12 keeps prompt size stable (~2K tokens)
     - Larger K increases costs without accuracy gains
     - Top-K elements are most salient (visibility, interactivity, size)
-    
+
     CAP ENFORCEMENT:
     - SalienceRanker.rank_elements() returns max 12 elements
     - EnumerateActionsNode uses top-K for action generation
@@ -794,6 +803,7 @@ To prevent scope creep:
 Before marking a node/module complete:
 
 ### Node Files
+
 - [ ] Docstring header follows exact order (Purpose → Responsibilities → ... → Error Mapping)
 - [ ] `DECISION_PLANE = True` constant for LLM nodes (in docstring)
 - [ ] `Next Transitions` explicitly listed
@@ -803,6 +813,7 @@ Before marking a node/module complete:
 - [ ] No file over 400 lines
 
 ### Port Files
+
 - [ ] Abstract class with `@abstractmethod` decorators
 - [ ] No SDK imports
 - [ ] Return domain types
@@ -810,6 +821,7 @@ Before marking a node/module complete:
 - [ ] Docstring describes method contracts (timeouts, errors, etc.)
 
 ### Adapter Files
+
 - [ ] Implements port interface
 - [ ] SDK imports isolated here
 - [ ] Error mapping to domain exceptions
@@ -817,18 +829,21 @@ Before marking a node/module complete:
 - [ ] No cross-adapter imports (unless via ports)
 
 ### Service Files
+
 - [ ] Stateless (no instance state)
 - [ ] Pure functions (same input → same output)
 - [ ] Imports domain types only (no ports/adapters)
 - [ ] Docstring explains algorithms and invariants
 
 ### Usecase Files
+
 - [ ] Coordinates across ports
 - [ ] No business logic (delegates to nodes/services)
 - [ ] Returns `AgentState` or domain types
 - [ ] No FastAPI imports
 
 ### BFF Files
+
 - [ ] `deps.py` shows adapter composition without SDK imports in agent core
 - [ ] Routes call usecases only
 - [ ] Payloads converted via `/contracts`
@@ -836,6 +851,7 @@ Before marking a node/module complete:
 - [ ] All env reads only in BFF
 
 ### Config Files
+
 - [ ] `.env.example` includes:
   - `TOKEN_BUDGET_PER_RUN`
   - `TOKEN_BUDGET_PER_LOOP`
@@ -843,12 +859,14 @@ Before marking a node/module complete:
   - `TOPK_LIMIT`
 
 ### Graph File
+
 - [ ] `graph.py` contains only comments (high-level wiring sketch)
 - [ ] Invariant stated: "Five LLM nodes execute every loop"
 - [ ] Node order documented
 - [ ] Routing logic described
 
 ### Contract Files
+
 - [ ] Every DTO includes `version` and `schema_id`
 - [ ] Docstring notes back-compat rules
 - [ ] No field deletions (only additions with defaults)
@@ -916,6 +934,7 @@ TODO:
 ## 🎯 Quick Reference
 
 ### File Count Expectation
+
 - **22 `__init__.py` files** (one per package)
 - **17 node files** (one class per file)
 - **8 port files** (one interface per file)
@@ -924,6 +943,7 @@ TODO:
 - **3 usecase files** (high-level orchestration)
 
 ### Dependency Flow
+
 ```
 Domain (no imports) ← Services ← Orchestrator ← Usecases ← BFF
                         ↑            ↑
@@ -931,12 +951,14 @@ Domain (no imports) ← Services ← Orchestrator ← Usecases ← BFF
 ```
 
 ### LLM Always-On
+
 ```
 Every loop: ChooseAction → Verify → DetectProgress → ShouldContinue
 Optional: SwitchPolicy (when routed)
 ```
 
 ### Budget Enforcement
+
 ```
 Per-loop: tokens_per_loop, time_per_loop_ms
 Per-run: max_steps, max_tokens, max_time_ms
@@ -944,6 +966,7 @@ Override LLM to STOP if caps exceeded
 ```
 
 ### Top-K Cap
+
 ```
 K = 12 (keeps prompt size ~2K tokens)
 SalienceRanker enforces; EnumerateActions uses
@@ -964,4 +987,3 @@ SalienceRanker enforces; EnumerateActions uses
 > When in doubt, favor immutability, interfaces, and isolation."
 
 **Less go! 🚀**
-

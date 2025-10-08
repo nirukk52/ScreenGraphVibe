@@ -20,5 +20,3 @@ export async function createApp() {
   await registerHooks(app);
   return app;
 }
-
-

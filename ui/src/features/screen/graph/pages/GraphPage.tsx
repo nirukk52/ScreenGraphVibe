@@ -40,7 +40,7 @@ export default function GraphPage() {
   const loadGraph = async (runId: string) => {
     setLoading(true);
     setError(null);
-    
+
     try {
       const response = await apiClient.getGraph(runId);
       setGraph(response.graph);
@@ -70,11 +70,9 @@ export default function GraphPage() {
               >
                 ← Back to Dashboard
               </button>
-              <h1 className="text-xl font-semibold text-gray-900">
-                ScreenGraph Visualization
-              </h1>
+              <h1 className="text-xl font-semibold text-gray-900">ScreenGraph Visualization</h1>
             </div>
-            
+
             {/* Health Status Indicator */}
             <div className="flex items-center space-x-4">
               <div className="text-sm text-gray-600">

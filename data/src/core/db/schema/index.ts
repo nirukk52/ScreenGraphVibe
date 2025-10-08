@@ -6,5 +6,3 @@
 
 export * from './schema.js';
 export * from '../../../features/app-launch-config/app-launch-config.schema.js';
-
-

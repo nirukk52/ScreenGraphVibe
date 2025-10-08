@@ -9,5 +9,3 @@ export interface Container {
 export function createContainer(): Container {
   return {};
 }
-
-

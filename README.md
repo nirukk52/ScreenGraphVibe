@@ -28,6 +28,7 @@ This is our long-term vision. We're building incrementally toward this goal with
 ## 🚀 Project Setup
 
 ### Prerequisites
+
 - Node.js 18+
 - PostgreSQL database (Supabase recommended)
 - Python 3.9+ (for Appium agent)
@@ -53,6 +54,7 @@ npm run db:migrate
 ```
 
 **✅ Done!** Services will be running at:
+
 - 🔧 Backend API → http://localhost:3000
 - 🎨 UI Dashboard → http://localhost:3001
 
@@ -103,17 +105,19 @@ cd ui && npm run test:watch
 
 ### Test Status
 
-| Test Type | Status | Count |
-|-----------|--------|-------|
-| Unit Tests | ✅ Passing | 25+ tests |
+| Test Type         | Status     | Count     |
+| ----------------- | ---------- | --------- |
+| Unit Tests        | ✅ Passing | 25+ tests |
 | Integration Tests | ✅ Passing | 10+ tests |
-| E2E Tests | ✅ Passing | 2 tests |
-| Health Checks | ✅ Working | All Green |
+| E2E Tests         | ✅ Passing | 2 tests   |
+| Health Checks     | ✅ Working | All Green |
 
 **See [CLAUDE.md - Testing Commands Reference](./CLAUDE.md#testing-commands-reference) for complete command chart and CI strategy.**
+
 ## 📍 Current Project State
 
 ### ✅ Completed Features
+
 - Health monitoring system (UI + API)
 - Database connectivity checks
 - Multi-region deployment infrastructure (US East, US Central, India)
@@ -123,6 +127,7 @@ cd ui && npm run test:watch
 - Git hooks for documentation updates
 
 ### 🔄 In Progress / Next Steps
+
 - Crawling engine (Appium integration)
 - Graph generation and storage
 - Baseline management
@@ -137,11 +142,13 @@ cd ui && npm run test:watch
 For detailed information about setup, architecture, deployment, and development, see:
 
 ### Core Documentation
+
 - **[CLAUDE.md](./CLAUDE.md)** - Complete AI assistant context and coding standards
 - **[DOCUMENT_INDEX.md](./DOCUMENT_INDEX.md)** - Auto-generated documentation index
 - **[CREDENTIALS.md](./docs/CREDENTIALS.md)** - Environment variables and credentials
 
 ### Setup Guides
+
 - **[Local Development Setup](./docs/setup/LOCAL_SETUP.md)** - Complete local development guide
 - **[Production Setup](./docs/setup/PRODUCTION_SETUP.md)** - Production deployment guide
 - **[Testing Guide](./docs/setup/TESTING.md)** - Comprehensive testing strategies
@@ -150,6 +157,7 @@ For detailed information about setup, architecture, deployment, and development,
 - **[Test Troubleshooting](./docs/setup/TEST_TROUBLESHOOTING.md)** - Debugging test issues
 
 ### Technical Documentation
+
 For architecture, module structure, API details, and coding guidelines, refer to [CLAUDE.md](./CLAUDE.md).
 
 ---

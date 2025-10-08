@@ -14,7 +14,7 @@ This is the existing Appium tooling code that needs to be refactored to:
 
 1. **Implement DriverPort**: The existing code should be wrapped to implement the `DriverPort` interface defined in `src/agent/ports/driver_port.py`
 
-2. **Follow Adapter Pattern**: 
+2. **Follow Adapter Pattern**:
    - No cross-adapter imports
    - Map SDK exceptions to domain errors
    - Add retry logic with exponential backoff
@@ -26,7 +26,7 @@ This is the existing Appium tooling code that needs to be refactored to:
    ├── __init__.py           # Main AppiumAdapter export
    ├── adapter.py            # AppiumAdapter class (implements DriverPort)
    ├── implementations/      # Existing implementation code
-   ├── interfaces/           # Existing interface code  
+   ├── interfaces/           # Existing interface code
    ├── conftest.py           # Test fixtures
    └── tests/                # Integration tests
    ```
@@ -34,6 +34,7 @@ This is the existing Appium tooling code that needs to be refactored to:
 ## 🚧 TODO: Refactoring Steps
 
 ### 1. Create AppiumAdapter Class
+
 Create `adapter.py` that implements `DriverPort`:
 
 ```python
@@ -43,23 +44,24 @@ from src.agent.errors.error_types import DeviceOfflineError, ActionTimeoutError
 class AppiumAdapter(DriverPort):
     """
     Appium implementation of DriverPort.
-    
+
     Wraps existing Appium tooling and maps to port interface.
     """
-    
+
     def __init__(self, url: str, platform: str, timeout_ms: int = 30000):
         # Initialize with existing Appium code
         pass
-    
+
     async def tap(self, x: float, y: float) -> None:
         # Map to existing tap implementation
         # Add error mapping: Appium exceptions → domain errors
         pass
-    
+
     # ... implement all DriverPort methods
 ```
 
 ### 2. Error Mapping
+
 Map Appium/Selenium exceptions to domain errors:
 
 ```python
@@ -85,6 +87,7 @@ def map_error(e: Exception) -> Exception:
 ```
 
 ### 3. Add Retry Logic
+
 Wrap transient operations with retry:
 
 ```python
@@ -107,7 +110,8 @@ def retry(max_attempts=3, backoff=[100, 200, 400]):
     return decorator
 ```
 
-### 4. Update __init__.py
+### 4. Update **init**.py
+
 Export the main adapter:
 
 ```python
@@ -123,6 +127,7 @@ __all__ = ["AppiumAdapter"]
 ```
 
 ### 5. Write Integration Tests
+
 Create `tests/test_appium_adapter.py`:
 
 ```python
@@ -155,4 +160,3 @@ async def test_device_offline_error(appium_adapter):
 - **DO NOT import domain logic** (use ports for coordination)
 - **DO import SDKs** (this is the ONLY place Appium SDK can be imported)
 - **DO map all errors** to domain exception types
-

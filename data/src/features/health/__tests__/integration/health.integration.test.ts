@@ -1,5 +1,9 @@
 import { describe, it, expect, beforeAll, afterAll } from 'vitest';
-import { startTestDatabase, stopTestDatabase, testCheckDatabaseHealth } from '@screengraph/tests/_utils/fixtures/test-database';
+import {
+  startTestDatabase,
+  stopTestDatabase,
+  testCheckDatabaseHealth,
+} from '@screengraph/tests/_utils/fixtures/test-database';
 
 describe('Health Check Integration Tests', () => {
   beforeAll(async () => {
@@ -28,10 +32,8 @@ describe('Health Check Integration Tests', () => {
   it('should handle database queries correctly', async () => {
     // Test that we can actually query the database
     const result = await testCheckDatabaseHealth();
-    
+
     expect(result.status).toBe('healthy');
     expect(result.message).toContain('Test database connection successful');
   });
 });
-
-

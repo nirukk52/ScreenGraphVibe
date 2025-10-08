@@ -5,5 +5,3 @@
 export interface AppLaunchConfigPort {
   getDefault(): Promise<{ packageName: string; mainActivity: string }>;
 }
-
-

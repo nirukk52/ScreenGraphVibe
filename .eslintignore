@@ -1,0 +1,29 @@
+node_modules/
+.dist/
+dist/
+build/
+.next/
+out/
+coverage/
+playwright-report/
+test-results/
+
+# generated
+**/*.d.ts
+**/*.js.map
+**/*.d.ts.map
+
+# data migrations
+/data/db/migrations/
+
+# logs and cache
+logs/
+*.log
+.eslintcache
+
+# Python
+screengraph-agent/venv/
+
+# misc
+.DS_Store
+
