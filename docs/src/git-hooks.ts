@@ -67,6 +67,20 @@ else
     echo "⚠️ Docs module not found, skipping document index update"
 fi
 
+# Normalize .gitignore deterministically for clear diffs across agents
+if [ -f ".gitignore" ]; then
+    echo "🧹 Normalizing .gitignore..."
+    node ./scripts/tools/normalize-gitignore.js --fix
+
+    # Stage if changed
+    if ! git diff --quiet -- .gitignore; then
+        git add .gitignore
+        echo "🧹 Added normalized .gitignore to staging"
+    else
+        echo "ℹ️ .gitignore already normalized"
+    fi
+fi
+
 echo "✅ Pre-push hook completed"
 `;
 

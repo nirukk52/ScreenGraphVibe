@@ -50,7 +50,7 @@ npm run db:generate
 npm run db:migrate
 
 # 4. Start everything
-./scripts/start.sh local
+./scripts/ops/start.sh local
 ```
 
 **✅ Done!** Services will be running at:
@@ -58,7 +58,7 @@ npm run db:migrate
 - 🔧 Backend API → http://localhost:3000
 - 🎨 UI Dashboard → http://localhost:3001
 
-**Stop services:** `./scripts/stop.sh`
+**Stop services:** `./scripts/ops/stop.sh`
 
 ---
 
