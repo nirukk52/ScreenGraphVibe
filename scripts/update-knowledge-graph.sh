@@ -38,30 +38,11 @@ fi
 # Get recent changes
 RECENT_CHANGES=$(git diff --name-only HEAD~1 2>/dev/null || echo "No previous commit to compare")
 
-# Get current test status
-TEST_STATUS=""
-if command -v npm &> /dev/null; then
-    echo "🧪 Running quick test status check..."
-    if npm run test:unit > /dev/null 2>&1; then
-        TEST_STATUS="✅ Unit tests passing"
-    else
-        TEST_STATUS="❌ Unit tests failing"
-    fi
-else
-    TEST_STATUS="npm not available for test check"
-fi
+# Get current test status (skip to avoid blocking pre-push hook)
+TEST_STATUS="⏭️ Skipped to avoid blocking pre-push hook"
 
-# Get system health
-HEALTH_STATUS=""
-if [ -f "scripts/health-check.sh" ]; then
-    if bash scripts/health-check.sh > /dev/null 2>&1; then
-        HEALTH_STATUS="✅ System healthy"
-    else
-        HEALTH_STATUS="⚠️ System health issues detected"
-    fi
-else
-    HEALTH_STATUS="Health check script not available"
-fi
+# Get system health (skip to avoid blocking pre-push hook)
+HEALTH_STATUS="⏭️ Skipped to avoid blocking pre-push hook"
 
 # Capture Facts Discovered During Development
 echo "🔍 Capturing facts discovered during development..."
