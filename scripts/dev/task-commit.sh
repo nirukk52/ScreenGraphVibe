@@ -8,9 +8,10 @@ if [ -z "${TASK_NAME:-}" ] || [ -z "${THREAD_ID:-}" ]; then
 fi
 
 TASK_DIR="sessions/${TASK_NAME}_${THREAD_ID}"
-FULL_DIR="${TASK_DIR}/fullFilePaths"
+DOCS_DIR="${TASK_DIR}/docs"
 PATHS_FILE="${TASK_DIR}/paths.txt"
-mkdir -p "$FULL_DIR"
+DOCS_LIST_FILE="${TASK_DIR}/docs_paths.txt"
+mkdir -p "$DOCS_DIR"
 
 # Stage all changes for this task commit
 git add -A
@@ -18,18 +19,31 @@ git add -A
 # Capture staged files list
 STAGED_FILES=$(git diff --cached --name-only --diff-filter=ACMR || true)
 
-# Copy staged files into sessions directory and record unique paths
-if [ -n "$STAGED_FILES" ]; then
-  # preserve paths under fullFilePaths
-  # shellcheck disable=SC2086
-  for f in $STAGED_FILES; do
-    if [ -f "$f" ]; then
-      mkdir -p "${FULL_DIR}/$(dirname "$f")"
-      cp "$f" "${FULL_DIR}/$f"
-    fi
-    echo "$f" >> "$PATHS_FILE"
-  done
+# Filter out auto-generated or session files from tracking
+FILTERED_FILES=$(printf "%s\n" $STAGED_FILES \
+  | grep -v '^docs/DOCUMENT_INDEX\.md$' \
+  | grep -v '^sessions/' \
+  || true)
+
+# Markdown files for this session docs archive
+DOC_FILES=$(printf "%s\n" $FILTERED_FILES | grep -Ei '\\.md$' || true)
+
+# Record unique paths (all filtered paths) and copy doc files into session docs
+if [ -n "$FILTERED_FILES" ]; then
+  # Record all paths for push filtering
+  for f in $FILTERED_FILES; do echo "$f" >> "$PATHS_FILE"; done
   sort -u "$PATHS_FILE" -o "$PATHS_FILE"
+fi
+
+if [ -n "$DOC_FILES" ]; then
+  for f in $DOC_FILES; do
+    if [ -f "$f" ]; then
+      mkdir -p "${DOCS_DIR}/$(dirname "$f")"
+      cp "$f" "${DOCS_DIR}/$f"
+      echo "$f" >> "$DOCS_LIST_FILE"
+    fi
+  done
+  sort -u "$DOCS_LIST_FILE" -o "$DOCS_LIST_FILE"
 fi
 
 # Build commit message

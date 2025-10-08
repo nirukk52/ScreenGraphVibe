@@ -46,17 +46,12 @@ if [ "$COUNT" -gt 1 ]; then
   head -c 5000 "$TMP" > "${TMP}.capped"
   mv "${TMP}.capped" "$TMP"
 
-  # Prepare filtered paths (exclude auto-generated docs and sessions)
-  TMP_PATHS=$(mktemp)
-  grep -v '^docs/DOCUMENT_INDEX\.md$' "$PATHS_FILE" | grep -v '^sessions/' > "$TMP_PATHS" || true
-
-  # Reset index to base, keep working tree, stage only filtered paths
+  # Reset index to base, keep working tree, stage only paths from this task
   git reset --mixed "$BASE"
   while IFS= read -r p; do
     [ -n "$p" ] || continue
     if [ -e "$p" ]; then git add "$p"; fi
-  done < "$TMP_PATHS"
-  rm -f "$TMP_PATHS"
+  done < "$PATHS_FILE"
 
   git commit -F "$TMP"
   rm -f "$TMP"
@@ -64,9 +59,4 @@ fi
 
 git push --force-with-lease origin HEAD:main
 echo "Pushed one-task squashed commit for ${TASK_NAME}_${THREAD_ID}" >&2
-
-# Cleanup legacy session artifacts (keep docs and path lists only)
-if [ -d "sessions/${TASK_NAME}_${THREAD_ID}" ]; then
-  rm -rf "sessions/${TASK_NAME}_${THREAD_ID}/fullFilePaths" 2>/dev/null || true
-fi
 
