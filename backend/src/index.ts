@@ -1,4 +1,5 @@
 import 'dotenv/config'; // Load environment variables
+import 'reflect-metadata';
 import Fastify from 'fastify';
 import cors from '@fastify/cors';
 import swagger from '@fastify/swagger';

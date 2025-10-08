@@ -26,22 +26,43 @@ backend/
 │  ├─ routes/
 │  │  └─ index.ts                     # Registers feature routes in one place
 │  │
-│  ├─ features/                       # One folder per feature (SRP; no cross-feature imports)
-│  │  ├─ status/                      # Example feature following full structure
-│  │  │  ├─ status.controller.ts      # HTTP boundary (req/res only)
-│  │  │  ├─ status.service.ts         # Business logic; depends on ports (interfaces)
-│  │  │  ├─ status.routes.ts          # Fastify routes + schemas
-│  │  │  ├─ status.validators.ts      # Zod schemas for request/response validation
-│  │  │  ├─ status.types.ts           # Feature types (no widening types)
-│  │  │  ├─ status.errors.ts          # Feature-specific typed errors
-│  │  │  ├─ status.adapters.ts        # Mapping to/from provider types (:data, externals)
-│  │  │  ├─ status.port.ts            # Feature-scoped port (if not shared)
-│  │  │  ├─ index.ts                  # Barrel
-│  │  │  └─ __tests__/
-│  │  │     ├─ unit/status.service.test.ts
-│  │  │     ├─ integration/status.integration.test.ts
-│  │  │     └─ mocks/status.port.mock.ts
-│  │  └─ ...
+│  ├─ features/                       # Feature → Sub-feature (one level only)
+│  │  ├─ health/
+│  │  │  ├─ check/
+│  │  │  │  ├─ exec/main.ts           # runnable: fake adapters only, one route
+│  │  │  │  ├─ route.ts               # Fastify route + schemas wiring
+│  │  │  │  ├─ controller.ts          # HTTP boundary
+│  │  │  │  ├─ usecase.ts             # orchestrates via ports
+│  │  │  │  ├─ port.ts                # feature-scoped ports (interfaces/tokens)
+│  │  │  │  ├─ adapters/fake.adapter.ts
+│  │  │  │  ├─ schemas/{request.schema.ts,response.schema.ts}
+│  │  │  │  ├─ types/index.ts
+│  │  │  │  └─ __tests__/{unit.test.ts,integration.test.ts}
+│  │  │  └─ CLAUDE.md
+│  │  ├─ graph/
+│  │  │  ├─ get-by-run/
+│  │  │  │  ├─ exec/main.ts
+│  │  │  │  ├─ route.ts
+│  │  │  │  ├─ controller.ts
+│  │  │  │  ├─ usecase.ts
+│  │  │  │  ├─ port.ts
+│  │  │  │  ├─ adapters/fake.adapter.ts
+│  │  │  │  ├─ schemas/{request.schema.ts,response.schema.ts}
+│  │  │  │  ├─ types/index.ts
+│  │  │  │  └─ __tests__/{unit.test.ts,integration.test.ts}
+│  │  │  └─ CLAUDE.md
+│  │  ├─ app-launch-config/
+│  │  │  ├─ list/
+│  │  │  │  ├─ exec/main.ts
+│  │  │  │  ├─ route.ts
+│  │  │  │  ├─ controller.ts
+│  │  │  │  ├─ usecase.ts
+│  │  │  │  ├─ port.ts
+│  │  │  │  ├─ adapters/fake.adapter.ts
+│  │  │  │  ├─ schemas/{request.schema.ts,response.schema.ts}
+│  │  │  │  ├─ types/index.ts
+│  │  │  │  └─ __tests__/{unit.test.ts,integration.test.ts}
+│  │  │  └─ CLAUDE.md
 │  │
 │  ├─ ports/                          # Interfaces required by backend from providers
 │  │  ├─ data/
@@ -119,27 +140,43 @@ Notes
 ### Feature Layout (authoritative)
 
 ```text
-features/<name>/
-├─ <name>.controller.ts   # HTTP boundary (req/res)
-├─ <name>.service.ts      # Business logic; depends on ports
-├─ <name>.routes.ts       # Fastify routes + schemas
-├─ <name>.validators.ts   # Zod schemas for req/res
-├─ <name>.types.ts        # Feature types (no implicit any)
-├─ <name>.errors.ts       # Feature-specific typed errors
-├─ <name>.adapters.ts     # Mapping to/from provider types (:data, externals)
-├─ <name>.port.ts         # Feature-scoped port (if distinct from shared ports/*)
-├─ index.ts               # Barrel
-└─ __tests__/
-   ├─ unit/<name>.service.test.ts
-   ├─ integration/<name>.integration.test.ts
-   └─ mocks/<name>.port.mock.ts
+features/<feature>/<sub-feature>/
+├─ exec/main.ts            # runnable app with fake adapters only
+├─ route.ts                # route + schema wiring
+├─ controller.ts           # HTTP boundary (req/res only)
+├─ usecase.ts              # orchestrates via feature ports
+├─ port.ts                 # feature-scoped ports (interfaces/tokens)
+├─ adapters/fake.adapter.ts
+├─ schemas/{request.schema.ts,response.schema.ts}
+├─ types/index.ts          # local DTOs/entities (not imported by others)
+└─ __tests__/{unit.test.ts,integration.test.ts}
 ```
+
+Rules:
+- Ports live inside the feature. Real adapters live outside features at `adapters/<port>/<impl>`.
+- Fakes/in-memory for exec/tests live inside the feature. Fakes for cross-cutting shared ports live under `shared/ports/fakes/*`.
+- Handlers import schemas + ports only. DI selects real (routes) vs fake (exec/tests).
+- Block cross-feature imports. Allowed cross-boundary imports come only from `shared/**`.
+
+### DI (TypeDI)
+
+- Use TypeDI Container to register concrete adapters during bootstrap.
+- Import `reflect-metadata` at process start.
+- Example registration: `Container.set('HealthCheckPort', new HealthAdapter())`.
+
+Reference: TypeDI docs [docs.typestack.community/typedi](https://github.com/typestack/typedi)
 
 ### Ports & Adapters
 
-- Define the interface you need in `src/ports/<provider>/<feature>.port.ts`.
-- Implement it using providers in `src/adapters/<provider>/*.adapter.ts`.
-- Wire in `src/core/di.ts`, injecting adapters into services.
+- Define the interface in `features/<feature>/<sub>/port.ts`.
+- Real adapters: `adapters/<port>/<impl>.ts` (outside `features/`).
+- Fakes: inside the feature (`adapters/fake.adapter.ts`).
+- Wire real adapters in `core/di/di.ts` at boot; handlers never import concretes.
+
+### Scaffolding
+
+- Command: `npm run scaffold:feature -- --feature <name> --sub <name>`
+- Creates feature/sub-feature skeleton with exec, route, controller, usecase, port, schemas, and fake adapter.
 
 ### Logging & Tracing
 

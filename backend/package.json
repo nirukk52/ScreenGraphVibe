@@ -16,6 +16,7 @@
   },
   "scripts": {
     "dev": "tsx watch src/index.ts",
+    "scaffold:feature": "node scripts/scaffold-feature.js",
     "build": "tsc",
     "start": "node dist/index.js",
     "test": "vitest run",
@@ -35,7 +36,9 @@
     "drizzle-orm": "^0.29.5",
     "fastify": "^4.24.3",
     "ioredis": "^5.3.2",
-    "postgres": "^3.4.7"
+    "postgres": "^3.4.7",
+    "reflect-metadata": "^0.2.2",
+    "typedi": "^0.10.0"
   },
   "devDependencies": {
     "@types/node": "^20.10.6",
