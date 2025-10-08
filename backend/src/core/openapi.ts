@@ -6,6 +6,7 @@ import { createApp } from './app.js';
 
 async function main() {
   const app = await createApp();
+  await app.ready();
   // Fastify Swagger exposes the spec at this utility method
   // @ts-ignore - fastify-swagger augments instance
   const spec = await app.swagger();

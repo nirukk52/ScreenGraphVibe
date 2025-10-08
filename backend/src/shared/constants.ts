@@ -10,3 +10,7 @@ export const ROUTES = {
 export const HEADERS = {
   REQUEST_ID: 'x-request-id',
 } as const;
+
+export const TRACE = {
+  EXEC_FIXED_TRACE_ID: 'EXEC_FIXED_TRACE_ID',
+} as const;

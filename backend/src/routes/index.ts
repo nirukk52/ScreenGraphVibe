@@ -10,9 +10,23 @@ import { registerAppLaunchConfigListRoute } from '../features/app-launch-config/
 import { HealthAdapter } from '../adapters/health/health.adapter.js';
 import { GraphGetByRunAdapter } from '../adapters/graph/get-by-run.adapter.js';
 import { AppLaunchConfigListAdapter } from '../adapters/app-launch-config/list.adapter.js';
+import { FakeHealthCheckAdapter } from '../features/health/check/adapters/fake.adapter.js';
+import { FakeAppLaunchConfigListAdapter } from '../features/app-launch-config/list/adapters/fake.adapter.js';
+import { getEnv } from '../core/env.js';
+import { getMockedFeatureSet, isMocked } from '../core/config.js';
 
 export async function registerRoutes(app: FastifyInstance) {
-  await registerHealthCheckRoute(app, { port: new HealthAdapter() });
+  const env = getEnv();
+  const mocked = getMockedFeatureSet(env.MOCK_FEATURES);
+
+  const healthPort = isMocked(mocked, 'health', 'check')
+    ? new FakeHealthCheckAdapter()
+    : new HealthAdapter();
+  await registerHealthCheckRoute(app, { port: healthPort });
+
   await registerGraphGetByRunRoute(app, { port: new GraphGetByRunAdapter() });
-  await registerAppLaunchConfigListRoute(app, { port: new AppLaunchConfigListAdapter() });
+  const appLaunchPort = isMocked(mocked, 'app-launch-config', 'list')
+    ? new FakeAppLaunchConfigListAdapter()
+    : new AppLaunchConfigListAdapter();
+  await registerAppLaunchConfigListRoute(app, { port: appLaunchPort });
 }

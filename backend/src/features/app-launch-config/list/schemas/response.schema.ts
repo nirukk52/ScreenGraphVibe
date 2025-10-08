@@ -12,6 +12,7 @@ export const AppLaunchConfigSchema = z.object({
 
 export const AppLaunchConfigListResponseSchema = z.object({
   items: z.array(AppLaunchConfigSchema),
+  trace_id: z.string(),
 });
 
 export type AppLaunchConfigListResponse = z.infer<typeof AppLaunchConfigListResponseSchema>;

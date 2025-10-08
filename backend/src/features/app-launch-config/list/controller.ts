@@ -13,7 +13,7 @@ export function makeAppLaunchConfigListController(deps: { port: AppLaunchConfigL
       return reply.code(400).send({ error: 'Invalid request' });
     }
     const items = await execute();
-    const valid = AppLaunchConfigListResponseSchema.safeParse({ items });
+    const valid = AppLaunchConfigListResponseSchema.safeParse({ items, trace_id: request.id });
     if (!valid.success) {
       return reply.code(500).send({ error: 'Invalid response shape' });
     }

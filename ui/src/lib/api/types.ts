@@ -1,11 +1,3 @@
-/**
- * @module shared/types
- * @description Cross-cutting backend types. Promotion rule: if ≥3 features use a type, move it here.
- * @publicAPI exports of shared type utilities
- */
-
-export type TraceId = string;
-
 export type ApiErrorCode =
   | 'BAD_REQUEST'
   | 'UNAUTHORIZED'
@@ -28,22 +20,23 @@ export interface ApiErrorShape {
 export interface ApiResponseSuccess<T> {
   ok: true;
   data: T;
-  trace_id?: TraceId;
+  trace_id?: string;
 }
 
 export interface ApiResponseError {
   ok: false;
   error: ApiErrorShape;
-  trace_id?: TraceId;
+  trace_id?: string;
 }
 
 export type ApiResponse<T> = ApiResponseSuccess<T> | ApiResponseError;
 
-export interface Pagination {
-  limit?: number;
-  offset?: number;
-}
+export type LoadStatus = 'idle' | 'loading' | 'success' | 'error';
 
-export type UniqueId = string;
+export interface ApiState<T> {
+  status: LoadStatus;
+  data?: T;
+  error?: ApiErrorShape;
+}
 
 

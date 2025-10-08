@@ -24,3 +24,24 @@ export function getConfig(): AppConfig {
   };
   return cached;
 }
+
+export function getMockedFeatureSet(list?: string) {
+  const items = (list ?? '').split(',').map((s) => s.trim()).filter(Boolean);
+  const features = new Set<string>();
+  const subFeatures = new Set<string>();
+  for (const it of items) {
+    if (it.includes('/')) subFeatures.add(it);
+    else features.add(it);
+  }
+  return { features, subFeatures };
+}
+
+export function isMocked(
+  sets: { features: Set<string>; subFeatures: Set<string> },
+  feature: string,
+  sub?: string,
+): boolean {
+  if (sub && sets.subFeatures.has(`${feature}/${sub}`)) return true;
+  if (sets.features.has(feature)) return true;
+  return false;
+}

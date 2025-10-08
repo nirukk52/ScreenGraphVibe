@@ -1,24 +1,21 @@
-import Fastify from 'fastify';
-import { registerHealthCheckRoute } from '../route.js';
 import { FakeHealthCheckAdapter } from '../adapters/fake.adapter.js';
+import { HealthCheckResponseSchema } from '../schemas/response.schema.js';
+import { TRACE } from '../../../../shared/constants.js';
 
-export async function createHealthCheckApp() {
-  const app = Fastify({ logger: false });
-  await registerHealthCheckRoute(app, { port: new FakeHealthCheckAdapter() });
-  return app;
+async function main() {
+  const port = new FakeHealthCheckAdapter();
+  const result = await port.check();
+  const out = HealthCheckResponseSchema.parse({ ...result, trace_id: TRACE.EXEC_FIXED_TRACE_ID });
+  // eslint-disable-next-line no-console
+  console.log(JSON.stringify(out));
 }
 
 if (require.main === module) {
-  (async () => {
-    const app = await createHealthCheckApp();
-    const address = await app.listen({ port: 0, host: '127.0.0.1' });
-    const info = app.server.address();
-    if (typeof info === 'object' && info) {
-      console.log(`health-check exec listening on ${info.address}:${info.port}`);
-    } else {
-      console.log(`health-check exec listening at ${address}`);
-    }
-  })();
+  main().catch((err) => {
+    // eslint-disable-next-line no-console
+    console.error(err);
+    process.exit(1);
+  });
 }
 
 

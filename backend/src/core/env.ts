@@ -18,6 +18,8 @@ const EnvSchema = z.object({
     .default('3000')
     .transform((v) => parseInt(v, 10))
     .pipe(z.number().int().positive()),
+  // Comma-separated list of mocked features and/or sub-features, e.g. "app-launch-config,list,health/check"
+  MOCK_FEATURES: z.string().optional(),
 });
 
 export type Env = z.infer<typeof EnvSchema>;

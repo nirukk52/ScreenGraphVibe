@@ -137,6 +137,14 @@ Notes
 - All external inputs validated with Zod at route boundaries (`*.validators.ts`).
 - Controllers only receive already-validated, typed data.
 
+### Shared API/Errors (wrappers)
+
+- Success envelope creator in `src/shared/http.ts`: `success(data, traceId?)`.
+- Error envelope creator in `src/shared/http.ts`: `failure({ code, error, message?, type?, fallbackRoute? }, traceId?)`.
+- Common types in `src/shared/types/index.ts`: `ApiResponse<T>`, `ApiErrorShape`, `ApiErrorCode`.
+- Zod schemas in `src/shared/schemas/response.schema.ts` and `src/shared/schemas/error.schema.ts`.
+- Features import wrappers directly from `shared/*`. Ports remain provider-facing only.
+
 ### Feature Layout (authoritative)
 
 ```text
@@ -210,3 +218,10 @@ Reference: TypeDI docs [docs.typestack.community/typedi](https://github.com/type
 - Prefer creating new files under the proposed layout and gradually refactor.
 
 Last updated: 2025-10-08
+
+### Feature Docs & Exec Conventions
+
+- Each feature and sub-feature has `docs/` with `OVERVIEW.md`, `CONTRACTS.md`, `DECISIONS.md`.
+- Execs are CLIs that print deterministic JSON and exit 0; include `trace_id`.
+- Routes are wired with response schemas for OpenAPI; exec outputs are Zod-validated.
+- Mock mode via `MOCK_FEATURES` (feature and `<feature>/<sub>` keys) is applied only at the composition/DI edge; no branching inside controllers/usecases.

@@ -13,7 +13,7 @@ export function makeHealthController(deps: { port: HealthCheckPort }) {
       return reply.code(400).send({ error: 'Invalid request' });
     }
     const result = await execute();
-    const valid = HealthCheckResponseSchema.safeParse(result);
+    const valid = HealthCheckResponseSchema.safeParse({ ...result, trace_id: request.id });
     if (!valid.success) {
       return reply.code(500).send({ error: 'Invalid response shape' });
     }
