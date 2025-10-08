@@ -11,7 +11,8 @@ UPSTREAM_REF="${UPSTREAM_REF:-origin/main}"
 BASE=$(git merge-base "$UPSTREAM_REF" HEAD)
 COUNT=$(git rev-list --count "$BASE"..HEAD)
 
-TASK_DIR="sessions/${TASK_NAME}_${THREAD_ID}"
+SESSION_KEY="${SESSION_KEY:-${TASK_NAME}}"
+TASK_DIR="sessions/${SESSION_KEY}"
 PATHS_FILE="${TASK_DIR}/paths.txt"
 if [ ! -f "$PATHS_FILE" ]; then
   echo "Missing ${PATHS_FILE}. Use task-commit.sh to record paths for this task." >&2
@@ -63,6 +64,6 @@ if [ "$COUNT" -gt 1 ]; then
 fi
 
 git push --force-with-lease origin HEAD:main
-echo "Pushed one-task squashed commit for ${TASK_NAME}_${THREAD_ID}" >&2
+echo "Pushed one-task squashed commit for ${SESSION_KEY}" >&2
 
 

@@ -7,7 +7,8 @@ if [ -z "${TASK_NAME:-}" ] || [ -z "${THREAD_ID:-}" ]; then
   exit 1
 fi
 
-TASK_DIR="sessions/${TASK_NAME}_${THREAD_ID}"
+SESSION_KEY="${SESSION_KEY:-${TASK_NAME}}"
+TASK_DIR="sessions/${SESSION_KEY}"
 DOCS_DIR="${TASK_DIR}/docs"
 PATHS_FILE="${TASK_DIR}/paths.txt"
 DOCS_LIST_FILE="${TASK_DIR}/docs_paths.txt"
@@ -75,5 +76,5 @@ mv "${TMP_MSG}.capped" "$TMP_MSG"
 git commit -F "$TMP_MSG"
 rm -f "$TMP_MSG"
 
-echo "Committed task changes for ${TASK_NAME}_${THREAD_ID}" >&2
+echo "Committed task changes for ${SESSION_KEY}" >&2
 

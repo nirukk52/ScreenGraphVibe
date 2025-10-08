@@ -1,6 +1,6 @@
 # ScreenGraph Documentation Index
 
-> **Auto-generated on 2025-10-08T22:16:23.754Z**  
+> **Auto-generated on 2025-10-08T22:24:50.988Z**  
 > **Total Documents: 9**
 
 This is the comprehensive index of all documentation in the ScreenGraph project. Each document includes its title, description, and direct links to sections.
@@ -14,7 +14,7 @@ This is the comprehensive index of all documentation in the ScreenGraph project.
 
 ### Other Documentation
 - [ScreenGraph Credentials Reference](./CREDENTIALS.md) - **⚠️ CONFIDENTIAL - DO NOT COMMIT TO GIT**
-- [ScreenGraph Documentation Index](./DOCUMENT_INDEX.md) - > **Auto-generated on 2025-10-08T22:16:19.147Z**
+- [ScreenGraph Documentation Index](./DOCUMENT_INDEX.md) - > **Auto-generated on 2025-10-08T22:24:44.936Z**
 - [Screengraph Deployment Guide](./setup/DEPLOYMENT.md) - ## 🚀 Quick Deploy
 - [ScreenGraph Local Development Setup](./setup/LOCAL_SETUP.md) - Complete guide for running ScreenGraph locally.
 - [ScreenGraph Production Setup & Deployment](./setup/PRODUCTION_SETUP.md) - Complete guide for deploying ScreenGraph to Fly.io production environment.
@@ -55,7 +55,7 @@ This is the comprehensive index of all documentation in the ScreenGraph project.
 
 ### 📄 [ScreenGraph Documentation Index](./DOCUMENT_INDEX.md)
 
-**Description:** > **Auto-generated on 2025-10-08T22:16:19.147Z**
+**Description:** > **Auto-generated on 2025-10-08T22:24:44.936Z**
 
 **Path:** `DOCUMENT_INDEX.md`
 **Last Modified:** 10/8/2025
@@ -130,6 +130,6 @@ This is the comprehensive index of all documentation in the ScreenGraph project.
 - **Total Headlines:** 0
 - **Average Document Size:** 6.58 KB
 - **Total Size:** 59.23 KB
-- **Generated:** 10/8/2025, 5:16:23 PM
+- **Generated:** 10/8/2025, 5:24:50 PM
 
 ---

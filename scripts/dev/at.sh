@@ -22,27 +22,29 @@ case "${cmd}" in
     mkdir -p .git
     printf "export TASK_NAME='%s'\n" "$TASK_NAME" > "$SESS_FILE"
     printf "export THREAD_ID='%s'\n" "$THREAD_ID" >> "$SESS_FILE"
+    printf "export SESSION_KEY='%s'\n" "$TASK_NAME" >> "$SESS_FILE"
     [ -n "$CENTER_NODE" ] && printf "export GRAPHITI_CENTER_NODE='%s'\n" "$CENTER_NODE" >> "$SESS_FILE"
     [ -n "$THREAD_URL" ] && printf "export GRAPHITI_THREAD_URL='%s'\n" "$THREAD_URL" >> "$SESS_FILE"
-    echo "Session set: ${TASK_NAME}_${THREAD_ID}" >&2
+    echo "Session set: ${TASK_NAME}" >&2
     ;;
   show)
     load_session
     echo "TASK_NAME=$TASK_NAME"
     echo "THREAD_ID=$THREAD_ID"
+    echo "SESSION_KEY=${SESSION_KEY:-}"
     echo "GRAPHITI_CENTER_NODE=${GRAPHITI_CENTER_NODE:-}"
     echo "GRAPHITI_THREAD_URL=${GRAPHITI_THREAD_URL:-}"
     ;;
   commit)
     load_session
     SUBJECT="${1:-chore: task commit}"
-    TASK_NAME="$TASK_NAME" THREAD_ID="$THREAD_ID" SUBJECT="$SUBJECT" \
+    TASK_NAME="$TASK_NAME" THREAD_ID="$THREAD_ID" SESSION_KEY="${SESSION_KEY:-$TASK_NAME}" SUBJECT="$SUBJECT" \
     GRAPHITI_CENTER_NODE="${GRAPHITI_CENTER_NODE:-}" GRAPHITI_EPISODES="${GRAPHITI_EPISODES:-}" GRAPHITI_THREAD_URL="${GRAPHITI_THREAD_URL:-}" \
       npm run task:commit
     ;;
   push)
     load_session
-    TASK_NAME="$TASK_NAME" THREAD_ID="$THREAD_ID" \
+    TASK_NAME="$TASK_NAME" THREAD_ID="$THREAD_ID" SESSION_KEY="${SESSION_KEY:-$TASK_NAME}" \
     GRAPHITI_CENTER_NODE="${GRAPHITI_CENTER_NODE:-}" GRAPHITI_EPISODES="${GRAPHITI_EPISODES:-}" GRAPHITI_THREAD_URL="${GRAPHITI_THREAD_URL:-}" \
       npm run task:push
     ;;
