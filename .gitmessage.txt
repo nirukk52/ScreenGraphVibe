@@ -1,27 +1,42 @@
-feat(dev-experience): comprehensive .gitignore reorganization
+# Conventional Commit: type(scope): subject
+# types: feat, fix, chore, docs, refactor, test, perf, build, ci, style, revert
+# scope: data|backend|ui|agent|infra|docs|tests
+# subject: imperative, <= 72 chars
 
-Why:
-- The existing .gitignore was poorly organized and missing important patterns for the monorepo structure with Next.js, TypeScript, and testing frameworks.
+type(scope): short, imperative subject
 
-What:
-- Reorganized .gitignore with clear sections (Node, Next.js, TypeScript, Build outputs, Testing, IDE, Env, OS, Logs, Misc)
-- Added missing patterns for monorepo structure (**/node_modules/, **/dist/, **/build/)
-- Enhanced testing patterns (.playwright/, **/test-results/)
-- Added IDE support (.idea/, .vscode/)
-- Improved environment file handling (.env.* with !.env.example exception)
-- Added modern tooling patterns (.turbo/, better log patterns)
+# Why
+# - What problem does this solve?
+# - Why now?
 
-Impact:
-- Better organization and maintainability of ignore patterns
-- Prevents accidental commits of build artifacts, logs, and IDE files across the monorepo
-- Clearer separation of concerns with sectioned organization
-- Reduced repository bloat from ignored files
+# What
+# - Key changes (bulleted)
 
-Cost:
-- tokens: ~same (configuration only)
-- runtime: ~same (no runtime impact)
-- storage: ~same (prevents unnecessary files)
+# How
+# - Approach/tradeoffs
+# - Risks/limitations
 
-MCP:
-- search "gitignore patterns monorepo organization"
-- add_episode Procedure "Use comprehensive .gitignore with clear sections for monorepo projects including Node, Next.js, TypeScript, testing, IDE, and environment patterns"
+# Tests
+# - Affected modules: :data | :backend | :ui | :agent | :infra | :docs | :tests
+# - Commands run: npm run test:<module>[:unit|:integration] / npm run test:e2e
+
+# Knowledge Graph
+# group_id: screengraph-vibe
+# center_node_uuid: <uuid>
+# episode_id: <id>[, <id2>]
+# thread_url: <link>
+
+# Prompt (original task, 1–2 lines)
+# - <concise summary>
+
+# Links
+# - Closes #123
+# - Related #456
+
+# Breaking Changes
+# BREAKING CHANGE: describe impact and required migrations
+
+# Checklist (remove if N/A)
+# - [ ] Tests added/updated
+# - [ ] Docs updated (CLAUDE.md/DECISIONS.md)
+# - [ ] Backwards compatible (or noted above)
