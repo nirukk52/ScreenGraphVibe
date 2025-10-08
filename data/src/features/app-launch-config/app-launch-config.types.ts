@@ -1,5 +1,5 @@
 import { InferSelectModel, InferInsertModel } from 'drizzle-orm';
-import { appLaunchConfigs } from '../db/schema.js';
+import { appLaunchConfigs } from './app-launch-config.schema.js';
 
 // Types for AppLaunchConfig
 export type AppLaunchConfig = InferSelectModel<typeof appLaunchConfigs>;
@@ -49,3 +49,5 @@ export const REQUIRED_FIELDS = [
   APP_LAUNCH_CONFIG_FIELDS.APP_ACTIVITY,
   APP_LAUNCH_CONFIG_FIELDS.APPIUM_SERVER_URL,
 ] as const;
+
+

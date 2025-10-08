@@ -7,7 +7,7 @@
     "dev": "tsx watch src/index.ts",
     "build": "tsc",
     "test": "vitest run",
-    "test:unit": "vitest run src/**/*.test.ts",
+    "test:unit": "vitest run",
     "test:integration": "vitest run src/**/*.integration.test.ts",
     "test:watch": "vitest watch",
     "db:generate": "drizzle-kit generate",

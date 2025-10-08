@@ -11,10 +11,10 @@ const __dirname = dirname(__filename);
 config({ path: resolve(process.cwd(), '.env') });
 
 // Export database connection and utilities
-export * from './db/index.js';
+export * from './core/db/client.js';
 
 // Export configuration
 export * from './config/constants.js';
 
-// Export types
-export * from './types/app-launch-config.js';
+// Export feature types
+export * from './features/app-launch-config/index.js';

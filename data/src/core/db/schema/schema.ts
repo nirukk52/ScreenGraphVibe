@@ -53,17 +53,7 @@ export const jobs = pgTable('jobs', {
   errorMessage: text('error_message'),
 });
 
-export const appLaunchConfigs = pgTable('app_launch_configs', {
-  id: uuid('id').primaryKey().defaultRandom(),
-  name: text('name').notNull(),
-  apkPath: text('apk_path').notNull(),
-  packageName: text('package_name').notNull(),
-  appActivity: text('app_activity').notNull(),
-  appiumServerUrl: text('appium_server_url').notNull(),
-  isDefault: text('is_default').notNull().default('false'),
-  createdAt: timestamp('created_at').notNull().defaultNow(),
-  updatedAt: timestamp('updated_at').notNull().defaultNow(),
-});
+// app-launch-config schema moved to src/modules/app-launch-config/app-launch-config.schema.ts
 
 // Relations
 export const runsRelations = relations(runs, ({ many, one }) => ({
@@ -101,4 +91,6 @@ export const jobsRelations = relations(jobs, ({ one }) => ({
   }),
 }));
 
-export const appLaunchConfigsRelations = relations(appLaunchConfigs, () => ({}));
+// app-launch-config relations moved with its schema
+
+
