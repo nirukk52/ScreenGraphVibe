@@ -11,6 +11,7 @@
     "scan": "tsx src/scan.ts",
     "index": "tsx src/index.ts",
     "update": "tsx src/update.ts",
+    "status": "tsx src/index.ts status",
     "setup-hooks": "tsx src/setup-hooks.ts",
     "test": "vitest run",
     "test:watch": "vitest"
