@@ -1,5 +1,5 @@
 import { describe, it, expect, beforeAll, afterAll } from 'vitest';
-import { startTestDatabase, stopTestDatabase, testCheckDatabaseHealth } from '@screengraph/tests/_utils/fixtures/test-database.js';
+import { startTestDatabase, stopTestDatabase, testCheckDatabaseHealth } from '@screengraph/tests/_utils/fixtures/test-database';
 
 describe('Health Check Integration Tests', () => {
   beforeAll(async () => {
