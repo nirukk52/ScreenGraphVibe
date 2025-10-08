@@ -9,6 +9,7 @@ export interface AppConfig {
   port: number;
   host: string;
   requestTimeoutMs: number;
+  bodyLimitBytes: number;
 }
 
 let cached: AppConfig | undefined;
@@ -19,6 +20,7 @@ export function getConfig(): AppConfig {
     port: env.PORT,
     host: '0.0.0.0',
     requestTimeoutMs: 30_000,
+    bodyLimitBytes: 1_048_576,
   };
   return cached;
 }

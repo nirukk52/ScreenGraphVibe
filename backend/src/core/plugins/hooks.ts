@@ -10,6 +10,7 @@ export const registerHooks = fp(async (app: FastifyInstance) => {
     const durationMs =
       typeof (reply as any).elapsedTime === 'number' ? (reply as any).elapsedTime : 0;
     app.logger?.info('request_completed', {
+      trace_id: (req as any).trace_id || req.id,
       method: req.method,
       url: req.url,
       status: reply.statusCode,

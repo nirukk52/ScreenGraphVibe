@@ -14,6 +14,9 @@
       "types": "./dist/types/index.d.ts"
     }
   },
+  "engines": {
+    "node": "20.x"
+  },
   "scripts": {
     "dev": "tsx watch src/index.ts",
     "scaffold:feature": "node scripts/scaffold-feature.js",
@@ -22,7 +25,20 @@
     "test": "vitest run",
     "test:unit": "echo 'No unit tests found for backend' || vitest run src/**/*.test.ts",
     "test:integration": "echo 'No integration tests found for backend' || vitest run src/**/*.integration.test.ts",
-    "test:watch": "vitest watch"
+    "test:watch": "vitest watch",
+    "typecheck": "tsc --noEmit",
+    "exec:health:check": "tsx src/features/health/check/exec/main.ts",
+    "exec:graph:get-by-run": "tsx src/features/graph/get-by-run/exec/main.ts",
+    "exec:app-launch-config:list": "tsx src/features/app-launch-config/list/exec/main.ts",
+    "exec:all": "npm run -s exec:health:check && npm run -s exec:graph:get-by-run && npm run -s exec:app-launch-config:list",
+    "test:routes": "vitest run src/**/route.test.ts",
+    "lint:boundaries": "eslint \"src/**/*.{ts,tsx}\" --max-warnings=0",
+    "lint:lines": "eslint \"src/**/*.{ts,tsx}\" --max-warnings=0",
+    "openapi:json": "tsx src/core/openapi.ts > openapi.json",
+    "deadcode:check": "knip",
+    "exec:snapshot": "mkdir -p snapshots && npm run -s exec:health:check > snapshots/health-check.json && npm run -s exec:graph:get-by-run > snapshots/graph-get-by-run.json && npm run -s exec:app-launch-config:list > snapshots/app-launch-config-list.json",
+    "ci": "npm run typecheck && npm run lint:boundaries && npm run lint:lines && npm run deadcode:check && npm run exec:all && npm run openapi:json && npm test",
+    "prepare": "husky install"
   },
   "dependencies": {
     "@fastify/cors": "^8.4.0",
@@ -35,22 +51,37 @@
     "dotenv": "^17.2.3",
     "drizzle-orm": "^0.29.5",
     "fastify": "^4.24.3",
+    "fastify-plugin": "^4.5.1",
     "ioredis": "^5.3.2",
     "postgres": "^3.4.7",
     "reflect-metadata": "^0.2.2",
-    "typedi": "^0.10.0"
+    "typedi": "^0.10.0",
+    "zod": "^3.23.8"
   },
   "devDependencies": {
     "@types/node": "^20.10.6",
     "@typescript-eslint/eslint-plugin": "^6.21.0",
     "@typescript-eslint/parser": "^6.21.0",
+    "eslint-plugin-boundaries": "^5.0.2",
     "eslint": "^8.56.0",
     "eslint-config-airbnb-base": "^15.0.0",
     "eslint-config-prettier": "^9.1.0",
     "eslint-import-resolver-typescript": "^3.6.1",
     "eslint-plugin-import": "^2.29.1",
+    "@commitlint/cli": "^19.5.0",
+    "@commitlint/config-conventional": "^19.5.0",
+    "husky": "^9.0.11",
+    "knip": "^5.27.0",
+    "lint-staged": "^15.2.10",
+    "supertest": "^6.3.4",
     "tsx": "^4.6.2",
     "typescript": "^5.3.3",
     "vitest": "^1.1.0"
+  },
+  "lint-staged": {
+    "src/**/*.{ts,tsx}": [
+      "eslint --fix",
+      "vitest related --run --silent -c vitest.config.ts"
+    ]
   }
 }

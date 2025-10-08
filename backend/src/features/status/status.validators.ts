@@ -9,5 +9,3 @@ export const statusResponse = z.object({
   service: z.literal('backend'),
   timestamp: z.string(),
 });
-
-export type StatusResponse = z.infer<typeof statusResponse>;
