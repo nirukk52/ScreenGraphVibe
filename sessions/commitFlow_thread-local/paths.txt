@@ -1,0 +1,4 @@
+docs/DOCUMENT_INDEX.md
+package.json
+scripts/dev/task-commit.sh
+scripts/dev/task-push.sh
