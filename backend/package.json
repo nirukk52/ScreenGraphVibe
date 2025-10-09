@@ -21,6 +21,7 @@
     "dev": "tsx watch src/index.ts",
     "scaffold:feature": "node scripts/scaffold-backend-feature.js",
     "scaffold:backend:feature": "node scripts/scaffold-backend-feature.js",
+    "scaffold:io-feature": "node scripts/scaffold-backend-io-feature.js",
     "build": "tsc",
     "start": "node dist/index.js",
     "test": "vitest run",
