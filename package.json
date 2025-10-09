@@ -62,11 +62,11 @@
     "format:check": "prettier --check .",
     "lint": "eslint . --ext .js,.jsx,.ts,.tsx",
     "lint:fix": "eslint . --ext .js,.jsx,.ts,.tsx --fix",
-    "task:commit": "TASK_NAME=\"${TASK_NAME}\" THREAD_ID=\"${THREAD_ID}\" SUBJECT=\"${SUBJECT}\" GRAPHITI_CENTER_NODE=\"${GRAPHITI_CENTER_NODE}\" GRAPHITI_EPISODES=\"${GRAPHITI_EPISODES}\" GRAPHITI_THREAD_URL=\"${GRAPHITI_THREAD_URL}\" sh scripts/dev/task-commit.sh",
-    "task:push": "TASK_NAME=\"${TASK_NAME}\" THREAD_ID=\"${THREAD_ID}\" GRAPHITI_CENTER_NODE=\"${GRAPHITI_CENTER_NODE}\" GRAPHITI_EPISODES=\"${GRAPHITI_EPISODES}\" GRAPHITI_THREAD_URL=\"${GRAPHITI_THREAD_URL}\" sh scripts/dev/task-push.sh"
+    "prepare": "husky"
   },
   "devDependencies": {
     "concurrently": "^8.2.2",
+    "husky": "^9.0.0",
     "prettier": "^3.6.2"
   }
 }

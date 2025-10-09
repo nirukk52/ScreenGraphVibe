@@ -1,0 +1,30 @@
+#!/bin/sh
+. "$(dirname -- "$0")/_/husky.sh" 2>/dev/null || true
+
+msgfile="$1"
+
+# Append KG fields once
+if ! grep -q "^center_node_uuid:" "$msgfile"; then
+  [ -n "$GRAPHITI_CENTER_NODE" ] && printf "\ncenter_node_uuid: %s\n" "$GRAPHITI_CENTER_NODE" >> "$msgfile"
+  [ -n "$GRAPHITI_EPISODES" ] && printf "episode_id: %s\n" "$GRAPHITI_EPISODES" >> "$msgfile"
+  [ -n "$GRAPHITI_THREAD_URL" ] && printf "thread_url: %s\n" "$GRAPHITI_THREAD_URL" >> "$msgfile"
+
+  # Prompt summary from env or file
+  if [ -n "$PROMPT_SUMMARY" ]; then
+    printf "\n# Prompt\n# - %s\n" "$PROMPT_SUMMARY" >> "$msgfile"
+  elif [ -f .mcp/og_message.txt ]; then
+    FIRST_TWO=$(grep -v '^[[:space:]]*#' .mcp/og_message.txt | head -n 2 | tr '\n' ' ' | sed 's/[[:space:]]\+/ /g')
+    [ -n "$FIRST_TWO" ] && printf "\n# Prompt\n# - %s\n" "$FIRST_TWO" >> "$msgfile"
+  fi
+fi
+
+# Minimal scaffold if missing
+append_if_absent() {
+  sec="$1"
+  grep -q "^$sec$" "$msgfile" || printf "\n%s\n- \n" "$sec" >> "$msgfile"
+}
+append_if_absent "Why"
+append_if_absent "What"
+append_if_absent "How"
+append_if_absent "Tests"
+

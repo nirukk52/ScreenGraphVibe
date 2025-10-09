@@ -1,5 +1,0 @@
-#!/bin/sh
-set -euo pipefail
-sh scripts/dev/at.sh init "$@"
-sh scripts/dev/at.sh show
-

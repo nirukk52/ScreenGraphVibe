@@ -1,7 +1,7 @@
 # ScreenGraph Documentation Index
 
-> **Auto-generated on 2025-10-08T22:24:50.988Z**  
-> **Total Documents: 9**
+> **Auto-generated on 2025-10-08T23:25:35.445Z**  
+> **Total Documents: 19**
 
 This is the comprehensive index of all documentation in the ScreenGraph project. Each document includes its title, description, and direct links to sections.
 
@@ -11,10 +11,31 @@ This is the comprehensive index of all documentation in the ScreenGraph project.
 
 ### Project Overview
 - [:docs - ScreenGraph Documentation Index System](./README.md) - A fully runnable module for maintaining a comprehensive index of all documentation in the ScreenGraph project. Automatically scans, categorizes, and indexes all markdown files with intelligent routing and memory integration.
+- [System Patterns](./system-patterns/README.md) - Reusable patterns we apply across modules/features.
+
+### Architecture
+- [Architecture Overview](./architecture/OVERVIEW.md) - High-level view of ScreenGraphVibe.
+- [Architecture: <Subsystem/Area>](./templates/ARCHITECTURE_TEMPLATE.md) - ## Overview
+
+### Architecture Decisions (ADR)
+- [Architecture Decisions (ADR Index)](./DECISIONS.md) - This index tracks all Architecture Decision Records.
+- [ADR: <Title>](./templates/ADR_TEMPLATE.md) - > Status: Proposed | Accepted | Rejected | Superseded
+
+### System Patterns
+- [System Patterns](./system-patterns/README.md) - Reusable patterns we apply across modules/features.
+- [System Pattern: <Name>](./templates/SYSTEM_PATTERN_TEMPLATE.md) - ## Problem
+
+### Technical Debt
+- [Technical Debt Backlog](./TECH_DEBT.md) - Use `docs/templates/TECH_DEBT_TEMPLATE.md` for each debt item.
+- [Technical Debt Item: <Title>](./templates/TECH_DEBT_TEMPLATE.md) - > Priority: P0 | P1 | P2 | P3
+
+### Good-to-Haves / Wishlist
+- [Wishlist Item: <Title>](./templates/WISHLIST_TEMPLATE.md) - > Impact: High | Medium | Low
+- [Wishlist (Good-to-Haves)](./WISHLIST.md) - Use `docs/templates/WISHLIST_TEMPLATE.md` for each item.
 
 ### Other Documentation
 - [ScreenGraph Credentials Reference](./CREDENTIALS.md) - **⚠️ CONFIDENTIAL - DO NOT COMMIT TO GIT**
-- [ScreenGraph Documentation Index](./DOCUMENT_INDEX.md) - > **Auto-generated on 2025-10-08T22:24:44.936Z**
+- [ScreenGraph Documentation Index](./DOCUMENT_INDEX.md) - > **Auto-generated on 2025-10-08T23:24:59.956Z**
 - [Screengraph Deployment Guide](./setup/DEPLOYMENT.md) - ## 🚀 Quick Deploy
 - [ScreenGraph Local Development Setup](./setup/LOCAL_SETUP.md) - Complete guide for running ScreenGraph locally.
 - [ScreenGraph Production Setup & Deployment](./setup/PRODUCTION_SETUP.md) - Complete guide for deploying ScreenGraph to Fly.io production environment.
@@ -35,7 +56,137 @@ This is the comprehensive index of all documentation in the ScreenGraph project.
 
 **Path:** `README.md`
 **Last Modified:** 10/8/2025
-**Size:** 7.36 KB
+**Size:** 7.73 KB
+
+---
+
+### 📄 [System Patterns](./system-patterns/README.md)
+
+**Description:** Reusable patterns we apply across modules/features.
+
+**Path:** `system-patterns/README.md`
+**Last Modified:** 10/8/2025
+**Size:** 229 B
+
+---
+
+## Architecture
+
+*System architecture, module boundaries, and design overviews*
+
+### 📄 [Architecture Overview](./architecture/OVERVIEW.md)
+
+**Description:** High-level view of ScreenGraphVibe.
+
+**Path:** `architecture/OVERVIEW.md`
+**Last Modified:** 10/8/2025
+**Size:** 252 B
+
+---
+
+### 📄 [Architecture: <Subsystem/Area>](./templates/ARCHITECTURE_TEMPLATE.md)
+
+**Description:** ## Overview
+
+**Path:** `templates/ARCHITECTURE_TEMPLATE.md`
+**Last Modified:** 10/8/2025
+**Size:** 536 B
+
+---
+
+## Architecture Decisions (ADR)
+
+*Architecture Decision Records documenting key choices and trade-offs*
+
+### 📄 [Architecture Decisions (ADR Index)](./DECISIONS.md)
+
+**Description:** This index tracks all Architecture Decision Records.
+
+**Path:** `DECISIONS.md`
+**Last Modified:** 10/8/2025
+**Size:** 301 B
+
+---
+
+### 📄 [ADR: <Title>](./templates/ADR_TEMPLATE.md)
+
+**Description:** > Status: Proposed | Accepted | Rejected | Superseded
+
+**Path:** `templates/ADR_TEMPLATE.md`
+**Last Modified:** 10/8/2025
+**Size:** 476 B
+
+---
+
+## System Patterns
+
+*Reusable patterns across services, modules, and features*
+
+### 📄 [System Patterns](./system-patterns/README.md)
+
+**Description:** Reusable patterns we apply across modules/features.
+
+**Path:** `system-patterns/README.md`
+**Last Modified:** 10/8/2025
+**Size:** 229 B
+
+---
+
+### 📄 [System Pattern: <Name>](./templates/SYSTEM_PATTERN_TEMPLATE.md)
+
+**Description:** ## Problem
+
+**Path:** `templates/SYSTEM_PATTERN_TEMPLATE.md`
+**Last Modified:** 10/8/2025
+**Size:** 422 B
+
+---
+
+## Technical Debt
+
+*Known debt, trade-offs, remediation plans, and prioritization*
+
+### 📄 [Technical Debt Backlog](./TECH_DEBT.md)
+
+**Description:** Use `docs/templates/TECH_DEBT_TEMPLATE.md` for each debt item.
+
+**Path:** `TECH_DEBT.md`
+**Last Modified:** 10/8/2025
+**Size:** 171 B
+
+---
+
+### 📄 [Technical Debt Item: <Title>](./templates/TECH_DEBT_TEMPLATE.md)
+
+**Description:** > Priority: P0 | P1 | P2 | P3
+
+**Path:** `templates/TECH_DEBT_TEMPLATE.md`
+**Last Modified:** 10/8/2025
+**Size:** 352 B
+
+---
+
+## Good-to-Haves / Wishlist
+
+*Future enhancements, nice-to-haves, and ideas backlog*
+
+### 📄 [Wishlist Item: <Title>](./templates/WISHLIST_TEMPLATE.md)
+
+**Description:** > Impact: High | Medium | Low
+
+**Path:** `templates/WISHLIST_TEMPLATE.md`
+**Last Modified:** 10/8/2025
+**Size:** 374 B
+
+---
+
+### 📄 [Wishlist (Good-to-Haves)](./WISHLIST.md)
+
+**Description:** Use `docs/templates/WISHLIST_TEMPLATE.md` for each item.
+
+**Path:** `WISHLIST.md`
+**Last Modified:** 10/8/2025
+**Size:** 149 B
 
 ---
 
@@ -55,11 +206,11 @@ This is the comprehensive index of all documentation in the ScreenGraph project.
 
 ### 📄 [ScreenGraph Documentation Index](./DOCUMENT_INDEX.md)
 
-**Description:** > **Auto-generated on 2025-10-08T22:24:44.936Z**
+**Description:** > **Auto-generated on 2025-10-08T23:24:59.956Z**
 
 **Path:** `DOCUMENT_INDEX.md`
 **Last Modified:** 10/8/2025
-**Size:** 4.16 KB
+**Size:** 7.17 KB
 
 ---
 
@@ -125,11 +276,11 @@ This is the comprehensive index of all documentation in the ScreenGraph project.
 
 ## 📊 Statistics
 
-- **Total Documents:** 9
-- **Total Categories:** 2
+- **Total Documents:** 19
+- **Total Categories:** 7
 - **Total Headlines:** 0
-- **Average Document Size:** 6.58 KB
-- **Total Size:** 59.23 KB
-- **Generated:** 10/8/2025, 5:24:50 PM
+- **Average Document Size:** 3.46 KB
+- **Total Size:** 65.79 KB
+- **Generated:** 10/8/2025, 6:25:35 PM
 
 ---

@@ -107,6 +107,11 @@ The system automatically categorizes documents into:
 - **💻 Development Guidelines**: Coding standards, best practices
 - **🔐 Credentials & Security**: API keys, security documentation
 - **🤖 Scripts & Automation**: Automation scripts, utility guides
+ - **🏛️ Architecture**: System architecture, module boundaries, design overviews
+ - **📘 Architecture Decisions (ADR)**: Decision records and trade-offs
+ - **🧩 System Patterns**: Reusable patterns across modules/features
+ - **🧱 Technical Debt**: Known debt items and remediation plans
+ - **🌱 Good-to-Haves / Wishlist**: Future enhancements and ideas backlog
 
 ## 🔗 Generated Links
 

@@ -1,5 +1,0 @@
-#!/bin/sh
-set -euo pipefail
-SUBJECT="${1:-chore: task commit}"
-sh scripts/dev/at.sh commit "$SUBJECT"
-

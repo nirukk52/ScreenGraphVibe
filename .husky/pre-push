@@ -1,0 +1,27 @@
+#!/bin/sh
+. "$(dirname -- "$0")/_/husky.sh" 2>/dev/null || true
+
+echo "🔄 Updating document index before push..."
+if [ -d "docs" ]; then
+  ( cd docs && [ -d node_modules ] || npm install )
+  ( cd docs && npm run update )
+  [ -f docs/DOCUMENT_INDEX.md ] && git add docs/DOCUMENT_INDEX.md && echo "📄 Added updated document index to commit"
+else
+  echo "⚠️ Docs module not found, skipping document index update"
+fi
+
+[ -f scripts/ci/update-project-status.sh ] && bash scripts/ci/update-project-status.sh || echo "⚠️ Project status update skipped"
+[ -f scripts/docs/update-knowledge-graph.sh ] && bash scripts/docs/update-knowledge-graph.sh || echo "⚠️ Knowledge graph prep skipped"
+
+# Print push summary (does not rewrite commits)
+UPSTREAM_REF="${UPSTREAM_REF:-origin/main}"
+BASE=$(git merge-base "$UPSTREAM_REF" HEAD 2>/dev/null || echo "")
+if [ -n "$BASE" ]; then
+  echo "\n🧾 Push Summary (since $UPSTREAM_REF):"
+  git log --pretty='- %s' "$BASE"..HEAD || true
+  echo "\n📊 Diff Stat:"
+  git diff --stat "$BASE"..HEAD || true
+fi
+
+echo "✅ Pre-push hook completed"
+
