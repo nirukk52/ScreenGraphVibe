@@ -7,8 +7,10 @@
   - exec with `run()` and CLI that prints deterministic JSON with trace_id
   - exec request/response schemas
   - basic integration exec test importing run()
+  - route integration test using Fastify and HTTP envelope helpers
+  - per-feature route aggregator under src/routes/<feature>/index.ts
 */
-import { mkdirSync, writeFileSync, existsSync } from 'node:fs';
+import { mkdirSync, writeFileSync, existsSync, readFileSync } from 'node:fs';
 import { join } from 'node:path';
 
 function arg(name, fallback) {
@@ -25,6 +27,18 @@ if (!feature || !sub) {
 
 const base = join('src', 'features', feature, sub);
 
+function toPascal(input) {
+  return String(input)
+    .split(/[-_\s]+/)
+    .filter(Boolean)
+    .map((s) => s[0].toUpperCase() + s.slice(1))
+    .join('');
+}
+
+const FeaturePascal = toPascal(feature);
+const SubPascal = toPascal(sub);
+const routeFn = `register${FeaturePascal}${SubPascal}Route`;
+
 const files = [
   ['port.ts', `// feature port (define real contract per feature)
 export interface ExamplePort { run(): Promise<{ ok: true }>; }
@@ -39,12 +53,13 @@ export function makeUseCase(deps: { port: ExamplePort }) {
 import type { FastifyRequest, FastifyReply } from 'fastify';
 import { makeUseCase } from './usecase.js';
 import type { ExamplePort } from './port.js';
+import { success, HTTP_STATUS } from '../../shared/http.js';
 
 export function makeController(deps: { port: ExamplePort }) {
   const exec = makeUseCase(deps);
   return async (_req: FastifyRequest, res: FastifyReply) => {
     const data = await exec();
-    return res.code(200).send({ data });
+    return res.code(HTTP_STATUS.OK).send(success(data));
   };
 }
 `],
@@ -53,7 +68,7 @@ import type { FastifyInstance } from 'fastify';
 import { makeController } from './controller.js';
 import type { ExamplePort } from './port.js';
 
-export async function registerRoute(app: FastifyInstance, deps: { port: ExamplePort }) {
+export async function ${routeFn}(app: FastifyInstance, deps: { port: ExamplePort }) {
   app.get('/example', makeController(deps));
 }
 `],
@@ -119,6 +134,23 @@ describe('exec (self-executable)', () => {
   });
 });
 `],
+  [join('__tests__','route.integration.test.ts'), `import { describe, it, expect } from 'vitest';
+import Fastify from 'fastify';
+import { ${routeFn} } from '../route.js';
+import { FakeExampleAdapter } from '../adapters/fake.adapter.js';
+
+describe('route integration', () => {
+  it('returns 200 with envelope', async () => {
+    const app = Fastify({ logger: false });
+    await ${routeFn}(app, { port: new FakeExampleAdapter() });
+    const res = await app.inject({ method: 'GET', url: '/example' });
+    expect(res.statusCode).toBe(200);
+    const json = res.json();
+    expect(json).toHaveProperty('ok', true);
+    expect(json).toHaveProperty('data.ok', true);
+  });
+});
+`],
 ];
 
 for (const [rel, content] of files) {
@@ -141,6 +173,78 @@ Contracts: Ports live inside the feature; fakes under feature; real adapters out
   const d = join('src','features',feature);
   if (!existsSync(d)) mkdirSync(d, { recursive: true });
   writeFileSync(claudePath, md);
+}
+
+// Create versioned JSON examples (v1/happy and v1/sad) with unified names
+const jsonBase = join(base, 'jsons', 'v1');
+const happyDir = join(jsonBase, 'happy');
+const sadDir = join(jsonBase, 'sad');
+if (!existsSync(happyDir)) mkdirSync(happyDir, { recursive: true });
+if (!existsSync(sadDir)) mkdirSync(sadDir, { recursive: true });
+const happyInput = join(happyDir, 'input.json');
+const happyOutput = join(happyDir, 'output.json');
+const sadInput = join(sadDir, 'input.json');
+const sadOutput = join(sadDir, 'output.json');
+if (!existsSync(happyInput)) writeFileSync(happyInput, '{\n  "version": "v1"\n}\n');
+if (!existsSync(happyOutput)) writeFileSync(happyOutput, '{\n  "version": "v1"\n}\n');
+if (!existsSync(sadInput)) writeFileSync(sadInput, '{\n}\n');
+if (!existsSync(sadOutput)) writeFileSync(sadOutput, '{\n  "code": "domain_error",\n  "message": "explainable message"\n}\n');
+
+// Create per-feature route aggregator if missing
+const routesFeatureDir = join('src', 'routes', feature);
+const routesFeatureIndex = join(routesFeatureDir, 'index.ts');
+if (!existsSync(routesFeatureIndex)) {
+  if (!existsSync(routesFeatureDir)) mkdirSync(routesFeatureDir, { recursive: true });
+  const content = `/**
+ * @module routes/${feature}
+ * @description Groups all ${feature}-related routes.
+ * @publicAPI register${FeaturePascal}Routes
+ */
+import type { FastifyInstance } from 'fastify';
+import { ${routeFn} } from '../../features/${feature}/${sub}/route.js';
+import { FakeExampleAdapter } from '../../features/${feature}/${sub}/adapters/fake.adapter.js';
+import { getEnv } from '../../core/env.js';
+import { getMockedFeatureSet, isMocked } from '../../core/config.js';
+
+export async function register${FeaturePascal}Routes(app: FastifyInstance) {
+  // Using fake adapter by default; wire real adapters when available
+  const env = getEnv();
+  const mocked = getMockedFeatureSet(env.MOCK_FEATURES);
+  const useFake = isMocked(mocked, '${feature}', '${sub}') || true;
+  const port = useFake ? new FakeExampleAdapter() : new FakeExampleAdapter();
+  await ${routeFn}(app, { port });
+}
+`;
+  writeFileSync(routesFeatureIndex, content);
+}
+
+// Auto-wire feature group in routes/index.ts if not already present
+const routesIndexPath = join('src', 'routes', 'index.ts');
+try {
+  const src = readFileSync(routesIndexPath, 'utf8');
+  const importLine = `import { register${FeaturePascal}Routes } from './${feature}/index.js';`;
+  const hasImport = src.includes(importLine);
+  let next = src;
+  if (!hasImport) {
+    next = next.replace(
+      /(import[^\n]*from[^\n]*;\n)(?![\s\S]*import)/,
+      `$1${importLine}\n`
+    );
+    if (!next.includes(importLine)) {
+      // fallback: prepend at top
+      next = `${importLine}\n${next}`;
+    }
+  }
+  const callLine = `  await register${FeaturePascal}Routes(app);`;
+  if (!next.includes(callLine)) {
+    next = next.replace(
+      /export\s+async\s+function\s+registerRoutes\([^)]*\)\s*{([\s\S]*?)}/,
+      (m, body) => m.replace(body, `${body}\n${callLine}\n  `)
+    );
+  }
+  if (next !== src) writeFileSync(routesIndexPath, next);
+} catch {
+  // ignore if routes/index.ts is missing
 }
 
 console.log(`Scaffolded ${feature}/${sub}`);

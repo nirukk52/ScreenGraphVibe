@@ -5,6 +5,7 @@
 export const ROUTES = {
   HEALTH: '/health',
   STATUS: '/status',
+  SCREEN_DETAILS: '/details/:deviceID',
 } as const;
 
 export const HEADERS = {
@@ -13,4 +14,8 @@ export const HEADERS = {
 
 export const TRACE = {
   EXEC_FIXED_TRACE_ID: 'EXEC_FIXED_TRACE_ID',
+} as const;
+
+export const SCREEN_STATUS = {
+  RECEIVED: 'received',
 } as const;
