@@ -6,6 +6,7 @@ export const ROUTES = {
   HEALTH: '/health',
   STATUS: '/status',
   SCREEN_DETAILS: '/details/:deviceID',
+  SCREEN_DETAILS_STREAM: '/details/:deviceID/stream',
 } as const;
 
 export const HEADERS = {
@@ -18,4 +19,8 @@ export const TRACE = {
 
 export const SCREEN_STATUS = {
   RECEIVED: 'received',
+} as const;
+
+export const SCREEN_EVENTS = {
+  DETAILS_RECEIVED: 'screen.details.received',
 } as const;
