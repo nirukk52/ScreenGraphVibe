@@ -1,0 +1,48 @@
+{
+  "prompt_id": "@ian_clean_architecture",
+  "name": "Ian Botts — Clean architecture guidance",
+  "version": "1.0.0",
+  "description": "Get clean architecture and coding standards guidance from Ian Botts (CTO).",
+  "persona": "ian_botts_cto",
+  "model_settings_assert": {
+    "model": "gpt-5",
+    "temperature": 0.0,
+    "top_p": 1.0,
+    "max_output_tokens": 2000,
+    "seed": 0,
+    "reasoning_effort": "medium",
+    "on_mismatch": "Model settings mismatch"
+  },
+  "graphiti_protocol": {
+    "before_task": {
+      "graph_id": "screengraph",
+      "role_node": "Ian Bott (CTO)",
+      "fetch_last": 10,
+      "where": "tags in [ADR,strategy] scoped to <module>/<topic>",
+      "detect": ["conflicts", "supersedes"],
+      "on_failure": "Graphiti step failed: BEFORE_TASK"
+    },
+    "after_task": { "action": "noop" }
+  },
+  "inputs": {
+    "module": { "type": "string", "required": false },
+    "topic": { "type": "string", "required": false },
+    "question": { "type": "string", "required": true },
+    "time_window": { "type": "string", "required": false, "default": "14d" }
+  },
+  "steps": [
+    "Assert model settings; if mismatch, stop.",
+    "Run BEFORE_TASK protocol (fetch ADR/strategy refs; detect conflicts/supersedes).",
+    "Ground in 25 rules and module boundaries; summarize constraints.",
+    "Recommend patterns (ports/adapters, feature boundaries, dependency flow).",
+    "Provide coding standards and testing guidance per module.",
+    "Outline risks and a 3–5 step migration plan.",
+    "Redact secrets/PII."
+  ],
+  "output_format": "## Context\n- **module/topic**: <module>/<topic>\n- **question**: <quoted>\n\n## Guidance (A→Z)\n- <pattern>: <why/where>\n\n## Standards & Tests\n- <bullets>\n\n## Risks\n- <bullets>\n\n## Migration (3–5 steps)\n- <step>\n",
+  "constraints": { "total_tokens": 900, "bullets_sorted": "ASCII" },
+  "redact_policy": "do not print keys, tokens, PII; replace with [REDACTED].",
+  "failure_behavior": "If BEFORE_TASK fails, output exactly: Graphiti step failed: BEFORE_TASK"
+}
+
+

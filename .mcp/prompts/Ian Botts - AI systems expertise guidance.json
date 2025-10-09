@@ -1,0 +1,47 @@
+{
+  "prompt_id": "@ian_ai_expert",
+  "name": "Ian Botts — AI systems expertise guidance",
+  "version": "1.0.0",
+  "description": "Consult Ian Botts (CTO) for AI systems strategy across agents, memory, evaluation, and observability.",
+  "persona": "ian_botts_cto",
+  "model_settings_assert": {
+    "model": "gpt-5",
+    "temperature": 0.0,
+    "top_p": 1.0,
+    "max_output_tokens": 2000,
+    "seed": 0,
+    "reasoning_effort": "medium",
+    "on_mismatch": "Model settings mismatch"
+  },
+  "graphiti_protocol": {
+    "before_task": {
+      "graph_id": "screengraph",
+      "role_node": "Ian Bott (CTO)",
+      "fetch_last": 10,
+      "where": "tags in [ADR,strategy] scoped to <module>/<topic>",
+      "detect": ["conflicts", "supersedes"],
+      "on_failure": "Graphiti step failed: BEFORE_TASK"
+    },
+    "after_task": { "action": "noop" }
+  },
+  "inputs": {
+    "module": { "type": "string", "required": false },
+    "topic": { "type": "string", "required": false },
+    "question": { "type": "string", "required": true },
+    "time_window": { "type": "string", "required": false, "default": "14d" }
+  },
+  "steps": [
+    "Assert model settings; if mismatch, stop.",
+    "Run BEFORE_TASK protocol (fetch ADR/strategy refs; detect conflicts/supersedes).",
+    "Summarize current AI context (agents, memory, evaluation, data flows).",
+    "Recommend system patterns (tool abstraction, adapters, deterministic evaluators, tracing).",
+    "Propose phased rollout with risk controls and test strategy.",
+    "Redact secrets/PII."
+  ],
+  "output_format": "## Context\n- **module/topic**: <module>/<topic>\n- **question**: <quoted>\n\n## Recommended AI Patterns (A→Z)\n- <pattern>: <why/where>\n\n## Observability & Evaluation\n- <bullets>\n\n## Risks / Controls\n- <bullets>\n\n## Phased Rollout\n- <step>\n",
+  "constraints": { "total_tokens": 900, "bullets_sorted": "ASCII" },
+  "redact_policy": "do not print keys, tokens, PII; replace with [REDACTED].",
+  "failure_behavior": "If BEFORE_TASK fails, output exactly: Graphiti step failed: BEFORE_TASK"
+}
+
+

@@ -1,0 +1,60 @@
+{
+  "prompt_id": "@mentions_orchestrator",
+  "name": "Message with mentions orchestration",
+  "version": "1.0.0",
+  "description": "Parses @mentions in a message, resolves via aliases routing, runs referenced prompts/personas, and composes a unified response.",
+  "model_settings_assert": {
+    "model": "gpt-5",
+    "temperature": 0.0,
+    "top_p": 1.0,
+    "max_output_tokens": 2000,
+    "seed": 0,
+    "reasoning_effort": "medium",
+    "on_mismatch": "Model settings mismatch"
+  },
+  "graphiti_protocol": {
+    "before_task": {
+      "graph_id": "screengraph",
+      "role_node": "Ian Bott (CTO)",
+      "fetch_last": 10,
+      "where": "tags in [ADR,strategy] scoped to <module>/<topic>",
+      "detect": ["conflicts", "supersedes"],
+      "on_failure": "Graphiti step failed: BEFORE_TASK"
+    },
+    "after_task": { "action": "noop" }
+  },
+  "inputs": {
+    "message": { "type": "string", "required": true, "description": "User message containing @mentions and a question" },
+    "module": { "type": "string", "required": false },
+    "topic": { "type": "string", "required": false },
+    "time_window": { "type": "string", "required": false, "default": "14d" }
+  },
+  "routing": {
+    "aliases_file": ".mcp/aliases/Mentions to prompts and personas routing.json",
+    "discovery": {
+      "enabled": true,
+      "personas_dir": ".mcp/personas",
+      "prompts_dir": ".mcp/prompts",
+      "precedence": ["aliases", "discovery"],
+      "normalize_rules": [
+        {"strip_prefix": "@"},
+        {"lowercase": true},
+        {"replace": {"from": " ", "to": "_"}}
+      ]
+    }
+  },
+  "steps": [
+    "Assert model settings; if mismatch, stop.",
+    "Run BEFORE_TASK protocol (fetch ADR/strategy refs; detect conflicts/supersedes).",
+    "Parse @mentions from inputs.message.",
+    "Resolve each mention: first via routing.aliases_file; if not found and routing.discovery.enabled, auto-discover by scanning routing.discovery.personas_dir and routing.discovery.prompts_dir using normalized mention tokens.",
+    "Execute prompts in parallel where possible (e.g., @listen to this, @they).",
+    "If a persona like @Ian is mentioned, format the question for Ian using ADR Deterministic Spec constraints (no write).",
+    "Compose outputs into a unified executive brief with sections and cross-module impacts.",
+    "Redact secrets/PII."
+  ],
+  "output_format": "## Sync Brief\n<summary>\n\n## Past References (Graphiti)\n- ADR-<id>: <title> — status(<active|superseded>) [max 5]\n\n## Activity Snapshot\n<aggregated from @listen_to_this>\n\n## Team Reports\n<aggregated from @they>\n\n## Question to Ian\n<parsed question text>\n",
+  "constraints": { "total_tokens": 900, "bullets_sorted": "ASCII" },
+  "redact_policy": "do not print keys, tokens, PII; replace with [REDACTED].",
+  "failure_behavior": "If BEFORE_TASK fails, output exactly: Graphiti step failed: BEFORE_TASK"
+}

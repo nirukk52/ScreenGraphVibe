@@ -1,0 +1,49 @@
+{
+  "prompt_id": "@they_reports",
+  "name": "They - Team reports aggregator",
+  "version": "1.0.0",
+  "description": "Aggregates concise status reports from non-CTO contributors and recent project activity.",
+  "model_settings_assert": {
+    "model": "gpt-5",
+    "temperature": 0.0,
+    "top_p": 1.0,
+    "max_output_tokens": 2000,
+    "seed": 0,
+    "reasoning_effort": "medium",
+    "on_mismatch": "Model settings mismatch"
+  },
+  "graphiti_protocol": {
+    "before_task": {
+      "graph_id": "screengraph",
+      "role_node": "Ian Bott (CTO)",
+      "fetch_last": 10,
+      "where": "tags in [ADR,strategy] scoped to <module>/<topic>",
+      "detect": ["conflicts", "supersedes"],
+      "on_failure": "Graphiti step failed: BEFORE_TASK"
+    },
+    "after_task": { "action": "noop" }
+  },
+  "inputs": {
+    "module": { "type": "string", "required": false },
+    "topic": { "type": "string", "required": false },
+    "roles": { "type": "array", "items": "string", "required": false, "description": "Optional roles to include (exclude Ian Bott)" },
+    "time_window": { "type": "string", "required": false, "default": "14d" }
+  },
+  "data_sources": [
+    "Git commits/PRs in time_window (exclude obvious Ian Bott author if detectable)",
+    "Docs updates in docs/ and DOCUMENT_INDEX.md",
+    "Open/recent files context",
+    "Recent prompts (last 20)"
+  ],
+  "steps": [
+    "Assert model settings; if mismatch, stop.",
+    "Run BEFORE_TASK protocol (fetch ADR/strategy refs; detect conflicts/supersedes).",
+    "Collect activity from data_sources filtered by roles/time_window.",
+    "Summarize team updates and highlight risks/blockers.",
+    "Redact secrets/PII."
+  ],
+  "output_format": "## Team Reports\n- <contributor/role>: <concise update> — <date>\n\n## Risks / Blockers\n- <bullet>\n\n## Notes\n- Cross-module impacts across :data, :backend, :ui, :agent, :infra (if any)\n",
+  "constraints": { "total_tokens": 900, "bullets_sorted": "ASCII" },
+  "redact_policy": "do not print keys, tokens, PII; replace with [REDACTED].",
+  "failure_behavior": "If BEFORE_TASK fails, output exactly: Graphiti step failed: BEFORE_TASK"
+}

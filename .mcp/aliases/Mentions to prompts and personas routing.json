@@ -1,0 +1,19 @@
+{
+  "version": "1.0.0",
+  "mentions": {
+    "@Ian": { "type": "persona", "id": "ian_botts_cto" },
+    "@listen to this": { "type": "prompt", "id": "@listen_to_this" },
+    "@they": { "type": "prompt", "id": "@they_reports" }
+  },
+  "discovery": {
+    "enabled": true,
+    "precedence": ["aliases", "discovery"],
+    "personas_dir": ".mcp/personas",
+    "prompts_dir": ".mcp/prompts",
+    "normalize_rules": [
+      {"strip_prefix": "@"},
+      {"lowercase": true},
+      {"replace": {"from": " ", "to": "_"}}
+    ]
+  }
+}

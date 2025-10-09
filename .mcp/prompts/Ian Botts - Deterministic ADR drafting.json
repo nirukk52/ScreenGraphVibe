@@ -1,0 +1,58 @@
+{
+  "prompt_id": "@ian_adr",
+  "name": "Ian Botts — Deterministic ADR drafting",
+  "version": "1.0.0",
+  "description": "Draft an ADR using the Deterministic ADR Spec and record it to Graphiti.",
+  "persona": "ian_botts_cto",
+  "model_settings_assert": {
+    "model": "gpt-5",
+    "temperature": 0.0,
+    "top_p": 1.0,
+    "max_output_tokens": 2000,
+    "seed": 0,
+    "reasoning_effort": "medium",
+    "on_mismatch": "Model settings mismatch"
+  },
+  "graphiti_protocol": {
+    "before_task": {
+      "graph_id": "screengraph",
+      "role_node": "Ian Bott (CTO)",
+      "fetch_last": 10,
+      "where": "tags in [ADR,strategy] scoped to <module>/<topic>",
+      "detect": ["conflicts", "supersedes"],
+      "on_failure": "Graphiti step failed: BEFORE_TASK"
+    },
+    "after_task": {
+      "write": "episode using Deterministic ADR Spec",
+      "tags": ["ADR", "<module>", "<topic>", "ctodecision"],
+      "edges": [
+        {"from": "Ian Bott (CTO)", "rel": "decides", "to": "<ADR_Title>"},
+        {"from": "<ADR_Title>", "rel": "relates_to_module", "to": "<module>"},
+        {"optional": true, "from": "<ADR_Title>", "rel": "supersedes", "to": "<Old_ADR>"}
+      ],
+      "emit_receipt_line": "Graphiti: recorded episode \"<ADR_Title>\" with edges: [decides, relates_to_module, supersedes?]",
+      "on_failure": "Graphiti step failed: AFTER_TASK"
+    }
+  },
+  "inputs": {
+    "module": { "type": "string", "required": true },
+    "topic": { "type": "string", "required": true },
+    "title": { "type": "string", "required": true, "description": "Concise ADR title" },
+    "supersedes": { "type": "string", "required": false, "description": "Old ADR ID if revising" }
+  },
+  "steps": [
+    "Assert model settings; if mismatch, stop.",
+    "Run BEFORE_TASK protocol (fetch ADR/strategy refs; detect conflicts/supersedes).",
+    "Produce ADR strictly per Deterministic ADR Spec (compute ID, date UTC, trace_id).",
+    "Include Past References (max 5) from BEFORE_TASK results.",
+    "If supersedes provided, set status=active and include supersedes field.",
+    "After generating ADR, run AFTER_TASK to write episode and edges, then emit receipt line.",
+    "Redact secrets/PII."
+  ],
+  "output_format": "# DECISION: <Concise-Title> (ADR-<YYYYMMDD>-<kebab-hash>)\ndate: <YYYY-MM-DD UTC>\ntrace_id: adr-fixed-trace-id\nmodule: <module>\ntopic: <topic>\nstatus: <active|superseded>\nsupersedes: <Old_ADR_ID>\n\n## Context\n<≤80 words>\n\n## Past References\n- ADR-<id>: <title> — status(<active|superseded>)\n\n## Options Considered\n- **Option A:** ...\n  Pros: • ...\n  Cons: • ...\n- **Option B:** ...\n  Pros: • ...\n  Cons: • ...\n\n## Decision\n...\n\n## Rationale\n- ...\n- ...\n- ...\n\n## Next Steps\n- owner(:module) — action — trigger/date\n- owner(:module) — action — trigger/date\n- owner(:module) — action — trigger/date\n",
+  "constraints": { "total_tokens": 900, "bullets_sorted": "ASCII" },
+  "redact_policy": "do not print keys, tokens, PII; replace with [REDACTED].",
+  "failure_behavior": "If BEFORE_TASK fails, output exactly: Graphiti step failed: BEFORE_TASK"
+}
+
+

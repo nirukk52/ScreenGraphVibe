@@ -1,0 +1,53 @@
+{
+  "prompt_id": "@listen_to_this_rino",
+  "name": "Listen to this — Rino → Ian sync",
+  "version": "1.0.0",
+  "description": "Updates Ian with what Rino did while Ian was away.",
+  "model_settings_assert": {
+    "model": "gpt-5",
+    "temperature": 0.0,
+    "top_p": 1.0,
+    "max_output_tokens": 2000,
+    "seed": 0,
+    "reasoning_effort": "medium",
+    "on_mismatch": "Model settings mismatch"
+  },
+  "graphiti_protocol": {
+    "before_task": {
+      "graph_id": "screengraph",
+      "role_node": "Ian Bott (CTO)",
+      "fetch_last": 10,
+      "where": "tags in [ADR,strategy] scoped to <module>/<topic>",
+      "detect": ["conflicts", "supersedes"],
+      "on_failure": "Graphiti step failed: BEFORE_TASK"
+    },
+    "after_task": { "action": "noop" }
+  },
+  "inputs": {
+    "module": { "type": "string", "required": false, "description": "Optional module focus (:data, :backend, :ui, :agent, :infra)" },
+    "topic": { "type": "string", "required": false, "description": "Optional topic focus" },
+    "time_window": { "type": "string", "required": false, "default": "14d" },
+    "author": { "type": "string", "required": false, "default": "Rino", "description": "Override author filter if needed" }
+  },
+  "data_sources": [
+    "git log — last commits by author within time_window",
+    "GitHub PRs by author within time_window (optional)",
+    "Graphiti episodes authored by role_node 'Rino (Engineer)' within time_window",
+    "Session context — open/recent files + git_status",
+    "Docs — changes under docs/ and DOCUMENT_INDEX.md diffs within time_window",
+    "CI (optional) — recent pipeline status if accessible"
+  ],
+  "steps": [
+    "Assert model settings; if mismatch, stop.",
+    "Run BEFORE_TASK protocol.",
+    "Collect activity filtered by author (default: Rino) and scoped by inputs.",
+    "Summarize changes for Ian with cross-module impact and risks/blockers.",
+    "Redact secrets/PII."
+  ],
+  "output_format": "## Project Snapshot\n- **date**: <UTC date>\n- **module/topic**: <module>/<topic>\n- **audience**: Ian\n- **subject**: Rino\n\n## Past References (Graphiti)\n- ADR-<id>: <title> — status(<active|superseded>) [max 5]\n\n## Recent Commits (by Rino)\n- <sha> — <subject> — <date>\n\n## Recent PRs (by Rino)\n- #<id> — <title> — <state> — <date>\n\n## Documentation Updates\n- <file> — <summary> — <date>\n\n## Risks / Blockers\n- <bullet>\n\n## Next Steps (A→Z)\n- <owner(:module)> — <action> — <trigger/date>\n",
+  "constraints": { "context_max_words": 80, "total_tokens": 900, "bullets_sorted": "ASCII" },
+  "redact_policy": "do not print keys, tokens, PII; replace with [REDACTED].",
+  "failure_behavior": "If BEFORE_TASK fails, output exactly: Graphiti step failed: BEFORE_TASK"
+}
+
+
