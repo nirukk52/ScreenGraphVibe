@@ -1,5 +1,6 @@
 #!/bin/sh
-. "$(dirname -- "$0")/_/husky.sh" 2>/dev/null || true
+HUSKY_SH="$(dirname -- "$0")/_/husky.sh"
+[ -f "$HUSKY_SH" ] && . "$HUSKY_SH"
 
 msgfile="$1"
 
