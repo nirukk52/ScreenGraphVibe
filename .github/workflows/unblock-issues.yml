@@ -38,37 +38,47 @@ jobs:
               return;
             }
             
-            // Use GraphQL to query the CLOSED issue and find what it blocks
-            // Then check which of those blocked issues are now unblocked
-            const getBlockedIssuesQuery = `
+            // Query closed issue for native relationships (trackedIssues) and timeline ConnectedEvent fallback
+            const getClosedIssueRelationships = `
               query($owner: String!, $repo: String!, $issueNumber: Int!) {
                 repository(owner: $owner, name: $repo) {
                   issue(number: $issueNumber) {
                     number
                     trackedIssues(first: 100) {
+                      totalCount
+                      nodes { number state }
+                    }
+                    trackedInIssues(first: 100) {
+                      totalCount
+                      nodes { number state }
+                    }
+                    timelineItems(itemTypes: CONNECTED_EVENT, last: 100) {
                       nodes {
-                        number
-                        state
-                        title
-                        url
-                        assignees(first: 10) {
-                          nodes {
-                            login
-                          }
-                        }
-                        labels(first: 10) {
-                          nodes {
-                            name
-                          }
-                        }
-                        trackedInIssues(first: 50) {
-                          nodes {
-                            number
-                            state
-                          }
+                        __typename
+                        ... on ConnectedEvent {
+                          connectionType
+                          subject { __typename ... on Issue { number state } }
+                          source { __typename ... on Issue { number state } }
                         }
                       }
                     }
+                  }
+                }
+              }
+            `;
+
+            // Query details for a candidate blocked issue
+            const getIssueDetails = `
+              query($owner: String!, $repo: String!, $issueNumber: Int!) {
+                repository(owner: $owner, name: $repo) {
+                  issue(number: $issueNumber) {
+                    number
+                    state
+                    title
+                    url
+                    assignees(first: 10) { nodes { login } }
+                    labels(first: 20) { nodes { name } }
+                    trackedInIssues(first: 100) { nodes { number state } }
                   }
                 }
               }
@@ -79,8 +89,8 @@ jobs:
               console.log(`\n🔍 Processing closed issue #${closedNum}`);
               
               try {
-                // Query this specific closed issue to find what it blocks
-                const result = await github.graphql(getBlockedIssuesQuery, {
+                // Query this specific closed issue to find what it blocks (native + timeline fallback)
+                const result = await github.graphql(getClosedIssueRelationships, {
                   owner: context.repo.owner,
                   repo: context.repo.repo,
                   issueNumber: closedNum
@@ -91,66 +101,61 @@ jobs:
                   console.log(`   ⚠️ Issue #${closedNum} not found`);
                   continue;
                 }
-                
-                // trackedIssues = issues that are blocked by THIS issue
-                const blockedIssues = closedIssue.trackedIssues?.nodes || [];
-                
-                if (blockedIssues.length === 0) {
-                  console.log(`   ℹ️ Issue #${closedNum} doesn't block any other issues`);
+                // Gather blocked issues from native trackedIssues
+                const nativeBlocked = (closedIssue.trackedIssues?.nodes || []).map(n => n.number);
+                const nativeCount = closedIssue.trackedIssues?.totalCount ?? 0;
+
+                // Fallback: derive blocked issues from timeline ConnectedEvent where connectionType == BLOCKS
+                const timelineNodes = closedIssue.timelineItems?.nodes || [];
+                const timelineBlocked = timelineNodes
+                  .filter(n => n.__typename === 'ConnectedEvent' && n.connectionType === 'BLOCKS' && n.source?.__typename === 'Issue' && n.source.number === closedNum && n.subject?.__typename === 'Issue')
+                  .map(n => n.subject.number);
+
+                // Compose unique candidate blocked issue numbers
+                const candidateBlockedNumbers = Array.from(new Set([...nativeBlocked, ...timelineBlocked]));
+
+                if (candidateBlockedNumbers.length === 0) {
+                  console.log(`   ℹ️ Issue #${closedNum} doesn't block any other issues (native=${nativeCount}, timeline=${timelineBlocked.length})`);
                   continue;
                 }
-                
-                console.log(`   🔗 Found ${blockedIssues.length} issues blocked by #${closedNum}`);
-                
-                // Check each blocked issue
-                for (const issue of blockedIssues) {
+
+                console.log(`   🔗 Candidates blocked by #${closedNum}: ${candidateBlockedNumbers.join(', ')} (native=${nativeCount}, timeline=${timelineBlocked.length})`);
+
+                // For each candidate, fetch details and decide unblocking
+                for (const candidate of candidateBlockedNumbers) {
+                  const details = await github.graphql(getIssueDetails, {
+                    owner: context.repo.owner,
+                    repo: context.repo.repo,
+                    issueNumber: candidate
+                  });
+
+                  const issue = details.repository.issue;
+                  if (!issue) continue;
                   if (issue.state !== 'OPEN') {
                     console.log(`   ⏭️ Issue #${issue.number} already ${issue.state.toLowerCase()}, skipping`);
                     continue;
                   }
-                  
-                  console.log(`   📋 Checking issue #${issue.number}: ${issue.title}`);
-                  
-                  // Get all blockers for this issue (trackedInIssues = what blocks THIS issue)
+
                   const blockers = issue.trackedInIssues?.nodes || [];
                   const blockerNumbers = blockers.map(b => b.number);
-                  
-                  console.log(`      Blockers: ${blockerNumbers.join(', ')}`);
-                  
-                  // Check if ALL blockers are closed
                   const allResolved = blockers.every(b => b.state === 'CLOSED');
                   const stillBlocked = blockers.filter(b => b.state !== 'CLOSED');
-                  
+
                   if (allResolved) {
-                    console.log(`   ✅ Issue #${issue.number} is now UNBLOCKED`);
-                    
-                    // Post comment
-                    const assignees = issue.assignees.nodes.map(a => `@${a.login}`).join(' ');
+                    console.log(`   ✅ Issue #${issue.number} is now UNBLOCKED (blockers: ${blockerNumbers.join(', ')})`);
+                    const assignees = (issue.assignees?.nodes || []).map(a => `@${a.login}`).join(' ');
                     await github.rest.issues.createComment({
                       owner: context.repo.owner,
                       repo: context.repo.repo,
                       issue_number: issue.number,
                       body: `✅ **Unblocked!** All dependencies resolved (${blockerNumbers.map(n => `#${n}`).join(', ')}).\n\n${assignees || '@' + context.repo.owner} This issue is ready to work on.`
                     });
-                    
-                    // Update labels
-                    const currentLabels = issue.labels.nodes.map(l => l.name);
-                    const newLabels = currentLabels
-                      .filter(l => l !== 'status: blocked')
-                      .concat(currentLabels.includes('status: ready') ? [] : ['status: ready']);
-                    
-                    await github.rest.issues.setLabels({
-                      owner: context.repo.owner,
-                      repo: context.repo.repo,
-                      issue_number: issue.number,
-                      labels: newLabels
-                    });
-                    
-                    console.log(`      Updated labels: ${newLabels.join(', ')}`);
+                    const currentLabels = (issue.labels?.nodes || []).map(l => l.name);
+                    const newLabels = currentLabels.filter(l => l !== 'status: blocked');
+                    if (!newLabels.includes('status: ready')) newLabels.push('status: ready');
+                    await github.rest.issues.setLabels({ owner: context.repo.owner, repo: context.repo.repo, issue_number: issue.number, labels: newLabels });
                   } else {
                     console.log(`   ⏸️ Issue #${issue.number} still blocked by: ${stillBlocked.map(b => `#${b.number}`).join(', ')}`);
-                    
-                    // Post partial update
                     await github.rest.issues.createComment({
                       owner: context.repo.owner,
                       repo: context.repo.repo,
