@@ -38,33 +38,34 @@ jobs:
               return;
             }
             
-            // Use GraphQL to get ALL open issues with their native relationship data
-            const query = `
-              query($owner: String!, $repo: String!, $cursor: String) {
+            // Use GraphQL to query the CLOSED issue and find what it blocks
+            // Then check which of those blocked issues are now unblocked
+            const getBlockedIssuesQuery = `
+              query($owner: String!, $repo: String!, $issueNumber: Int!) {
                 repository(owner: $owner, name: $repo) {
-                  issues(first: 100, after: $cursor, states: OPEN) {
-                    pageInfo {
-                      hasNextPage
-                      endCursor
-                    }
-                    nodes {
-                      number
-                      title
-                      url
-                      assignees(first: 10) {
-                        nodes {
-                          login
+                  issue(number: $issueNumber) {
+                    number
+                    trackedIssues(first: 100) {
+                      nodes {
+                        number
+                        state
+                        title
+                        url
+                        assignees(first: 10) {
+                          nodes {
+                            login
+                          }
                         }
-                      }
-                      labels(first: 10) {
-                        nodes {
-                          name
+                        labels(first: 10) {
+                          nodes {
+                            name
+                          }
                         }
-                      }
-                      trackedInIssues(first: 50) {
-                        nodes {
-                          number
-                          state
+                        trackedInIssues(first: 50) {
+                          nodes {
+                            number
+                            state
+                          }
                         }
                       }
                     }
@@ -73,81 +74,93 @@ jobs:
               }
             `;
             
-            let hasNextPage = true;
-            let cursor = null;
-            let allOpenIssues = [];
-            
-            // Paginate through all open issues
-            while (hasNextPage) {
-              const result = await github.graphql(query, {
-                owner: context.repo.owner,
-                repo: context.repo.repo,
-                cursor
-              });
-              
-              allOpenIssues.push(...result.repository.issues.nodes);
-              hasNextPage = result.repository.issues.pageInfo.hasNextPage;
-              cursor = result.repository.issues.pageInfo.endCursor;
-            }
-            
-            console.log(`📋 Found ${allOpenIssues.length} open issues`);
-            
             // Process each closed issue
             for (const closedNum of closedIssues) {
               console.log(`\n🔍 Processing closed issue #${closedNum}`);
               
-              // Find issues that are blocked by this closed issue
-              for (const issue of allOpenIssues) {
-                // trackedInIssues = issues that THIS issue is blocked by
-                const blockers = issue.trackedInIssues.nodes || [];
-                const blockerNumbers = blockers.map(b => b.number);
+              try {
+                // Query this specific closed issue to find what it blocks
+                const result = await github.graphql(getBlockedIssuesQuery, {
+                  owner: context.repo.owner,
+                  repo: context.repo.repo,
+                  issueNumber: closedNum
+                });
                 
-                if (!blockerNumbers.includes(closedNum)) continue;
-                
-                console.log(`🔗 Issue #${issue.number} is blocked by #${closedNum}`);
-                console.log(`   All blockers: ${blockerNumbers.join(', ')}`);
-                
-                // Check if ALL blockers are closed
-                const allResolved = blockers.every(b => b.state === 'CLOSED');
-                const stillBlocked = blockers.filter(b => b.state !== 'CLOSED');
-                
-                if (allResolved) {
-                  console.log(`✅ Issue #${issue.number} is now UNBLOCKED`);
-                  
-                  // Post comment
-                  const assignees = issue.assignees.nodes.map(a => `@${a.login}`).join(' ');
-                  await github.rest.issues.createComment({
-                    owner: context.repo.owner,
-                    repo: context.repo.repo,
-                    issue_number: issue.number,
-                    body: `✅ **Unblocked!** All dependencies resolved (${blockerNumbers.map(n => `#${n}`).join(', ')}).\n\n${assignees || '@' + context.repo.owner} This issue is ready to work on.`
-                  });
-                  
-                  // Update labels
-                  const currentLabels = issue.labels.nodes.map(l => l.name);
-                  const newLabels = currentLabels
-                    .filter(l => l !== 'status: blocked')
-                    .concat(currentLabels.includes('status: ready') ? [] : ['status: ready']);
-                  
-                  await github.rest.issues.setLabels({
-                    owner: context.repo.owner,
-                    repo: context.repo.repo,
-                    issue_number: issue.number,
-                    labels: newLabels
-                  });
-                  
-                  console.log(`   Updated labels: ${newLabels.join(', ')}`);
-                } else {
-                  console.log(`⏸️  Issue #${issue.number} still blocked by: ${stillBlocked.map(b => `#${b.number}`).join(', ')}`);
-                  
-                  // Post partial update
-                  await github.rest.issues.createComment({
-                    owner: context.repo.owner,
-                    repo: context.repo.repo,
-                    issue_number: issue.number,
-                    body: `⏸️ Partially unblocked: #${closedNum} resolved.\n\nStill waiting on: ${stillBlocked.map(b => `#${b.number}`).join(', ')}`
-                  });
+                const closedIssue = result.repository.issue;
+                if (!closedIssue) {
+                  console.log(`   ⚠️ Issue #${closedNum} not found`);
+                  continue;
                 }
+                
+                // trackedIssues = issues that are blocked by THIS issue
+                const blockedIssues = closedIssue.trackedIssues?.nodes || [];
+                
+                if (blockedIssues.length === 0) {
+                  console.log(`   ℹ️ Issue #${closedNum} doesn't block any other issues`);
+                  continue;
+                }
+                
+                console.log(`   🔗 Found ${blockedIssues.length} issues blocked by #${closedNum}`);
+                
+                // Check each blocked issue
+                for (const issue of blockedIssues) {
+                  if (issue.state !== 'OPEN') {
+                    console.log(`   ⏭️ Issue #${issue.number} already ${issue.state.toLowerCase()}, skipping`);
+                    continue;
+                  }
+                  
+                  console.log(`   📋 Checking issue #${issue.number}: ${issue.title}`);
+                  
+                  // Get all blockers for this issue (trackedInIssues = what blocks THIS issue)
+                  const blockers = issue.trackedInIssues?.nodes || [];
+                  const blockerNumbers = blockers.map(b => b.number);
+                  
+                  console.log(`      Blockers: ${blockerNumbers.join(', ')}`);
+                  
+                  // Check if ALL blockers are closed
+                  const allResolved = blockers.every(b => b.state === 'CLOSED');
+                  const stillBlocked = blockers.filter(b => b.state !== 'CLOSED');
+                  
+                  if (allResolved) {
+                    console.log(`   ✅ Issue #${issue.number} is now UNBLOCKED`);
+                    
+                    // Post comment
+                    const assignees = issue.assignees.nodes.map(a => `@${a.login}`).join(' ');
+                    await github.rest.issues.createComment({
+                      owner: context.repo.owner,
+                      repo: context.repo.repo,
+                      issue_number: issue.number,
+                      body: `✅ **Unblocked!** All dependencies resolved (${blockerNumbers.map(n => `#${n}`).join(', ')}).\n\n${assignees || '@' + context.repo.owner} This issue is ready to work on.`
+                    });
+                    
+                    // Update labels
+                    const currentLabels = issue.labels.nodes.map(l => l.name);
+                    const newLabels = currentLabels
+                      .filter(l => l !== 'status: blocked')
+                      .concat(currentLabels.includes('status: ready') ? [] : ['status: ready']);
+                    
+                    await github.rest.issues.setLabels({
+                      owner: context.repo.owner,
+                      repo: context.repo.repo,
+                      issue_number: issue.number,
+                      labels: newLabels
+                    });
+                    
+                    console.log(`      Updated labels: ${newLabels.join(', ')}`);
+                  } else {
+                    console.log(`   ⏸️ Issue #${issue.number} still blocked by: ${stillBlocked.map(b => `#${b.number}`).join(', ')}`);
+                    
+                    // Post partial update
+                    await github.rest.issues.createComment({
+                      owner: context.repo.owner,
+                      repo: context.repo.repo,
+                      issue_number: issue.number,
+                      body: `⏸️ Partially unblocked: #${closedNum} resolved.\n\nStill waiting on: ${stillBlocked.map(b => `#${b.number}`).join(', ')}`
+                    });
+                  }
+                }
+              } catch (error) {
+                console.error(`   ❌ Error processing issue #${closedNum}: ${error.message}`);
               }
             }
             
