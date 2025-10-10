@@ -38,7 +38,7 @@ jobs:
               return;
             }
             
-            // Query closed issue for native relationships (trackedIssues) and timeline ConnectedEvent fallback
+            // Query closed issue for native relationships (trackedIssues)
             const getClosedIssueRelationships = `
               query($owner: String!, $repo: String!, $issueNumber: Int!) {
                 repository(owner: $owner, name: $repo) {
@@ -47,20 +47,6 @@ jobs:
                     trackedIssues(first: 100) {
                       totalCount
                       nodes { number state }
-                    }
-                    trackedInIssues(first: 100) {
-                      totalCount
-                      nodes { number state }
-                    }
-                    timelineItems(itemTypes: CONNECTED_EVENT, last: 100) {
-                      nodes {
-                        __typename
-                        ... on ConnectedEvent {
-                          connectionType
-                          subject { __typename ... on Issue { number state } }
-                          source { __typename ... on Issue { number state } }
-                        }
-                      }
                     }
                   }
                 }
@@ -101,25 +87,73 @@ jobs:
                   console.log(`   ⚠️ Issue #${closedNum} not found`);
                   continue;
                 }
-                // Gather blocked issues from native trackedIssues
+                // Gather blocked issues from native trackedIssues (Approach A)
                 const nativeBlocked = (closedIssue.trackedIssues?.nodes || []).map(n => n.number);
                 const nativeCount = closedIssue.trackedIssues?.totalCount ?? 0;
 
-                // Fallback: derive blocked issues from timeline ConnectedEvent where connectionType == BLOCKS
-                const timelineNodes = closedIssue.timelineItems?.nodes || [];
-                const timelineBlocked = timelineNodes
-                  .filter(n => n.__typename === 'ConnectedEvent' && n.connectionType === 'BLOCKS' && n.source?.__typename === 'Issue' && n.source.number === closedNum && n.subject?.__typename === 'Issue')
-                  .map(n => n.subject.number);
+                // Approach B: Paginate open issues and find those where trackedInIssues contains the closed issue
+                const listOpenIssuesWithBlockers = `
+                  query($owner: String!, $repo: String!, $cursor: String) {
+                    repository(owner: $owner, name: $repo) {
+                      issues(states: OPEN, first: 100, after: $cursor) {
+                        pageInfo { hasNextPage endCursor }
+                        nodes {
+                          number
+                          title
+                          url
+                          state
+                          assignees(first: 10) { nodes { login } }
+                          labels(first: 20) { nodes { name } }
+                          trackedInIssues(first: 100) { nodes { number state } }
+                        }
+                      }
+                    }
+                  }
+                `;
 
-                // Compose unique candidate blocked issue numbers
-                const candidateBlockedNumbers = Array.from(new Set([...nativeBlocked, ...timelineBlocked]));
+                let cursor = null;
+                let candidatesB = [];
+                while (true) {
+                  const pageResult = await github.graphql(listOpenIssuesWithBlockers, {
+                    owner: context.repo.owner,
+                    repo: context.repo.repo,
+                    cursor
+                  });
+                  const pageIssues = pageResult.repository.issues.nodes || [];
+                  for (const issue of pageIssues) {
+                    const blockers = issue.trackedInIssues?.nodes || [];
+                    const blockerNumbers = blockers.map(b => b.number);
+                    if (blockerNumbers.includes(closedNum)) candidatesB.push(issue.number);
+                  }
+                  if (!pageResult.repository.issues.pageInfo.hasNextPage) break;
+                  cursor = pageResult.repository.issues.pageInfo.endCursor;
+                }
+
+                // Approach C: REST search fallback for body metadata "Blocked by: #<num>"
+                let candidatesC = [];
+                try {
+                  const q = `repo:${context.repo.owner}/${context.repo.repo} is:issue is:open in:body "#${closedNum}"`;
+                  const { data: search } = await github.rest.search.issuesAndPullRequests({ q, per_page: 100 });
+                  for (const item of search.items || []) {
+                    if ((item.body || '').match(new RegExp(`blocked by\s*:#?\s*${closedNum}`, 'i')) ||
+                        (item.body || '').match(new RegExp(`depends on\s*:#?\s*${closedNum}`, 'i')) ||
+                        (item.body || '').match(new RegExp(`requires\s*:#?\s*${closedNum}`, 'i'))) {
+                      candidatesC.push(item.number);
+                    }
+                  }
+                } catch (e) {
+                  console.log(`   ⚠️ REST search fallback failed: ${e.message}`);
+                }
+
+                // Compose unique candidate blocked issue numbers from all approaches
+                const candidateBlockedNumbers = Array.from(new Set([ ...nativeBlocked, ...candidatesB, ...candidatesC ]));
 
                 if (candidateBlockedNumbers.length === 0) {
-                  console.log(`   ℹ️ Issue #${closedNum} doesn't block any other issues (native=${nativeCount}, timeline=${timelineBlocked.length})`);
+                  console.log(`   ℹ️ Issue #${closedNum} doesn't block any other issues (native=${nativeCount}, scanB=${candidatesB.length}, scanC=${candidatesC.length})`);
                   continue;
                 }
 
-                console.log(`   🔗 Candidates blocked by #${closedNum}: ${candidateBlockedNumbers.join(', ')} (native=${nativeCount}, timeline=${timelineBlocked.length})`);
+                console.log(`   🔗 Candidates blocked by #${closedNum}: ${candidateBlockedNumbers.join(', ')} (native=${nativeCount}, scanB=${candidatesB.length}, scanC=${candidatesC.length})`);
 
                 // For each candidate, fetch details and decide unblocking
                 for (const candidate of candidateBlockedNumbers) {
