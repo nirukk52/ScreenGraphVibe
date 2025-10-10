@@ -1,7 +1,7 @@
 # ScreenGraph Documentation Index
 
-> **Auto-generated on 2025-10-10T09:09:54.396Z**  
-> **Total Documents: 26**
+> **Auto-generated on 2025-10-10T09:16:15.747Z**  
+> **Total Documents: 27**
 
 This is the comprehensive index of all documentation in the ScreenGraph project. Each document includes its title, description, and direct links to sections.
 
@@ -15,7 +15,7 @@ This is the comprehensive index of all documentation in the ScreenGraph project.
 - [System Patterns](./system-patterns/README.md) - Reusable patterns we apply across modules/features.
 - [Technical Debt Backlog](./tech-debt/README.md) - Use `docs/templates/TECH_DEBT_TEMPLATE.md` for each debt item.
 - [Wishlist (Good-to-Haves)](./wishlist/README.md) - Use `docs/templates/WISHLIST_TEMPLATE.md` for each item.
-- [Workflows](./workflows/README.md) - This section documents repository automations.
+- [Workflows](./workflows/README.md) - This section documents repository automations and critical development procedures.
 
 ### Architecture
 - [Architecture Overview](./architecture/OVERVIEW.md) - High-level view of ScreenGraphVibe.
@@ -42,7 +42,7 @@ This is the comprehensive index of all documentation in the ScreenGraph project.
 - [Wishlist (Good-to-Haves)](./wishlist/README.md) - Use `docs/templates/WISHLIST_TEMPLATE.md` for each item.
 
 ### Other Documentation
-- [ScreenGraph Documentation Index](./DOCUMENT_INDEX.md) - > **Auto-generated on 2025-10-10T09:08:19.117Z**
+- [ScreenGraph Documentation Index](./DOCUMENT_INDEX.md) - > **Auto-generated on 2025-10-10T09:09:54.396Z**
 - [Feature Closure Checklist](./management/FEATURE_CLOSURE_CHECKLIST.md) - - [ ] ADR recorded with rationale and next steps
 - [Screengraph Deployment Guide](./setup/DEPLOYMENT.md) - ## 🚀 Quick Deploy
 - [ScreenGraph Local Development Setup](./setup/LOCAL_SETUP.md) - Complete guide for running ScreenGraph locally.
@@ -51,6 +51,7 @@ This is the comprehensive index of all documentation in the ScreenGraph project.
 - [Test Troubleshooting Guide](./setup/TEST_TROUBLESHOOTING.md) - This document captures common test issues and their solutions encountered during ScreenGraph development.
 - [Testing Guide](./setup/TESTING.md) - ScreenGraph uses a comprehensive testing strategy with unit, integration, and end-to-end tests across all modules.
 - [Workflow: AI Reviewer on PR Labels](./workflows/AI_REVIEWER.md) - Purpose: Route PR diffs to an AI reviewer based on labels: `agent: Ian`, `agent: Rino`, or `agent: Jacob`. Post the response as a PR comment.
+- [Branch Management Workflow](./workflows/BRANCH_MANAGEMENT.md) - > **🚨 CRITICAL HARD RULE**: This workflow MUST be followed before writing any code.
 - [Graphiti Runbook](./workflows/GRAPHITI_RUNBOOK.md) - ## BEFORE_TASK
 
 
@@ -112,11 +113,11 @@ This is the comprehensive index of all documentation in the ScreenGraph project.
 
 ### 📄 [Workflows](./workflows/README.md)
 
-**Description:** This section documents repository automations.
+**Description:** This section documents repository automations and critical development procedures.
 
 **Path:** `workflows/README.md`
 **Last Modified:** 10/10/2025
-**Size:** 440 B
+**Size:** 804 B
 
 ---
 
@@ -194,7 +195,7 @@ This is the comprehensive index of all documentation in the ScreenGraph project.
 
 **Path:** `src/decisions/ADR-20251010-graphiti-management-module.md`
 **Last Modified:** 10/10/2025
-**Size:** 1.64 KB
+**Size:** 1.76 KB
 
 ---
 
@@ -286,7 +287,7 @@ This is the comprehensive index of all documentation in the ScreenGraph project.
 
 ### 📄 [ScreenGraph Documentation Index](./DOCUMENT_INDEX.md)
 
-**Description:** > **Auto-generated on 2025-10-10T09:08:19.117Z**
+**Description:** > **Auto-generated on 2025-10-10T09:09:54.396Z**
 
 **Path:** `DOCUMENT_INDEX.md`
 **Last Modified:** 10/10/2025
@@ -374,6 +375,16 @@ This is the comprehensive index of all documentation in the ScreenGraph project.
 
 ---
 
+### 📄 [Branch Management Workflow](./workflows/BRANCH_MANAGEMENT.md)
+
+**Description:** > **🚨 CRITICAL HARD RULE**: This workflow MUST be followed before writing any code.
+
+**Path:** `workflows/BRANCH_MANAGEMENT.md`
+**Last Modified:** 10/10/2025
+**Size:** 2.82 KB
+
+---
+
 ### 📄 [Graphiti Runbook](./workflows/GRAPHITI_RUNBOOK.md)
 
 **Description:** ## BEFORE_TASK
@@ -386,11 +397,11 @@ This is the comprehensive index of all documentation in the ScreenGraph project.
 
 ## 📊 Statistics
 
-- **Total Documents:** 26
+- **Total Documents:** 27
 - **Total Categories:** 7
 - **Total Headlines:** 0
-- **Average Document Size:** 2.8 KB
-- **Total Size:** 72.69 KB
-- **Generated:** 10/10/2025, 4:09:54 AM
+- **Average Document Size:** 2.81 KB
+- **Total Size:** 75.99 KB
+- **Generated:** 10/10/2025, 4:16:15 AM
 
 ---
