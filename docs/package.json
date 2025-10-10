@@ -12,6 +12,8 @@
     "index": "tsx src/index.ts",
     "update": "tsx src/update.ts",
     "status": "tsx src/index.ts status",
+    "graphiti:monitor": "tsx src/index.ts graphiti monitor",
+    "graphiti:status": "tsx src/index.ts graphiti status",
     "setup-hooks": "tsx src/setup-hooks.ts",
     "test": "vitest run",
     "test:watch": "vitest"
