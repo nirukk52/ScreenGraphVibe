@@ -101,6 +101,8 @@ These are your **life and soul**. Follow for every line of code:
 
 ### MCP Graphiti Memory System (MANDATORY)
 
+Note: The local `:mcp` proxy has been removed. Always use Cursor's MCP Graphiti tools directly for memory search and updates.
+
 **Before Starting ANY Task**:
 1. ✅ **Search first**: Use `search_nodes` tool to look for relevant preferences and procedures
 2. ✅ **Search facts**: Use `search_facts` tool for relationships and factual information
