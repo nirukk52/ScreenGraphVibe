@@ -1,0 +1,126 @@
+name: Task
+description: Create a task or story for implementation
+title: "[Task]: "
+labels: ["type: task"]
+body:
+  - type: markdown
+    attributes:
+      value: |
+        Create a specific, actionable task.
+
+  - type: input
+    id: title
+    attributes:
+      label: Task Title
+      description: Clear, actionable task description
+      placeholder: e.g., "Install playwright-extra and wait-on dependencies"
+    validations:
+      required: true
+
+  - type: textarea
+    id: description
+    attributes:
+      label: Description
+      description: What needs to be done?
+      placeholder: |
+        Install and configure:
+        - playwright-extra (browser automation)
+        - wait-on (service readiness)
+        - ts-node (TypeScript execution)
+        
+        Update package.json and document usage.
+    validations:
+      required: true
+
+  - type: textarea
+    id: acceptance
+    attributes:
+      label: Acceptance Criteria
+      description: How do we know this is complete?
+      placeholder: |
+        - [ ] Dependencies installed via npm
+        - [ ] Package.json updated with versions
+        - [ ] Scripts documented in README
+        - [ ] No breaking changes to existing workflows
+    validations:
+      required: false
+
+  - type: textarea
+    id: dependencies
+    attributes:
+      label: Dependencies
+      description: What other issues must be completed first?
+      placeholder: |
+        Blocked by: #15, #23
+        Blocks: #26, #30
+    validations:
+      required: false
+
+  - type: input
+    id: estimate
+    attributes:
+      label: Time Estimate
+      description: How long will this take?
+      placeholder: e.g., "30 minutes" or "2 hours"
+    validations:
+      required: false
+
+  - type: dropdown
+    id: phase
+    attributes:
+      label: Phase
+      description: When can this be worked on?
+      options:
+        - "1-blocking (must do first)"
+        - "2-parallel (can do alongside others)"
+        - "3-closure (must do last)"
+    validations:
+      required: true
+
+  - type: dropdown
+    id: component
+    attributes:
+      label: Component
+      description: Which part of the system?
+      options:
+        - backend
+        - ui
+        - data
+        - agent
+        - ci
+        - infra
+        - docs
+        - management
+    validations:
+      required: true
+
+  - type: textarea
+    id: graphiti
+    attributes:
+      label: Graphiti Memory IDs
+      description: Link to relevant Graphiti knowledge graph entries
+      placeholder: |
+        - Episode-ID: 
+        - Node-ID: 
+        - Fact-ID: 
+        - Procedure-ID: 
+      value: |
+        - Episode-ID: 
+        - Node-ID: 
+        - Fact-ID: 
+        - Procedure-ID: 
+    validations:
+      required: false
+
+  - type: dropdown
+    id: agent
+    attributes:
+      label: Assigned Agent
+      description: Which AI agent should handle this?
+      options:
+        - Ian (CTO - Architecture/Strategy)
+        - Rino (Senior - Delivery/Implementation)
+        - Jacob (Backend - Implementation)
+    validations:
+      required: true
+
