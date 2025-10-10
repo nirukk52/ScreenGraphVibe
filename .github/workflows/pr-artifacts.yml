@@ -1,0 +1,96 @@
+name: PR Artifacts (Graph Screenshot)
+
+on:
+  pull_request:
+    types: [opened, synchronize, reopened]
+
+permissions:
+  contents: write
+  pull-requests: write
+
+jobs:
+  capture:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: Setup Node
+        uses: actions/setup-node@v4
+        with:
+          node-version: '20'
+      - name: Install deps
+        run: npm ci
+      - name: Start backend
+        run: |
+          echo "Starting backend..."
+          npm run dev:backend &
+          BACKEND_PID=$!
+          echo "Backend PID: $BACKEND_PID"
+          echo $BACKEND_PID > backend.pid
+      - name: Wait for backend health
+        run: |
+          echo "Waiting for backend to be ready..."
+          for i in {1..30}; do
+            if curl -f http://localhost:3000/healthz >/dev/null 2>&1; then
+              echo "Backend is ready!"
+              break
+            fi
+            echo "Attempt $i/30: Backend not ready, waiting 2s..."
+            sleep 2
+          done
+          if ! curl -f http://localhost:3000/healthz >/dev/null 2>&1; then
+            echo "Backend failed to start within 60 seconds"
+            exit 1
+          fi
+      - name: Start UI
+        run: |
+          echo "Starting UI..."
+          npm run dev:ui &
+          UI_PID=$!
+          echo "UI PID: $UI_PID"
+          echo $UI_PID > ui.pid
+      - name: Wait for UI health
+        run: |
+          echo "Waiting for UI to be ready..."
+          for i in {1..30}; do
+            if curl -f http://localhost:3001 >/dev/null 2>&1; then
+              echo "UI is ready!"
+              break
+            fi
+            echo "Attempt $i/30: UI not ready, waiting 2s..."
+            sleep 2
+          done
+          if ! curl -f http://localhost:3001 >/dev/null 2>&1; then
+            echo "UI failed to start within 60 seconds"
+            echo "Checking UI logs..."
+            if [ -f ui.pid ]; then
+              UI_PID=$(cat ui.pid)
+              ps aux | grep $UI_PID || echo "UI process not found"
+            fi
+            exit 1
+          fi
+      - name: Install Playwright
+        run: npx playwright install --with-deps chromium
+      - name: Verify /graph endpoint
+        run: |
+          echo "Verifying /graph endpoint is accessible..."
+          if curl -f http://localhost:3001/graph >/dev/null 2>&1; then
+            echo "✅ /graph endpoint is accessible"
+          else
+            echo "❌ /graph endpoint is not accessible"
+            echo "Checking if UI is still running..."
+            curl -v http://localhost:3001/ || echo "UI root endpoint also failed"
+            exit 1
+          fi
+      - name: Capture /graph screenshot
+        env:
+          UI_BASE_URL: http://localhost:3001
+          OUT_PATH: pr-artifacts/screenshots/graph.png
+        run: |
+          mkdir -p pr-artifacts/screenshots
+          node --loader ts-node/esm pr-artifacts/capture.graph.screenshot.ts
+      - name: Commit screenshot to PR branch
+        uses: stefanzweifel/git-auto-commit-action@v5
+        with:
+          commit_message: "chore(pr-artifacts): add /graph screenshot"
+          file_pattern: pr-artifacts/screenshots/graph.png
+          branch: ${{ github.head_ref }}
