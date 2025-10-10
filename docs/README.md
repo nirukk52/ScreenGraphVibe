@@ -320,8 +320,10 @@ npm install
 **Memory integration fails**
 
 ```bash
-# Check if MCP Graphiti is running
-npm run status
+# Verify Cursor MCP Graphiti connection
+# In Cursor, open the Tools panel → Graphiti and run a quick
+# search_nodes for "health" with group_id "screengraph-vibe".
+# If it returns results, the connection is working.
 ```
 
 **Git hooks not working**
