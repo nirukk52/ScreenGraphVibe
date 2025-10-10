@@ -11,6 +11,13 @@ This section documents repository automations and critical development procedure
 - **AI Reviewer** (`AI_REVIEWER.md`): labels/title/body → AI code review posted as PR comment (`.github/workflows/ai-reviewer.yml`, `ci/ai-reviewer.mjs`)
 - **PR Delivery Metrics**: appends lead-time and diff stats to `docs/management/DELIVERY_LOG.md` (`.github/workflows/pr-metrics.yml`, `ci/pr-metrics.mjs`)
 - **Graphiti Knowledge Graph** (`GRAPHITI_RUNBOOK.md`): Updates project knowledge graph on git push
+- **Issue Auto-Unblocking** (`ISSUE_CREATION.md`): On PR merge or issue close, detect resolved dependencies and auto-mark dependent issues as ready; notifies assignees (`.github/workflows/unblock-issues.yml`).
+
+## 🧾 Issue Creation & Relationships (Native GitHub)
+
+- Use GitHub's sidebar "Relationships" to set "Blocked by" / "Blocks"; prefer native links over body text.
+- Create issues with labels: `status: blocked|ready`, `phase: 1-blocking|2-parallel|3-closure`, and agent label (`agent: Ian|Rino|Jacob`).
+- See full procedure: `docs/workflows/ISSUE_CREATION.md`.
 
 ## Error Handling Standards
 

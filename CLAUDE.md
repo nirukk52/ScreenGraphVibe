@@ -99,6 +99,51 @@ These are your **life and soul**. Follow for every line of code:
 
 ## 🚨 Critical Workflow Instructions
 
+### ⚠️ Branch Management (MANDATORY - EXECUTE FIRST)
+
+**🚨 HARD RULE: Check and create branch BEFORE writing any code**
+
+At the **START of EVERY task** involving code changes:
+
+1. **Check current branch**:
+   ```bash
+   git branch --show-current
+   ```
+
+2. **Verify branch is appropriate**:
+   - ❌ NEVER code on: `main`, `master`, `production`, `develop`
+   - ✅ ALWAYS use: Feature branch with proper naming
+
+3. **Create new branch if needed**:
+   ```bash
+   # Feature: feature/description
+   # Bug fix: fix/bug-description  
+   # Chore: chore/task-description
+   # Docs: docs/update-description
+   # Refactor: refactor/what-is-refactored
+   ```
+
+4. **Push branch to remote IMMEDIATELY**:
+   ```bash
+   git push -u origin branch-name
+   ```
+
+5. **ONLY THEN start coding**
+
+**Why this matters**:
+- Creates remote backup immediately
+- Prevents lost work
+- Enables collaboration
+- Makes branch visible in GitHub
+
+**Enforcement**:
+- This procedure is stored in MCP Graphiti memory
+- Detailed guide: `docs/workflows/BRANCH_MANAGEMENT.md`
+- AI will ALWAYS check branch before coding
+- AI will NEVER write code on main/master/production
+
+---
+
 ### MCP Graphiti Memory System (MANDATORY)
 
 Note: The local `:mcp` proxy has been removed. Always use Cursor's MCP Graphiti tools directly for memory search and updates.
