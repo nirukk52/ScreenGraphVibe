@@ -17,7 +17,7 @@
   },
   "graphiti_protocol": {
     "before_task": {
-      "graph_id": "screengraph",
+      "graph_id": "screengraph-vibe",
       "role_node": "Ian Bott (CTO)",
       "fetch_last": 10,
       "where": "tags in [ADR,strategy] scoped to <module>/<topic>",
@@ -51,7 +51,7 @@
   "integration_requirements": {
     "mcp_graphiti": {
       "mandatory": true,
-      "group_id": "screengraph",
+      "group_id": "screengraph-vibe",
       "failure_behavior": "Stop all execution, print failure line",
       "usage": [
         "search_nodes",
@@ -60,6 +60,10 @@
         "summarize (optional)"
       ]
     }
+  },
+  "cursor_mcp": {
+    "enabled": true,
+    "note": "Use Cursor MCP Graphiti tools directly (no local proxy). group_id=screengraph-vibe"
   },
   "execution_contract": {
     "past_references_in_adr": true,
