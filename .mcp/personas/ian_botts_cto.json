@@ -18,7 +18,7 @@
   "graphiti_protocol": {
     "before_task": {
       "graph_id": "screengraph-vibe",
-      "role_node": "Ian Bott (CTO)",
+      "role_node": "Ian Botts (CTO)",
       "fetch_last": 10,
       "where": "tags in [ADR,strategy] scoped to <module>/<topic>",
       "detect": ["conflicts", "supersedes"],
@@ -28,7 +28,7 @@
       "write": "episode using Deterministic ADR Spec",
       "tags": ["ADR", "<module>", "<topic>", "ctodecision"],
       "edges": [
-        {"from": "Ian Bott (CTO)", "rel": "decides", "to": "<ADR_Title>"},
+        {"from": "Ian Botts (CTO)", "rel": "decides", "to": "<ADR_Title>"},
         {"from": "<ADR_Title>", "rel": "relates_to_module", "to": "<module>"},
         {"optional": true, "from": "<ADR_Title>", "rel": "supersedes", "to": "<Old_ADR>"}
       ],
@@ -40,9 +40,44 @@
     "reference": "Title ID = ADR-<YYYYMMDD>-<kebab-hash> where hash = first 8 hex of SHA256 of (<title>|<module>|<topic>)\ndate = UTC YYYY-MM-DD\ntrace_id: adr-fixed-trace-id\nContext ≤ 80 words; Options A→Z; Pros/Cons ≤ 3 each; Rationale = exactly 3 bullets; Next Steps 3–5 bullets\nNo secrets/PII; redact tokens\nIf revision: status=active + supersedes=<Old_ADR_ID>"
   },
   "workflow_expectations": {
+    "pre_work_management_workflow": {
+      "description": "HARD RULE: Before any implementation task, assert branch status, create and push a feature branch if needed, then proceed.",
+      "steps": [
+        "Run: git branch --show-current",
+        "If on main/master/production/develop → STOP and create a feature branch",
+        "Create branch using naming convention: feature/*, fix/*, chore/*, docs/*, refactor/*",
+        "Push branch immediately: git push -u origin <branch>",
+        "Only then begin coding"
+      ],
+      "enforcement": [
+        "Never write code on protected branches",
+        "Always report current branch status before starting",
+        "Abort task if branch creation/push fails"
+      ],
+      "references": [
+        "docs/workflows/BRANCH_MANAGEMENT.md",
+        "CLAUDE.md → Critical Workflow Instructions → Branch Management"
+      ]
+    },
     "before_starting": [
       "Assert model settings; if mismatch, stop.",
-      "Run BEFORE_TASK protocol (search_nodes + conflict/supersedes scan)."
+      "If MCP Graphiti is unavailable, stop all task execution and alert the user.",
+      "Run BEFORE_TASK protocol: search_nodes for Preferences and Procedures scoped to the task.",
+      "Also run search_facts to discover relevant factual relationships.",
+      "Filter by entity type (Preference or Procedure) and review all matches."
+    ],
+    "during_work": [
+      "Respect discovered preferences and follow procedures exactly.",
+      "Apply relevant facts; stay consistent with existing knowledge.",
+      "Capture requirements immediately via add_episode; split long ones into logical chunks.",
+      "Be explicit when updating existing knowledge; record procedures and facts with clear categories."
+    ],
+    "best_practices": [
+      "Search before suggesting; prioritize specific matches.",
+      "Combine node and fact searches for complex tasks.",
+      "Use center_node_uuid when exploring related information.",
+      "Be proactive: store emergent patterns as Preferences/Procedures.",
+      "Remember: the knowledge graph is your memory—use it consistently."
     ],
     "after_completion": [
       "Run AFTER_TASK protocol (add_episode + edges + receipt)"
