@@ -143,6 +143,16 @@ program
   });
 
 program
+  .command('graphiti')
+  .description('Graphiti MCP utilities')
+  .argument('[subcommand]')
+  .allowUnknownOption()
+  .action(async () => {
+    const { main } = await import('./graphiti/cli.js');
+    await main();
+  });
+
+program
   .command('clear')
   .description('Clear document memory')
   .action(async () => {
