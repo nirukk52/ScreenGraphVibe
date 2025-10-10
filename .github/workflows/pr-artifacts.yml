@@ -1,0 +1,42 @@
+name: PR Artifacts (Graph Screenshot)
+
+on:
+  pull_request:
+    types: [opened, synchronize, reopened]
+
+permissions:
+  contents: write
+  pull-requests: write
+
+jobs:
+  capture:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: Setup Node
+        uses: actions/setup-node@v4
+        with:
+          node-version: '20'
+      - name: Install deps
+        run: npm ci
+      - name: Build backend & UI
+        run: |
+          npm run dev:backend &
+          sleep 5
+          npm run dev:ui &
+          sleep 10
+      - name: Install Playwright
+        run: npx playwright install --with-deps chromium
+      - name: Capture /graph screenshot
+        env:
+          UI_BASE_URL: http://localhost:3001
+          OUT_PATH: pr-artifacts/screenshots/graph.png
+        run: |
+          mkdir -p pr-artifacts/screenshots
+          node --loader ts-node/esm pr-artifacts/capture.graph.screenshot.ts
+      - name: Commit screenshot to PR branch
+        uses: stefanzweifel/git-auto-commit-action@v5
+        with:
+          commit_message: "chore(pr-artifacts): add /graph screenshot"
+          file_pattern: pr-artifacts/screenshots/graph.png
+          branch: ${{ github.head_ref }}
