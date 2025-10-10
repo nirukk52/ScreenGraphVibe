@@ -1,0 +1,135 @@
+name: Bug Report
+description: Report a bug or issue
+title: "[Bug]: "
+labels: ["type: bug"]
+body:
+  - type: markdown
+    attributes:
+      value: |
+        Thanks for taking the time to fill out this bug report!
+
+  - type: input
+    id: summary
+    attributes:
+      label: Summary
+      description: Brief description of the bug
+      placeholder: e.g., "Workflow fails to detect native relationships"
+    validations:
+      required: true
+
+  - type: textarea
+    id: problem
+    attributes:
+      label: Problem Description
+      description: What is happening vs what should happen?
+      placeholder: |
+        **Current behavior:**
+        ...
+        
+        **Expected behavior:**
+        ...
+    validations:
+      required: true
+
+  - type: textarea
+    id: steps
+    attributes:
+      label: Steps to Reproduce
+      description: How can we reproduce this issue?
+      placeholder: |
+        1. Go to...
+        2. Click on...
+        3. See error...
+    validations:
+      required: false
+
+  - type: textarea
+    id: investigation
+    attributes:
+      label: Investigation & Hypotheses
+      description: Any theories or debugging already done?
+      placeholder: |
+        Hypothesis 1: ...
+        Hypothesis 2: ...
+        
+        Debugging done: ...
+    validations:
+      required: false
+
+  - type: input
+    id: workaround
+    attributes:
+      label: Workaround
+      description: Is there a temporary workaround?
+      placeholder: e.g., "Use body text metadata instead"
+    validations:
+      required: false
+
+  - type: dropdown
+    id: priority
+    attributes:
+      label: Priority
+      description: How urgent is this bug?
+      options:
+        - critical
+        - high
+        - medium
+        - low
+    validations:
+      required: true
+
+  - type: dropdown
+    id: component
+    attributes:
+      label: Component
+      description: Which part of the system is affected?
+      options:
+        - backend
+        - ui
+        - data
+        - agent
+        - ci
+        - infra
+        - docs
+    validations:
+      required: true
+
+  - type: input
+    id: files_affected
+    attributes:
+      label: Files Affected
+      description: List of files related to this bug
+      placeholder: e.g., ".github/workflows/unblock-issues.yml"
+    validations:
+      required: false
+
+  - type: textarea
+    id: graphiti
+    attributes:
+      label: Graphiti Memory IDs
+      description: Link to relevant Graphiti knowledge graph entries
+      placeholder: |
+        - Episode-ID: 
+        - Node-ID: 
+        - Fact-ID: 
+        - Procedure-ID: 
+      value: |
+        - Episode-ID: 
+        - Node-ID: 
+        - Fact-ID: 
+        - Procedure-ID: 
+    validations:
+      required: false
+
+  - type: dropdown
+    id: agent
+    attributes:
+      label: Assigned Agent
+      description: Which AI agent should handle this?
+      options:
+        - Ian (CTO - Architecture/Strategy)
+        - Rino (Senior - Delivery/Implementation)
+        - Jacob (Backend - Implementation)
+    validations:
+      required: true
+

@@ -1,0 +1,124 @@
+name: Feature Request
+description: Suggest a new feature or enhancement
+title: "[Feature]: "
+labels: ["type: feature"]
+body:
+  - type: markdown
+    attributes:
+      value: |
+        Thanks for suggesting a new feature!
+
+  - type: input
+    id: title
+    attributes:
+      label: Feature Title
+      description: Short, clear feature name
+      placeholder: e.g., "Add real-time graph updates via SSE"
+    validations:
+      required: true
+
+  - type: textarea
+    id: goal
+    attributes:
+      label: Goal & Use Case
+      description: What problem does this solve? Who benefits?
+      placeholder: |
+        **Goal:** Enable users to see graph changes in real-time
+        **Use Case:** During crawl execution, see nodes/edges appear live
+        **Benefit:** Better UX, faster debugging
+    validations:
+      required: true
+
+  - type: textarea
+    id: scope
+    attributes:
+      label: Scope & Requirements
+      description: What needs to be built?
+      placeholder: |
+        - Backend SSE endpoint for graph events
+        - UI hook to consume SSE stream
+        - React Flow integration for live updates
+        - Mock/real mode toggle
+    validations:
+      required: true
+
+  - type: textarea
+    id: dependencies
+    attributes:
+      label: Dependencies
+      description: What other issues must be completed first?
+      placeholder: |
+        Blocked by: #12, #15
+        Blocks: #20, #25
+    validations:
+      required: false
+
+  - type: input
+    id: estimate
+    attributes:
+      label: Time Estimate
+      description: Rough estimate for implementation
+      placeholder: e.g., "4 hours" or "2 days"
+    validations:
+      required: false
+
+  - type: dropdown
+    id: priority
+    attributes:
+      label: Priority
+      description: How important is this feature?
+      options:
+        - critical
+        - high
+        - medium
+        - low
+    validations:
+      required: true
+
+  - type: dropdown
+    id: component
+    attributes:
+      label: Component
+      description: Which part of the system?
+      options:
+        - backend
+        - ui
+        - data
+        - agent
+        - ci
+        - infra
+        - docs
+        - cross-cutting
+    validations:
+      required: true
+
+  - type: textarea
+    id: graphiti
+    attributes:
+      label: Graphiti Memory IDs
+      description: Link to relevant Graphiti knowledge graph entries
+      placeholder: |
+        - Episode-ID: 
+        - Node-ID: 
+        - Fact-ID: 
+        - Procedure-ID: 
+      value: |
+        - Episode-ID: 
+        - Node-ID: 
+        - Fact-ID: 
+        - Procedure-ID: 
+    validations:
+      required: false
+
+  - type: dropdown
+    id: agent
+    attributes:
+      label: Assigned Agent
+      description: Which AI agent should handle this?
+      options:
+        - Ian (CTO - Architecture/Strategy)
+        - Rino (Senior - Delivery/Implementation)
+        - Jacob (Backend - Implementation)
+    validations:
+      required: true
+
