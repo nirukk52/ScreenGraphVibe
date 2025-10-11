@@ -9,13 +9,13 @@ export function CodeownersPanel(): JSX.Element {
   const [applied, setApplied] = useState<boolean>(false);
 
   const doPreview = async () => {
-    const res = await fetch('/management/codeowners/preview');
+    const res = await fetch('http://localhost:3000/management/codeowners/preview');
     const data = await res.json();
     setPreview(data.preview ?? '');
   };
 
   const doApply = async () => {
-    const res = await fetch('/management/codeowners/apply', { method: 'POST' });
+    const res = await fetch('http://localhost:3000/management/codeowners/apply', { method: 'POST' });
     const data = await res.json();
     setApplied(Boolean(data.applied));
   };
@@ -32,3 +32,4 @@ export function CodeownersPanel(): JSX.Element {
     </div>
   );
 }
+

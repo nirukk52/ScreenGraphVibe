@@ -47,3 +47,4 @@ export function ThinkingPatternPanel(): JSX.Element {
     </div>
   );
 }
+

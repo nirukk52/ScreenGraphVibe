@@ -10,3 +10,4 @@ import { Dashboard } from '@/features/management/persona-management';
 export default function PersonaManagementPage(): JSX.Element {
   return <Dashboard />;
 }
+

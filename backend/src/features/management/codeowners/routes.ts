@@ -15,3 +15,4 @@ export const codeownersRoutes: FastifyPluginAsync = async (fastify) => {
     return { applied: true };
   });
 };
+

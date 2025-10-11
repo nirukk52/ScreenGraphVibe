@@ -7,7 +7,7 @@
   "summary": "Implements the task, performs light cleanup/refactors, keeps scope disciplined.",
   "graphiti_protocol": {
     "before_task": {
-      "graph_id": "screengraph",
+      "graph_id": "screengraph-vibe",
       "role_node": "Rino (Engineer)",
       "fetch_last": 10,
       "where": "tags in [tech-debt,refactor,standards] scoped to <module>/<topic>",
@@ -15,6 +15,16 @@
       "on_failure": "Graphiti step failed: BEFORE_TASK"
     },
     "after_task": { "action": "noop" }
+  },
+  "workflow_expectations": {
+    "before_starting": [
+      "Run sequential-thinking MCP: break current issue into exactly 2 sub-issues",
+      "Decide PR strategy: 1 PR or 2 PRs for the two sub-issues; record decision",
+      "Label parent issue with decision: pr-split:{one|two}"
+    ],
+    "after_completion": [
+      "Track time-to-complete vs decision for performance analytics"
+    ]
   }
 }
 

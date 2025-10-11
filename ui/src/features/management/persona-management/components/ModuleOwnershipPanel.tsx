@@ -43,3 +43,4 @@ export function ModuleOwnershipPanel(): JSX.Element {
     </div>
   );
 }
+

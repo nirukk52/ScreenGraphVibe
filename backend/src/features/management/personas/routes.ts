@@ -1,20 +1,35 @@
 /**
  * @module Backend/Management/Personas/Routes
- * @description Minimal personas list endpoint backed by .mcp/personas JSON files. Falls back to static list if filesystem unavailable.
+ * @description Personas endpoints backed by .mcp/personas JSON files. List + minimal create/update/delete.
  */
 import type { FastifyPluginAsync } from 'fastify';
 import fs from 'fs';
 import path from 'path';
+import { z } from 'zod';
 
 type PersonaLite = { id: string; name: string; role?: string };
 
-function tryReadPersonasDir(): PersonaLite[] {
-  const candidates = [
+const IdParamSchema = z.object({ id: z.string().min(1) });
+const CreateBodySchema = z.object({
+  id: z.string().min(1),
+  name: z.string().min(1),
+  role: z.string().min(1),
+});
+const UpdateBodySchema = z.object({
+  name: z.string().min(1),
+  role: z.string().min(1),
+});
+
+function candidatesDirs(): string[] {
+  return [
     path.resolve(process.cwd(), '.mcp/personas'),
     path.resolve(process.cwd(), '../.mcp/personas'),
     path.resolve(process.cwd(), '../../.mcp/personas'),
   ];
-  for (const dir of candidates) {
+}
+
+function tryReadPersonasDir(): PersonaLite[] {
+  for (const dir of candidatesDirs()) {
     try {
       const entries = fs.readdirSync(dir, { withFileTypes: true });
       const personas: PersonaLite[] = [];
@@ -27,10 +42,9 @@ function tryReadPersonasDir(): PersonaLite[] {
       }
       if (personas.length) return personas;
     } catch (_err) {
-      // continue to next candidate
+      // continue
     }
   }
-  // Fallback static sample (keeps E2E green if FS not available)
   return [
     { id: 'ian_botts_cto', name: 'Ian Botts — CTO', role: 'CTO' },
     { id: 'rino_senior', name: 'Rino the Engineer — Senior', role: 'Engineer (Senior implementer)' },
@@ -38,8 +52,85 @@ function tryReadPersonasDir(): PersonaLite[] {
   ];
 }
 
+function findWritableDir(): string | null {
+  for (const dir of candidatesDirs()) {
+    try {
+      if (fs.existsSync(dir) && fs.accessSync(dir, fs.constants.W_OK) === undefined) {
+        return dir;
+      }
+    } catch {}
+  }
+  return null;
+}
+
+function tryWritePersona(id: string, patch: { name: string; role: string }): boolean {
+  for (const dir of candidatesDirs()) {
+    const file = path.join(dir, `${id}.json`);
+    try {
+      if (!fs.existsSync(file)) continue;
+      const json = JSON.parse(fs.readFileSync(file, 'utf8'));
+      json.name = patch.name;
+      json.role = patch.role;
+      fs.writeFileSync(file, JSON.stringify(json, null, 2) + '\n', 'utf8');
+      return true;
+    } catch (_err) {}
+  }
+  return false;
+}
+
+function tryCreatePersona(id: string, body: { name: string; role: string }): boolean {
+  const dir = findWritableDir();
+  if (!dir) return false;
+  const file = path.join(dir, `${id}.json`);
+  try {
+    if (fs.existsSync(file)) return false;
+    const json = { persona_id: id, name: body.name, role: body.role };
+    fs.writeFileSync(file, JSON.stringify(json, null, 2) + '\n', 'utf8');
+    return true;
+  } catch {
+    return false;
+  }
+}
+
+function tryDeletePersona(id: string): boolean {
+  for (const dir of candidatesDirs()) {
+    const file = path.join(dir, `${id}.json`);
+    try {
+      if (!fs.existsSync(file)) continue;
+      fs.unlinkSync(file);
+      return true;
+    } catch (_err) {}
+  }
+  return false;
+}
+
 export const personasRoutes: FastifyPluginAsync = async (fastify) => {
   fastify.get('/management/personas', async () => {
     return { personas: tryReadPersonasDir() };
   });
+
+  fastify.post('/management/personas', async (request, reply) => {
+    const parsed = CreateBodySchema.safeParse(request.body);
+    if (!parsed.success) return reply.code(400).send({ error: 'id, name, role required' });
+    const { id, name, role } = parsed.data;
+    const ok = tryCreatePersona(id, { name, role });
+    return reply.code(200).send({ created: ok, dryRun: !ok });
+  });
+
+  fastify.put('/management/personas/:id', async (request, reply) => {
+    const p = IdParamSchema.safeParse(request.params);
+    if (!p.success) return reply.code(400).send({ error: 'invalid id' });
+    const b = UpdateBodySchema.safeParse(request.body);
+    if (!b.success) return reply.code(400).send({ error: 'Invalid body: name and role are required' });
+    const ok = tryWritePersona(p.data.id, { name: b.data.name.trim(), role: b.data.role.trim() });
+    return reply.code(200).send({ updated: ok, dryRun: !ok });
+  });
+
+  fastify.delete('/management/personas/:id', async (request, reply) => {
+    const p = IdParamSchema.safeParse(request.params);
+    if (!p.success) return reply.code(400).send({ error: 'invalid id' });
+    const ok = tryDeletePersona(p.data.id);
+    return reply.code(200).send({ deleted: ok, dryRun: !ok });
+  });
 };
+

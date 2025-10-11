@@ -9,7 +9,8 @@
     "ui",
     "tests",
     "logging",
-    "infra"
+    "infra",
+    "management/persona-management"
   ],
   "scripts": {
     "dev": "concurrently \"cd backend && npm run dev\" \"cd ui && npm run dev\" \"npm run dev:agent\"",
