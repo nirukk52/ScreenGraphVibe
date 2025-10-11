@@ -7,6 +7,7 @@ import { ThinkingPatternPanel } from './ThinkingPatternPanel';
 import { FactsAssumptionsPanel } from './FactsAssumptionsPanel';
 import { ModuleOwnershipPanel } from './ModuleOwnershipPanel';
 import { CodeownersPanel } from './CodeownersPanel';
+import { PersonaList } from './PersonaList';
 
 export function Dashboard(): JSX.Element {
   return (
@@ -17,6 +18,7 @@ export function Dashboard(): JSX.Element {
       </header>
 
       <section className="grid grid-cols-1 md:grid-cols-2 gap-6">
+        <PersonaList />
         <ThinkingPatternPanel />
         <FactsAssumptionsPanel />
         <ModuleOwnershipPanel />
