@@ -35,6 +35,14 @@ export function ThinkingPatternPanel(): JSX.Element {
         <span className={isValid ? 'text-green-600' : 'text-red-600'} data-testid="status-valid">
           {isValid ? 'Valid' : 'Incomplete'}
         </span>
+        <button
+          type="button"
+          disabled={!isValid}
+          className="ml-auto px-3 py-1 rounded border disabled:opacity-50"
+          data-testid="btn-save"
+        >
+          Save
+        </button>
       </div>
     </div>
   );
