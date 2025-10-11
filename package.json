@@ -62,7 +62,9 @@
     "format:check": "prettier --check .",
     "lint": "eslint . --ext .js,.jsx,.ts,.tsx",
     "lint:fix": "eslint . --ext .js,.jsx,.ts,.tsx --fix",
-    "prepare": "husky"
+    "prepare": "husky",
+    "worktree:bootstrap": "bash ./scripts/dev/bootstrap-worktree.sh bootstrap",
+    "worktree:start": "bash ./scripts/dev/bootstrap-worktree.sh all"
   },
   "devDependencies": {
     "concurrently": "^8.2.2",
