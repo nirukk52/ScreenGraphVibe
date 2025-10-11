@@ -1,6 +1,8 @@
 /**
- * @module Management/PersonaManagement
- * @description Public API for persona management
+ * @module PersonaManagement
+ * @description Main entry for persona-management package
  */
-export { PersonaSchema, type Persona } from './schemas/persona.schema.js';
-
+export * from './schemas/persona.schema.js';
+export * from './adapters/persona-file.adapter.js';
+export * from './adapters/graphiti.adapter.js';
+export * from './analytics/retro-engine.js';

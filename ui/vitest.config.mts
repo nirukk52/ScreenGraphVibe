@@ -5,7 +5,9 @@ export default defineConfig({
   plugins: [react()],
   test: {
     environment: 'jsdom',
+    setupFiles: ['./vitest.setup.ts'],
     globals: true,
+    css: true,
     testTimeout: 10000,
     coverage: {
       provider: 'istanbul',

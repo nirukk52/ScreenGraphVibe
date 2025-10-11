@@ -99,7 +99,7 @@ npm run test:ui            # All :ui tests
 npm run test:agent         # All :screengraph-agent tests (Python venv)
 
 # Module + type combinations
-npm run test:data:unit
+npm run test:data:unitnpm
 npm run test:backend:unit
 npm run test:ui:unit
 npm run test:agent:unit
