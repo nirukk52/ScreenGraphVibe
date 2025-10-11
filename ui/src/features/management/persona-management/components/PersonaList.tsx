@@ -31,12 +31,19 @@ export function PersonaList(): JSX.Element {
   };
 
   return (
-    <div className="rounded border p-4" data-testid="panel-personas">
+    <div className="rounded border p-4" data-testid="panel-personas" aria-labelledby="panel-personas-title">
       <div className="flex items-center justify-between mb-2">
-        <h2 className="font-medium">Personas</h2>
-        <button className="px-2 py-1 rounded border" onClick={onNew} data-testid="btn-new-persona">New</button>
+        <h2 className="font-medium" id="panel-personas-title">Personas</h2>
+        <button
+          className="px-2 py-1 rounded border"
+          onClick={onNew}
+          data-testid="btn-new-persona"
+          aria-label="Create new persona"
+        >
+          New
+        </button>
       </div>
-      <ul className="list-disc ml-5">
+      <ul className="list-disc ml-5" aria-labelledby="panel-personas-title">
         {items.map(p => (
           <li key={p.id}>
             <button className="underline" data-testid={`persona-${p.id}`} onClick={() => onSelect(p.id)}>{p.name}</button>

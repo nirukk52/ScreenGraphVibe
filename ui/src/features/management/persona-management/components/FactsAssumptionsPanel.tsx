@@ -22,12 +22,12 @@ export function FactsAssumptionsPanel(): JSX.Element {
   };
 
   return (
-    <div className="rounded border p-4" data-testid="panel-facts">
+    <div className="rounded border p-4" data-testid="panel-facts" aria-labelledby="panel-facts-title">
       <div className="flex items-center justify-between mb-2">
-        <h2 className="font-medium">Facts & Assumptions</h2>
-        <button className="px-2 py-1 rounded border" onClick={addRow} data-testid="btn-add-fact">Add</button>
+        <h2 className="font-medium" id="panel-facts-title">Facts & Assumptions</h2>
+        <button className="px-2 py-1 rounded border" onClick={addRow} data-testid="btn-add-fact" aria-label="Add fact row">Add</button>
       </div>
-      <div className="space-y-2">
+      <div className="space-y-2" aria-labelledby="panel-facts-title">
         {items.map((item, idx) => (
           <div key={idx} className="flex gap-2" data-testid={`fact-row-${idx}`}>
             <input

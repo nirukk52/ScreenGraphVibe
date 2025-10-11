@@ -81,11 +81,11 @@ export function PersonaEditor(): JSX.Element {
   };
 
   return (
-    <div className="rounded border p-4" data-testid="panel-editor">
-      <h2 className="font-medium mb-2" data-testid="editor-title">{selected ? (selected.id === 'new' ? 'New Persona' : selected.name) : 'No persona selected'}</h2>
+    <div className="rounded border p-4" data-testid="panel-editor" aria-labelledby="panel-editor-title">
+      <h2 className="font-medium mb-2" data-testid="editor-title" id="panel-editor-title">{selected ? (selected.id === 'new' ? 'New Persona' : selected.name) : 'No persona selected'}</h2>
 
       <div className="space-y-3">
-        <label className="block text-sm">
+        <label className="block text-sm" htmlFor="editor-name">
           <span className="block mb-1">Name</span>
           <input
             data-testid="editor-name"
@@ -94,10 +94,12 @@ export function PersonaEditor(): JSX.Element {
             value={name}
             onChange={e => setName(e.target.value)}
             placeholder="Persona name"
+            id="editor-name"
+            aria-describedby="panel-editor-title"
           />
         </label>
 
-        <label className="block text-sm">
+        <label className="block text-sm" htmlFor="editor-role">
           <span className="block mb-1">Role</span>
           <input
             data-testid="editor-role"
@@ -106,6 +108,8 @@ export function PersonaEditor(): JSX.Element {
             value={role}
             onChange={e => setRole(e.target.value)}
             placeholder="Persona role"
+            id="editor-role"
+            aria-describedby="panel-editor-title"
           />
         </label>
 
@@ -116,6 +120,7 @@ export function PersonaEditor(): JSX.Element {
             disabled={!isValid}
             className="px-3 py-1 rounded border disabled:opacity-50"
             onClick={onSave}
+            aria-disabled={!isValid}
           >
             Save
           </button>
