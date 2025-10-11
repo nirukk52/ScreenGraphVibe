@@ -1,0 +1,6 @@
+/**
+ * @module PersonaManagement/Backend
+ * @description Backend exports for persona management routes
+ */
+export { personasRoutes } from './routes';
+

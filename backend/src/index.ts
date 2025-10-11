@@ -7,7 +7,7 @@ import swaggerUi from '@fastify/swagger-ui';
 import { healthRoutes } from './features/health/routes.js';
 import { graphRoutes } from './features/core/routes.js';
 import { appLaunchConfigRoutes } from './features/app-launch-config/routes.js';
-import { personasRoutes } from './features/management/personas/routes.js';
+import { personasRoutes } from '@screengraph/persona-management/backend';
 import { codeownersRoutes } from './features/management/codeowners/routes.js';
 import { AGENT_CONFIG, API_ENDPOINTS } from './config/constants.js';
 
