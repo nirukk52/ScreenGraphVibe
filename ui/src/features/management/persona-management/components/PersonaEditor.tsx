@@ -62,6 +62,10 @@ export function PersonaEditor(): JSX.Element {
       });
       const data = await res.json();
       setStatus(data.created ? 'Created' : 'Created (dry-run)');
+      // notify other panels to refresh their data
+      window.dispatchEvent(new CustomEvent('personas:changed'));
+      // navigate to the new persona so editor picks it up
+      window.location.hash = `#persona:${id}`;
       return;
     }
     const res = await fetch(`http://localhost:3000/management/personas/${selected.id}`, {
@@ -71,6 +75,8 @@ export function PersonaEditor(): JSX.Element {
     });
     const data = await res.json();
     setStatus(data.updated ? 'Saved' : 'Saved (dry-run)');
+    // notify other panels to refresh their data
+    window.dispatchEvent(new CustomEvent('personas:changed'));
   };
 
   const onDelete = async () => {
@@ -78,6 +84,10 @@ export function PersonaEditor(): JSX.Element {
     const res = await fetch(`http://localhost:3000/management/personas/${selected.id}`, { method: 'DELETE' });
     const data = await res.json();
     setStatus(data.deleted ? 'Deleted' : 'Deleted (dry-run)');
+    // notify other panels to refresh their data
+    window.dispatchEvent(new CustomEvent('personas:changed'));
+    // clear selection
+    window.location.hash = '';
   };
 
   return (
@@ -133,7 +143,7 @@ export function PersonaEditor(): JSX.Element {
             Delete
           </button>
         </div>
-        {status && <div data-testid="editor-status" className="text-green-600">{status}</div>}
+        {status && <div data-testid="editor-status" className="text-green-600" role="status" aria-live="polite">{status}</div>}
       </div>
     </div>
   );

@@ -20,6 +20,9 @@ export function PersonaList(): JSX.Element {
 
   useEffect(() => {
     refresh();
+    const handler = () => refresh();
+    window.addEventListener('personas:changed', handler);
+    return () => window.removeEventListener('personas:changed', handler);
   }, []);
 
   const onSelect = (id: string) => {

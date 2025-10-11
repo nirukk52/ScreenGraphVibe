@@ -20,6 +20,14 @@ const UpdateBodySchema = z.object({
   role: z.string().min(1),
 });
 
+const FactsBodySchema = z.object({
+  facts: z.array(z.object({ key: z.string().min(1), value: z.string().min(1) })).min(0),
+});
+
+const OwnershipBodySchema = z.object({
+  modules: z.array(z.enum([':data', ':backend', ':ui', ':agent', ':infra'])).min(0),
+});
+
 function candidatesDirs(): string[] {
   return [
     path.resolve(process.cwd(), '.mcp/personas'),
@@ -78,6 +86,34 @@ function tryWritePersona(id: string, patch: { name: string; role: string }): boo
   return false;
 }
 
+function tryWriteFacts(id: string, facts: Array<{ key: string; value: string }>): boolean {
+  for (const dir of candidatesDirs()) {
+    const file = path.join(dir, `${id}.json`);
+    try {
+      if (!fs.existsSync(file)) continue;
+      const json = JSON.parse(fs.readFileSync(file, 'utf8'));
+      json.facts_assumptions = facts;
+      fs.writeFileSync(file, JSON.stringify(json, null, 2) + '\n', 'utf8');
+      return true;
+    } catch (_err) {}
+  }
+  return false;
+}
+
+function tryWriteOwnership(id: string, modules: string[]): boolean {
+  for (const dir of candidatesDirs()) {
+    const file = path.join(dir, `${id}.json`);
+    try {
+      if (!fs.existsSync(file)) continue;
+      const json = JSON.parse(fs.readFileSync(file, 'utf8'));
+      json.module_ownership = modules;
+      fs.writeFileSync(file, JSON.stringify(json, null, 2) + '\n', 'utf8');
+      return true;
+    } catch (_err) {}
+  }
+  return false;
+}
+
 function tryCreatePersona(id: string, body: { name: string; role: string }): boolean {
   const dir = findWritableDir();
   if (!dir) return false;
@@ -123,6 +159,24 @@ export const personasRoutes: FastifyPluginAsync = async (fastify) => {
     const b = UpdateBodySchema.safeParse(request.body);
     if (!b.success) return reply.code(400).send({ error: 'Invalid body: name and role are required' });
     const ok = tryWritePersona(p.data.id, { name: b.data.name.trim(), role: b.data.role.trim() });
+    return reply.code(200).send({ updated: ok, dryRun: !ok });
+  });
+
+  fastify.put('/management/personas/:id/facts', async (request, reply) => {
+    const p = IdParamSchema.safeParse(request.params);
+    if (!p.success) return reply.code(400).send({ error: 'invalid id' });
+    const b = FactsBodySchema.safeParse(request.body);
+    if (!b.success) return reply.code(400).send({ error: 'Invalid body: facts required' });
+    const ok = tryWriteFacts(p.data.id, b.data.facts);
+    return reply.code(200).send({ updated: ok, dryRun: !ok });
+  });
+
+  fastify.put('/management/personas/:id/ownership', async (request, reply) => {
+    const p = IdParamSchema.safeParse(request.params);
+    if (!p.success) return reply.code(400).send({ error: 'invalid id' });
+    const b = OwnershipBodySchema.safeParse(request.body);
+    if (!b.success) return reply.code(400).send({ error: 'Invalid body: modules required' });
+    const ok = tryWriteOwnership(p.data.id, b.data.modules);
     return reply.code(200).send({ updated: ok, dryRun: !ok });
   });
 
