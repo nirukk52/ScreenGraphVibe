@@ -22,6 +22,14 @@ copy_env_if_missing() {
   fi
 }
 
+setup_all_env_files() {
+  log "Setting up .env files from templates"
+  copy_env_if_missing "$ROOT_DIR"
+  copy_env_if_missing "$ROOT_DIR/backend"
+  copy_env_if_missing "$ROOT_DIR/ui"
+  log "Environment files ready (edit with your credentials)"
+}
+
 install_deps() {
   log "Installing dependencies (root + workspaces)"
   npm install
@@ -47,7 +55,7 @@ start_dev() {
 
 bootstrap_only() {
   install_deps
-  copy_env_if_missing "$ROOT_DIR"
+  setup_all_env_files
   ensure_agent_venv
   run_migrations
   log "Bootstrap complete"
