@@ -12,13 +12,22 @@ import { PersonaEditor } from './PersonaEditor';
 
 export function Dashboard(): JSX.Element {
   return (
-    <main className="p-6 space-y-6" data-testid="persona-dashboard">
+    <main
+      className="p-6 space-y-6"
+      data-testid="persona-dashboard"
+      role="main"
+      aria-labelledby="persona-dashboard-title"
+    >
       <header className="space-y-1">
-        <h1 className="text-2xl font-semibold" data-testid="title">Persona Management</h1>
-        <p className="text-sm text-gray-500">Manage personas, thinking patterns, facts, assumptions, and module ownership.</p>
+        <h1 className="text-2xl font-semibold" data-testid="title" id="persona-dashboard-title">
+          Persona Management
+        </h1>
+        <p className="text-sm text-gray-500">
+          Manage personas, thinking patterns, facts, assumptions, and module ownership.
+        </p>
       </header>
 
-      <section className="grid grid-cols-1 md:grid-cols-2 gap-6">
+      <section className="grid grid-cols-1 md:grid-cols-2 gap-6" aria-label="Persona management panels">
         <PersonaList />
         <PersonaEditor />
         <ThinkingPatternPanel />
