@@ -8,6 +8,7 @@ import { FactsAssumptionsPanel } from './FactsAssumptionsPanel';
 import { ModuleOwnershipPanel } from './ModuleOwnershipPanel';
 import { CodeownersPanel } from './CodeownersPanel';
 import { PersonaList } from './PersonaList';
+import { PersonaEditor } from './PersonaEditor';
 
 export function Dashboard(): JSX.Element {
   return (
@@ -19,6 +20,7 @@ export function Dashboard(): JSX.Element {
 
       <section className="grid grid-cols-1 md:grid-cols-2 gap-6">
         <PersonaList />
+        <PersonaEditor />
         <ThinkingPatternPanel />
         <FactsAssumptionsPanel />
         <ModuleOwnershipPanel />
