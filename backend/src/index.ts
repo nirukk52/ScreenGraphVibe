@@ -7,6 +7,8 @@ import swaggerUi from '@fastify/swagger-ui';
 import { healthRoutes } from './features/health/routes.js';
 import { graphRoutes } from './features/core/routes.js';
 import { appLaunchConfigRoutes } from './features/app-launch-config/routes.js';
+import { personasRoutes } from './features/management/personas/routes.js';
+import { codeownersRoutes } from './features/management/codeowners/routes.js';
 import { AGENT_CONFIG, API_ENDPOINTS } from './config/constants.js';
 
 // Configure logger based on environment
@@ -63,6 +65,8 @@ await fastify.register(swaggerUi, {
 await fastify.register(healthRoutes);
 await fastify.register(graphRoutes);
 await fastify.register(appLaunchConfigRoutes);
+await fastify.register(personasRoutes);
+await fastify.register(codeownersRoutes);
 
 // Health check for the agent itself
 fastify.get('/', async (request, reply) => {
