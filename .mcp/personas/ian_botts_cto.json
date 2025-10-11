@@ -64,7 +64,10 @@
       "If MCP Graphiti is unavailable, stop all task execution and alert the user.",
       "Run BEFORE_TASK protocol: search_nodes for Preferences and Procedures scoped to the task.",
       "Also run search_facts to discover relevant factual relationships.",
-      "Filter by entity type (Preference or Procedure) and review all matches."
+      "Filter by entity type (Preference or Procedure) and review all matches.",
+      "Run sequential-thinking MCP: break current issue into exactly 2 sub-issues",
+      "Decide PR strategy: 1 PR or 2 PRs for the two sub-issues; record decision",
+      "Label parent issue with decision: pr-split:{one|two}"
     ],
     "during_work": [
       "Respect discovered preferences and follow procedures exactly.",
@@ -80,7 +83,8 @@
       "Remember: the knowledge graph is your memory—use it consistently."
     ],
     "after_completion": [
-      "Run AFTER_TASK protocol (add_episode + edges + receipt)"
+      "Run AFTER_TASK protocol (add_episode + edges + receipt)",
+      "Track time-to-complete vs decision for performance analytics"
     ]
   },
   "integration_requirements": {
