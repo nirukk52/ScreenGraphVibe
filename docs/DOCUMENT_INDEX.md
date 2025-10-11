@@ -1,7 +1,7 @@
 # ScreenGraph Documentation Index
 
-> **Auto-generated on 2025-10-11T05:09:52.948Z**  
-> **Total Documents: 28**
+> **Auto-generated on 2025-10-11T05:22:02.956Z**  
+> **Total Documents: 30**
 
 This is the comprehensive index of all documentation in the ScreenGraph project. Each document includes its title, description, and direct links to sections.
 
@@ -24,6 +24,7 @@ This is the comprehensive index of all documentation in the ScreenGraph project.
 
 ### Architecture Decisions (ADR)
 - [ADR: MVP Vertical Slice — SSE Mock Stream for Graph Events](./decisions/ADR-20251010-sse-mock-stream.md) - Date: 2025-10-10
+- [ADR-20251011-persona-dashboard](./decisions/ADR-20251011-persona-management-dashboard.md) - **Status**: Active
 - [Decisions Index](./decisions/DECISIONS.md) - - Backend architecture guidelines — see `backend/CLAUDE.md`
 - [Architecture Decisions (ADR Index)](./decisions/README.md) - This index tracks all Architecture Decision Records.
 - [ADR-20251010-graphiti-management-module](./src/decisions/ADR-20251010-graphiti-management-module.md) - Date: 2025-10-10
@@ -42,8 +43,9 @@ This is the comprehensive index of all documentation in the ScreenGraph project.
 - [Wishlist (Good-to-Haves)](./wishlist/README.md) - Use `docs/templates/WISHLIST_TEMPLATE.md` for each item.
 
 ### Other Documentation
-- [ScreenGraph Documentation Index](./DOCUMENT_INDEX.md) - > **Auto-generated on 2025-10-11T05:08:28.503Z**
+- [ScreenGraph Documentation Index](./DOCUMENT_INDEX.md) - > **Auto-generated on 2025-10-11T05:09:52.948Z**
 - [Feature Closure Checklist](./management/FEATURE_CLOSURE_CHECKLIST.md) - - [ ] ADR recorded with rationale and next steps
+- [Retro: 2025-10-10 — Long vertical slice CI and management setup (RETRO-20251010)](./retro/2025-10-10-long-vertical-slice-ci-and-management-setup-retro.md) - ## What we aimed to do
 - [Screengraph Deployment Guide](./setup/DEPLOYMENT.md) - ## 🚀 Quick Deploy
 - [ScreenGraph Local Development Setup](./setup/LOCAL_SETUP.md) - Complete guide for running ScreenGraph locally.
 - [ScreenGraph Production Setup & Deployment](./setup/PRODUCTION_SETUP.md) - Complete guide for deploying ScreenGraph to Fly.io production environment.
@@ -170,13 +172,23 @@ This is the comprehensive index of all documentation in the ScreenGraph project.
 
 ---
 
+### 📄 [ADR-20251011-persona-dashboard](./decisions/ADR-20251011-persona-management-dashboard.md)
+
+**Description:** **Status**: Active
+
+**Path:** `decisions/ADR-20251011-persona-management-dashboard.md`
+**Last Modified:** 10/11/2025
+**Size:** 2.77 KB
+
+---
+
 ### 📄 [Decisions Index](./decisions/DECISIONS.md)
 
 **Description:** - Backend architecture guidelines — see `backend/CLAUDE.md`
 
 **Path:** `decisions/DECISIONS.md`
-**Last Modified:** 10/10/2025
-**Size:** 142 B
+**Last Modified:** 10/11/2025
+**Size:** 233 B
 
 ---
 
@@ -288,7 +300,7 @@ This is the comprehensive index of all documentation in the ScreenGraph project.
 
 ### 📄 [ScreenGraph Documentation Index](./DOCUMENT_INDEX.md)
 
-**Description:** > **Auto-generated on 2025-10-11T05:08:28.503Z**
+**Description:** > **Auto-generated on 2025-10-11T05:09:52.948Z**
 
 **Path:** `DOCUMENT_INDEX.md`
 **Last Modified:** 10/11/2025
@@ -301,8 +313,18 @@ This is the comprehensive index of all documentation in the ScreenGraph project.
 **Description:** - [ ] ADR recorded with rationale and next steps
 
 **Path:** `management/FEATURE_CLOSURE_CHECKLIST.md`
-**Last Modified:** 10/10/2025
-**Size:** 269 B
+**Last Modified:** 10/11/2025
+**Size:** 268 B
+
+---
+
+### 📄 [Retro: 2025-10-10 — Long vertical slice CI and management setup (RETRO-20251010)](./retro/2025-10-10-long-vertical-slice-ci-and-management-setup-retro.md)
+
+**Description:** ## What we aimed to do
+
+**Path:** `retro/2025-10-10-long-vertical-slice-ci-and-management-setup-retro.md`
+**Last Modified:** 10/11/2025
+**Size:** 2.05 KB
 
 ---
 
@@ -371,8 +393,8 @@ This is the comprehensive index of all documentation in the ScreenGraph project.
 **Description:** Purpose: Route PR diffs to an AI reviewer based on labels: `agent: Ian`, `agent: Rino`, or `agent: Jacob`. Post the response as a PR comment.
 
 **Path:** `workflows/AI_REVIEWER.md`
-**Last Modified:** 10/10/2025
-**Size:** 1.07 KB
+**Last Modified:** 10/11/2025
+**Size:** 1.42 KB
 
 ---
 
@@ -408,11 +430,11 @@ This is the comprehensive index of all documentation in the ScreenGraph project.
 
 ## 📊 Statistics
 
-- **Total Documents:** 28
+- **Total Documents:** 30
 - **Total Categories:** 7
 - **Total Headlines:** 0
-- **Average Document Size:** 2.98 KB
-- **Total Size:** 83.42 KB
-- **Generated:** 10/11/2025, 12:09:52 AM
+- **Average Document Size:** 2.96 KB
+- **Total Size:** 88.67 KB
+- **Generated:** 10/11/2025, 12:22:02 AM
 
 ---
