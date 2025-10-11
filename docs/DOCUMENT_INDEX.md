@@ -1,6 +1,6 @@
 # ScreenGraph Documentation Index
 
-> **Auto-generated on 2025-10-11T05:52:02.169Z**  
+> **Auto-generated on 2025-10-11T06:01:55.693Z**  
 > **Total Documents: 30**
 
 This is the comprehensive index of all documentation in the ScreenGraph project. Each document includes its title, description, and direct links to sections.
@@ -43,7 +43,7 @@ This is the comprehensive index of all documentation in the ScreenGraph project.
 - [Wishlist (Good-to-Haves)](./wishlist/README.md) - Use `docs/templates/WISHLIST_TEMPLATE.md` for each item.
 
 ### Other Documentation
-- [ScreenGraph Documentation Index](./DOCUMENT_INDEX.md) - > **Auto-generated on 2025-10-11T05:46:18.569Z**
+- [ScreenGraph Documentation Index](./DOCUMENT_INDEX.md) - > **Auto-generated on 2025-10-11T05:52:02.169Z**
 - [Feature Closure Checklist](./management/FEATURE_CLOSURE_CHECKLIST.md) - - [ ] ADR recorded with rationale and next steps
 - [Retro: 2025-10-10 — Long vertical slice CI and management setup (RETRO-20251010)](./retro/2025-10-10-long-vertical-slice-ci-and-management-setup-retro.md) - ## What we aimed to do
 - [Screengraph Deployment Guide](./setup/DEPLOYMENT.md) - ## 🚀 Quick Deploy
@@ -300,7 +300,7 @@ This is the comprehensive index of all documentation in the ScreenGraph project.
 
 ### 📄 [ScreenGraph Documentation Index](./DOCUMENT_INDEX.md)
 
-**Description:** > **Auto-generated on 2025-10-11T05:46:18.569Z**
+**Description:** > **Auto-generated on 2025-10-11T05:52:02.169Z**
 
 **Path:** `DOCUMENT_INDEX.md`
 **Last Modified:** 10/11/2025
@@ -435,6 +435,6 @@ This is the comprehensive index of all documentation in the ScreenGraph project.
 - **Total Headlines:** 0
 - **Average Document Size:** 2.99 KB
 - **Total Size:** 89.55 KB
-- **Generated:** 10/11/2025, 12:52:02 AM
+- **Generated:** 10/11/2025, 1:01:55 AM
 
 ---
