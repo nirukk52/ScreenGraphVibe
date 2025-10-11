@@ -31,8 +31,8 @@ export const PersonaSchema = z.object({
     })),
   }),
   workflow_expectations: z.object({
-    before_starting: z.array(z.string()).optional(),
-    after_completion: z.array(z.string()).optional(),
+    before_starting: z.array(z.string()).min(1),
+    after_completion: z.array(z.string()).min(1),
   }).optional(),
 });
 

@@ -7,7 +7,7 @@
   "summary": "Finds true root cause rapidly and proposes the smallest safe fix.",
   "graphiti_protocol": {
     "before_task": {
-      "graph_id": "screengraph",
+      "graph_id": "screengraph-vibe",
       "role_node": "Rino (Engineer)",
       "fetch_last": 10,
       "where": "tags in [incident,bug,rca] scoped to <module>/<topic>",
@@ -15,6 +15,10 @@
       "on_failure": "Graphiti step failed: BEFORE_TASK"
     },
     "after_task": { "action": "noop" }
+  },
+  "workflow_expectations": {
+    "before_starting": ["Run sequential-thinking MCP to analyze root cause"],
+    "after_completion": ["Track time-to-complete for performance analytics"]
   }
 }
 

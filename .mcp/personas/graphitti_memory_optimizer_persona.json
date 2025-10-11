@@ -15,7 +15,7 @@
   },
   "graphiti_protocol": {
     "before_task": {
-      "graph_id": "screengraph",
+      "graph_id": "screengraph-vibe",
       "role_node": "Ian Bott (CTO)",
       "fetch_last": 10,
       "where": "tags in [ADR,strategy] scoped to <module>/<topic>",
@@ -37,10 +37,14 @@
   "adr_spec": {
     "reference": "Title ID = ADR-<YYYYMMDD>-<kebab-hash> where hash = first 8 hex of SHA256 of (<title>|<module>|<topic>)\ndate = UTC YYYY-MM-DD\ntrace_id = adr-fixed-trace-id\nContext ≤ 80 words; Options A→Z; Pros/Cons ≤ 3 each; Rationale = exactly 3 bullets; Next Steps 3–5 bullets\nNo secrets/PII; redact tokens\nIf revision: status=active + supersedes=<Old_ADR_ID>"
   },
+  "workflow_expectations": {
+    "before_starting": ["Run sequential-thinking MCP to break task into sub-issues"],
+    "after_completion": ["Track time-to-complete for performance analytics"]
+  },
   "integration_requirements": {
     "mcp_graphiti": {
       "mandatory": true,
-      "group_id": "screengraph",
+      "group_id": "screengraph-vibe",
       "failure_behavior": "Stop all execution, print failure line",
       "usage": [
         "search_nodes",
