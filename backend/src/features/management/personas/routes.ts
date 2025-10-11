@@ -5,8 +5,20 @@
 import type { FastifyPluginAsync } from 'fastify';
 import fs from 'fs';
 import path from 'path';
+import { z } from 'zod';
 
 type PersonaLite = { id: string; name: string; role?: string };
+
+const IdParamSchema = z.object({ id: z.string().min(1) });
+const CreateBodySchema = z.object({
+  id: z.string().min(1),
+  name: z.string().min(1),
+  role: z.string().min(1),
+});
+const UpdateBodySchema = z.object({
+  name: z.string().min(1),
+  role: z.string().min(1),
+});
 
 function candidatesDirs(): string[] {
   return [
@@ -97,26 +109,27 @@ export const personasRoutes: FastifyPluginAsync = async (fastify) => {
     return { personas: tryReadPersonasDir() };
   });
 
-  fastify.post<{ Body: { id?: string; name?: string; role?: string } }>('/management/personas', async (request, reply) => {
-    const { id, name, role } = request.body || {};
-    if (!id || !name || !role) return reply.code(400).send({ error: 'id, name, role required' });
+  fastify.post('/management/personas', async (request, reply) => {
+    const parsed = CreateBodySchema.safeParse(request.body);
+    if (!parsed.success) return reply.code(400).send({ error: 'id, name, role required' });
+    const { id, name, role } = parsed.data;
     const ok = tryCreatePersona(id, { name, role });
     return reply.code(200).send({ created: ok, dryRun: !ok });
   });
 
-  fastify.put<{ Params: { id: string }; Body: { name?: string; role?: string } }>('/management/personas/:id', async (request, reply) => {
-    const { id } = request.params;
-    const { name, role } = request.body || {};
-    if (typeof name !== 'string' || name.trim().length === 0 || typeof role !== 'string' || role.trim().length === 0) {
-      return reply.code(400).send({ error: 'Invalid body: name and role are required' });
-    }
-    const ok = tryWritePersona(id, { name: name.trim(), role: role.trim() });
+  fastify.put('/management/personas/:id', async (request, reply) => {
+    const p = IdParamSchema.safeParse(request.params);
+    if (!p.success) return reply.code(400).send({ error: 'invalid id' });
+    const b = UpdateBodySchema.safeParse(request.body);
+    if (!b.success) return reply.code(400).send({ error: 'Invalid body: name and role are required' });
+    const ok = tryWritePersona(p.data.id, { name: b.data.name.trim(), role: b.data.role.trim() });
     return reply.code(200).send({ updated: ok, dryRun: !ok });
   });
 
-  fastify.delete<{ Params: { id: string } }>('/management/personas/:id', async (request, reply) => {
-    const { id } = request.params;
-    const ok = tryDeletePersona(id);
+  fastify.delete('/management/personas/:id', async (request, reply) => {
+    const p = IdParamSchema.safeParse(request.params);
+    if (!p.success) return reply.code(400).send({ error: 'invalid id' });
+    const ok = tryDeletePersona(p.data.id);
     return reply.code(200).send({ deleted: ok, dryRun: !ok });
   });
 };
