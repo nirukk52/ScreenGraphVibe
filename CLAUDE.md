@@ -225,6 +225,8 @@ Note: The local `:mcp` proxy has been removed. Always use Cursor's MCP Graphiti 
 
 ## 🧪 Testing Strategy
 
+> Authoritative reference: See `docs/setup/TESTING.md` for the canonical testing setup and commands. Keep this file and `docs/setup/TESTING.md` in sync.
+
 ### Test Philosophy
 - **TDD Approach**: Write tests before implementing features
 - **Real Infrastructure**: Prefer real databases over mocks
@@ -268,7 +270,9 @@ Note: The local `:mcp` proxy has been removed. Always use Cursor's MCP Graphiti 
 │ npm run test:data           → All :data tests                   │
 │ npm run test:backend        → All :backend tests                │
 │ npm run test:ui             → All :ui tests                     │
-│ npm run test:agent          → All :screengraph-agent tests      │
+│ cd infra && npm test        → All :infra tests                  │
+│ cd docs && npm test         → All :docs tests                   │
+│ npm run test:agent          → All :screengraph-agent (pytest)   │
 └─────────────────────────────────────────────────────────────────┘
 
 ┌─────────────────────────────────────────────────────────────────┐
@@ -278,12 +282,14 @@ Note: The local `:mcp` proxy has been removed. Always use Cursor's MCP Graphiti 
 │ ├─ npm run test:data:unit                                       │
 │ ├─ npm run test:backend:unit                                    │
 │ ├─ npm run test:ui:unit                                         │
-│ └─ npm run test:agent:unit                                      │
+│ ├─ (infra) cd infra && npm run test:unit                        │
+│ └─ (docs)  cd docs && npm run test                              │
 │                                                                  │
 │ INTEGRATION TESTS                                                │
 │ ├─ npm run test:data:integration                                │
 │ ├─ npm run test:backend:integration                             │
 │ ├─ npm run test:ui:integration                                  │
+│ ├─ (infra) cd infra && npm run test:integration                  │
 │ └─ npm run test:agent:integration                               │
 └─────────────────────────────────────────────────────────────────┘
 ```
