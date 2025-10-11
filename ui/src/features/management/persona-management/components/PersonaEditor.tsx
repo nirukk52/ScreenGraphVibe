@@ -9,6 +9,7 @@ export function PersonaEditor(): JSX.Element {
   const [selected, setSelected] = useState<PersonaLite | null>(null);
   const [name, setName] = useState<string>('');
   const [role, setRole] = useState<string>('');
+  const [status, setStatus] = useState<string>('');
 
   useEffect(() => {
     const handler = async () => {
@@ -17,6 +18,7 @@ export function PersonaEditor(): JSX.Element {
         setSelected(null);
         setName('');
         setRole('');
+        setStatus('');
         return;
       }
       try {
@@ -26,10 +28,12 @@ export function PersonaEditor(): JSX.Element {
         setSelected(found);
         setName(found?.name ?? '');
         setRole(found?.role ?? '');
+        setStatus('');
       } catch {
         setSelected(null);
         setName('');
         setRole('');
+        setStatus('');
       }
     };
     handler();
@@ -38,6 +42,17 @@ export function PersonaEditor(): JSX.Element {
   }, []);
 
   const isValid = useMemo(() => name.trim().length > 0 && role.trim().length > 0, [name, role]);
+
+  const onSave = async () => {
+    if (!selected) return;
+    const res = await fetch(`/management/personas/${selected.id}`, {
+      method: 'PUT',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ name, role }),
+    });
+    const data = await res.json();
+    setStatus(data.updated ? 'Saved' : 'Saved (dry-run)');
+  };
 
   return (
     <div className="rounded border p-4" data-testid="panel-editor">
@@ -73,10 +88,11 @@ export function PersonaEditor(): JSX.Element {
           type="button"
           disabled={!isValid}
           className="px-3 py-1 rounded border disabled:opacity-50"
-          onClick={() => {/* backend save to be added later */}}
+          onClick={onSave}
         >
           Save
         </button>
+        {status && <div data-testid="editor-status" className="text-green-600">{status}</div>}
       </div>
     </div>
   );
