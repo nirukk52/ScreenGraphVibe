@@ -18,7 +18,8 @@ while IFS= read -r file; do
   if [[ "$file" == data/* ]]; then run_data=true; fi
   if [[ "$file" == screengraph-agent/* ]]; then run_agent=true; fi
   if [[ "$file" == tests/* ]]; then run_tests=true; fi
-  if [[ "$file" == management/persona-management/* ]]; then run_backend=true; run_ui=true; fi
+  # Explicitly ignore management module changes in CI trigger logic
+  if [[ "$file" == management/persona-management/* ]]; then continue; fi
 done <<< "$CHANGED_FILES"
 
 if $run_data; then npm run test:data; fi

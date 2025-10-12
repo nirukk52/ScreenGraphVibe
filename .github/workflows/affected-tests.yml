@@ -27,7 +27,6 @@ jobs:
               - 'backend/**'
             ui:
               - 'ui/**'
-              - 'management/persona-management/**'
             tests:
               - 'tests/**'
             root:
