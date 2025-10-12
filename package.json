@@ -55,6 +55,7 @@
     "deploy:infra": "cd infra && npm run deploy",
     "health": "./scripts/ops/health-check.sh",
     "test:affected": "bash ./scripts/ci/affected-tests.sh",
+    "lint:boundaries": "bash ./scripts/ci/check-boundaries.sh",
     "db:generate": "cd data && npm run db:generate",
     "db:migrate": "cd data && npm run db:migrate",
     "db:studio": "cd data && npm run db:studio",
