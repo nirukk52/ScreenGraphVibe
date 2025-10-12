@@ -1,2 +1,2 @@
 export * from './app-launch-config.types.js';
-// future: export adapters, validators, repos, queries
+export * as AppLaunchConfigRepo from './app-launch-config.repo.js';

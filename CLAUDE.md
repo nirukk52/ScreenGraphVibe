@@ -45,7 +45,7 @@ The project uses **colon-prefixed module labels** for clear organization:
 
 ---
 
-## ⚡ 25 Non-Negotiable Rules
+## ⚡ Non-Negotiable Rules
 
 These are your **life and soul**. Follow for every line of code:
 
@@ -94,6 +94,49 @@ These are your **life and soul**. Follow for every line of code:
 ### Architecture (Rules 24-25)
 24. **All code, files are modular inside a folder/package**.
 25. **Use clean architecture principles always**.
+26. **Management will never share code with screengraph project related modules ever**
+
+---
+
+### 🔒 Strict Module Boundaries Enforcement (Never Break These)
+
+The following policies are absolute and are enforced across CI and code review:
+
+- Backend may NOT import from `:data` internals (schemas, drizzle clients, or any file under `data/src/core/**` or `data/src/features/**` except through the public barrel).
+  - Allowed: `import { X } from '@screengraph/data'` (public API only)
+  - Forbidden examples (never do):
+    - `import { appLaunchConfigs } from '@screengraph/data/src/...`
+    - `import { db } from '@screengraph/data/src/core/db/client'`
+
+- All cross-module interactions MUST go via clean boundaries:
+  - Backend defines feature-scoped ports (interfaces) in `backend/src/features/<feature>/port.ts`.
+  - Adapters implement those ports:
+    - Real adapters live in `backend/src/adapters/**` and call `@screengraph/data` public API only.
+    - Fake/in-memory adapters live in `backend/src/features/<feature>/adapters/fake.adapter.ts` and are wired in mock mode.
+
+- No tables or schema symbols cross the boundary from `:data` to `:backend`.
+  - The `:data` module exposes repositories/services via `data/src/features/**/index.ts` and `data/src/index.ts`.
+  - `:backend` consumes those via adapters; controllers/usecases never see drizzle or schema.
+
+- Barrels only at boundaries:
+  - `@screengraph/data` (public API) → OK
+  - Any deep import path across modules → NOT OK
+
+- Enforcement (CI & lint):
+  - Grep rules fail build if backend imports match `@screengraph/data/src` or `data/src/**`.
+  - ESLint boundaries plugin configuration disallows reverse/illegal imports.
+  - PR checklist requires acknowledgement of port/adapter usage for new feature I/O.
+
+- Mock Mode policy:
+  - Default development runs with `MOCK_FEATURES` enabled; adapters must provide fake implementations that satisfy ports without DB access.
+  - Integration with real `:data` is done by swapping the adapter binding only (no code changes in controllers/usecases).
+
+Audit Checklist for Reviewers (must pass before merge):
+1) No `data/src/**` imports in `backend/src/**`.
+2) A port is defined for each backend feature that calls outside the backend.
+3) At least one adapter exists (fake or real) implementing each port.
+4) Controllers/usecases depend only on ports and validated types.
+5) `@screengraph/data` imports are from its public API barrel only.
 
 ---
 
