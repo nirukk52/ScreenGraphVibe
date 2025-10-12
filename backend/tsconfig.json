@@ -3,11 +3,14 @@
     "target": "ES2022",
     "lib": ["ES2022"],
     "module": "ESNext",
-    "moduleResolution": "node",
+    "moduleResolution": "nodenext",
     "baseUrl": ".",
     "paths": {
       "@shared/*": ["src/shared/*"],
-      "@features/*": ["src/features/*"]
+      "@features/*": ["src/features/*"],
+      "@screengraph/logging": ["../logging/src/index.ts"],
+      "@screengraph/data": ["../data/src/index.ts"],
+      "@screengraph/persona-management/backend": ["../management/persona-management/src/backend/index.ts"]
     },
     "allowSyntheticDefaultImports": true,
     "esModuleInterop": true,
