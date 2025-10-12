@@ -11,6 +11,19 @@ log() {
   printf "\033[1;96m[worktree]\033[0m %s\n" "$*"
 }
 
+read_ports() {
+  # Defaults
+  BACKEND_PORT=3000
+  UI_PORT=3001
+  AGENT_API_PORT=8000
+  if [[ -f "$ROOT_DIR/.worktree-ports" ]]; then
+    # shellcheck disable=SC1090
+    source "$ROOT_DIR/.worktree-ports"
+  fi
+  export BACKEND_PORT UI_PORT AGENT_API_PORT
+  log "Ports resolved → backend:${BACKEND_PORT} ui:${UI_PORT} agent:${AGENT_API_PORT}"
+}
+
 copy_env_if_missing() {
   local dir="$1"
   if [[ -f "$dir/.env" ]]; then
@@ -49,8 +62,12 @@ run_migrations() {
 }
 
 start_dev() {
-  log "Starting dev processes"
-  npm run dev
+  log "Starting dev processes with per-worktree ports"
+  read_ports
+  npx concurrently \
+    "cd backend && npm run dev" \
+    "cd ui && next dev -p ${UI_PORT}" \
+    "cd screengraph-agent && source venv/bin/activate && uvicorn main:app --reload --host 0.0.0.0 --port ${AGENT_API_PORT}"
 }
 
 bootstrap_only() {
