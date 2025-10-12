@@ -1,6 +1,6 @@
 # ScreenGraph Documentation Index
 
-> **Auto-generated on 2025-10-11T23:06:31.326Z**  
+> **Auto-generated on 2025-10-12T04:47:48.627Z**  
 > **Total Documents: 31**
 
 This is the comprehensive index of all documentation in the ScreenGraph project. Each document includes its title, description, and direct links to sections.
@@ -44,7 +44,7 @@ This is the comprehensive index of all documentation in the ScreenGraph project.
 - [Wishlist (Good-to-Haves)](./wishlist/README.md) - Use `docs/templates/WISHLIST_TEMPLATE.md` for each item.
 
 ### Other Documentation
-- [ScreenGraph Documentation Index](./DOCUMENT_INDEX.md) - > **Auto-generated on 2025-10-11T22:56:04.039Z**
+- [ScreenGraph Documentation Index](./DOCUMENT_INDEX.md) - > **Auto-generated on 2025-10-12T02:01:49.795Z**
 - [Feature Closure Checklist](./management/FEATURE_CLOSURE_CHECKLIST.md) - - [ ] ADR recorded with rationale and next steps
 - [Retro: 2025-10-10 — Long vertical slice CI and management setup (RETRO-20251010)](./retro/2025-10-10-long-vertical-slice-ci-and-management-setup-retro.md) - ## What we aimed to do
 - [Screengraph Deployment Guide](./setup/DEPLOYMENT.md) - ## 🚀 Quick Deploy
@@ -70,7 +70,7 @@ This is the comprehensive index of all documentation in the ScreenGraph project.
 **Description:** This index tracks all Architecture Decision Records.
 
 **Path:** `decisions/README.md`
-**Last Modified:** 10/8/2025
+**Last Modified:** 10/11/2025
 **Size:** 301 B
 
 ---
@@ -80,7 +80,7 @@ This is the comprehensive index of all documentation in the ScreenGraph project.
 **Description:** A fully runnable module for maintaining a comprehensive index of all documentation in the ScreenGraph project. Automatically scans, categorizes, and indexes all markdown files with intelligent routing and memory integration.
 
 **Path:** `README.md`
-**Last Modified:** 10/9/2025
+**Last Modified:** 10/11/2025
 **Size:** 7.89 KB
 
 ---
@@ -90,7 +90,7 @@ This is the comprehensive index of all documentation in the ScreenGraph project.
 **Description:** Reusable patterns we apply across modules/features.
 
 **Path:** `system-patterns/README.md`
-**Last Modified:** 10/8/2025
+**Last Modified:** 10/11/2025
 **Size:** 229 B
 
 ---
@@ -100,7 +100,7 @@ This is the comprehensive index of all documentation in the ScreenGraph project.
 **Description:** Use `docs/templates/TECH_DEBT_TEMPLATE.md` for each debt item.
 
 **Path:** `tech-debt/README.md`
-**Last Modified:** 10/8/2025
+**Last Modified:** 10/11/2025
 **Size:** 171 B
 
 ---
@@ -110,7 +110,7 @@ This is the comprehensive index of all documentation in the ScreenGraph project.
 **Description:** Use `docs/templates/WISHLIST_TEMPLATE.md` for each item.
 
 **Path:** `wishlist/README.md`
-**Last Modified:** 10/8/2025
+**Last Modified:** 10/11/2025
 **Size:** 149 B
 
 ---
@@ -120,7 +120,7 @@ This is the comprehensive index of all documentation in the ScreenGraph project.
 **Description:** This section documents repository automations and critical development procedures.
 
 **Path:** `workflows/README.md`
-**Last Modified:** 10/10/2025
+**Last Modified:** 10/11/2025
 **Size:** 1.66 KB
 
 ---
@@ -134,7 +134,7 @@ This is the comprehensive index of all documentation in the ScreenGraph project.
 **Description:** High-level view of ScreenGraphVibe.
 
 **Path:** `architecture/OVERVIEW.md`
-**Last Modified:** 10/8/2025
+**Last Modified:** 10/11/2025
 **Size:** 252 B
 
 ---
@@ -144,7 +144,7 @@ This is the comprehensive index of all documentation in the ScreenGraph project.
 **Description:** Purpose: Map mocked SSE GraphEvents to UI ScreenGraph and agent models.
 
 **Path:** `architecture/sse-graph-mapping.md`
-**Last Modified:** 10/10/2025
+**Last Modified:** 10/11/2025
 **Size:** 1002 B
 
 ---
@@ -154,7 +154,7 @@ This is the comprehensive index of all documentation in the ScreenGraph project.
 **Description:** ## Overview
 
 **Path:** `templates/ARCHITECTURE_TEMPLATE.md`
-**Last Modified:** 10/8/2025
+**Last Modified:** 10/11/2025
 **Size:** 536 B
 
 ---
@@ -168,7 +168,7 @@ This is the comprehensive index of all documentation in the ScreenGraph project.
 **Description:** Date: 2025-10-10
 
 **Path:** `decisions/ADR-20251010-sse-mock-stream.md`
-**Last Modified:** 10/10/2025
+**Last Modified:** 10/11/2025
 **Size:** 852 B
 
 ---
@@ -208,7 +208,7 @@ This is the comprehensive index of all documentation in the ScreenGraph project.
 **Description:** This index tracks all Architecture Decision Records.
 
 **Path:** `decisions/README.md`
-**Last Modified:** 10/8/2025
+**Last Modified:** 10/11/2025
 **Size:** 301 B
 
 ---
@@ -218,7 +218,7 @@ This is the comprehensive index of all documentation in the ScreenGraph project.
 **Description:** Date: 2025-10-10
 
 **Path:** `src/decisions/ADR-20251010-graphiti-management-module.md`
-**Last Modified:** 10/10/2025
+**Last Modified:** 10/11/2025
 **Size:** 1.64 KB
 
 ---
@@ -228,7 +228,7 @@ This is the comprehensive index of all documentation in the ScreenGraph project.
 **Description:** > Status: Proposed | Accepted | Rejected | Superseded
 
 **Path:** `templates/ADR_TEMPLATE.md`
-**Last Modified:** 10/8/2025
+**Last Modified:** 10/11/2025
 **Size:** 476 B
 
 ---
@@ -242,7 +242,7 @@ This is the comprehensive index of all documentation in the ScreenGraph project.
 **Description:** Reusable patterns we apply across modules/features.
 
 **Path:** `system-patterns/README.md`
-**Last Modified:** 10/8/2025
+**Last Modified:** 10/11/2025
 **Size:** 229 B
 
 ---
@@ -252,7 +252,7 @@ This is the comprehensive index of all documentation in the ScreenGraph project.
 **Description:** ## Problem
 
 **Path:** `templates/SYSTEM_PATTERN_TEMPLATE.md`
-**Last Modified:** 10/8/2025
+**Last Modified:** 10/11/2025
 **Size:** 422 B
 
 ---
@@ -266,7 +266,7 @@ This is the comprehensive index of all documentation in the ScreenGraph project.
 **Description:** Use `docs/templates/TECH_DEBT_TEMPLATE.md` for each debt item.
 
 **Path:** `tech-debt/README.md`
-**Last Modified:** 10/8/2025
+**Last Modified:** 10/11/2025
 **Size:** 171 B
 
 ---
@@ -276,7 +276,7 @@ This is the comprehensive index of all documentation in the ScreenGraph project.
 **Description:** > Priority: P0 | P1 | P2 | P3
 
 **Path:** `templates/TECH_DEBT_TEMPLATE.md`
-**Last Modified:** 10/8/2025
+**Last Modified:** 10/11/2025
 **Size:** 352 B
 
 ---
@@ -290,7 +290,7 @@ This is the comprehensive index of all documentation in the ScreenGraph project.
 **Description:** > Impact: High | Medium | Low
 
 **Path:** `templates/WISHLIST_TEMPLATE.md`
-**Last Modified:** 10/8/2025
+**Last Modified:** 10/11/2025
 **Size:** 374 B
 
 ---
@@ -300,7 +300,7 @@ This is the comprehensive index of all documentation in the ScreenGraph project.
 **Description:** Use `docs/templates/WISHLIST_TEMPLATE.md` for each item.
 
 **Path:** `wishlist/README.md`
-**Last Modified:** 10/8/2025
+**Last Modified:** 10/11/2025
 **Size:** 149 B
 
 ---
@@ -311,11 +311,11 @@ This is the comprehensive index of all documentation in the ScreenGraph project.
 
 ### 📄 [ScreenGraph Documentation Index](./DOCUMENT_INDEX.md)
 
-**Description:** > **Auto-generated on 2025-10-11T22:56:04.039Z**
+**Description:** > **Auto-generated on 2025-10-12T02:01:49.795Z**
 
 **Path:** `DOCUMENT_INDEX.md`
 **Last Modified:** 10/11/2025
-**Size:** 13.75 KB
+**Size:** 13.77 KB
 
 ---
 
@@ -344,7 +344,7 @@ This is the comprehensive index of all documentation in the ScreenGraph project.
 **Description:** ## 🚀 Quick Deploy
 
 **Path:** `setup/DEPLOYMENT.md`
-**Last Modified:** 10/8/2025
+**Last Modified:** 10/11/2025
 **Size:** 3.82 KB
 
 ---
@@ -354,7 +354,7 @@ This is the comprehensive index of all documentation in the ScreenGraph project.
 **Description:** Complete guide for running ScreenGraph locally.
 
 **Path:** `setup/LOCAL_SETUP.md`
-**Last Modified:** 10/8/2025
+**Last Modified:** 10/11/2025
 **Size:** 6.61 KB
 
 ---
@@ -364,7 +364,7 @@ This is the comprehensive index of all documentation in the ScreenGraph project.
 **Description:** Complete guide for deploying ScreenGraph to Fly.io production environment.
 
 **Path:** `setup/PRODUCTION_SETUP.md`
-**Last Modified:** 10/8/2025
+**Last Modified:** 10/11/2025
 **Size:** 10.27 KB
 
 ---
@@ -374,7 +374,7 @@ This is the comprehensive index of all documentation in the ScreenGraph project.
 **Description:** Complete guide to the environment-aware start/stop scripts.
 
 **Path:** `setup/SCRIPTS_GUIDE.md`
-**Last Modified:** 10/8/2025
+**Last Modified:** 10/11/2025
 **Size:** 6.8 KB
 
 ---
@@ -384,7 +384,7 @@ This is the comprehensive index of all documentation in the ScreenGraph project.
 **Description:** This document captures common test issues and their solutions encountered during ScreenGraph development.
 
 **Path:** `setup/TEST_TROUBLESHOOTING.md`
-**Last Modified:** 10/8/2025
+**Last Modified:** 10/11/2025
 **Size:** 4.5 KB
 
 ---
@@ -414,7 +414,7 @@ This is the comprehensive index of all documentation in the ScreenGraph project.
 **Description:** > **🚨 CRITICAL HARD RULE**: This workflow MUST be followed before writing any code.
 
 **Path:** `workflows/BRANCH_MANAGEMENT.md`
-**Last Modified:** 10/10/2025
+**Last Modified:** 10/11/2025
 **Size:** 2.82 KB
 
 ---
@@ -424,7 +424,7 @@ This is the comprehensive index of all documentation in the ScreenGraph project.
 **Description:** ## BEFORE_TASK
 
 **Path:** `workflows/GRAPHITI_RUNBOOK.md`
-**Last Modified:** 10/10/2025
+**Last Modified:** 10/11/2025
 **Size:** 343 B
 
 ---
@@ -434,7 +434,7 @@ This is the comprehensive index of all documentation in the ScreenGraph project.
 **Description:** ## 🎯 Overview
 
 **Path:** `workflows/ISSUE_CREATION.md`
-**Last Modified:** 10/10/2025
+**Last Modified:** 10/11/2025
 **Size:** 5.88 KB
 
 ---
@@ -445,7 +445,7 @@ This is the comprehensive index of all documentation in the ScreenGraph project.
 - **Total Categories:** 7
 - **Total Headlines:** 0
 - **Average Document Size:** 3.02 KB
-- **Total Size:** 93.66 KB
-- **Generated:** 10/11/2025, 6:06:31 PM
+- **Total Size:** 93.67 KB
+- **Generated:** 10/11/2025, 11:47:48 PM
 
 ---
