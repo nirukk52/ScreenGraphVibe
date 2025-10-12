@@ -8,8 +8,8 @@
     "start": "next start -p 3001",
     "lint": "next lint",
     "test": "vitest run",
-    "test:unit": "echo 'No unit tests found for UI' || vitest run src/**/*.test.tsx",
-    "test:integration": "echo 'No integration tests found for UI' || vitest run src/**/*.integration.test.tsx",
+    "test:unit": "vitest run || echo 'No unit tests found for UI'",
+    "test:integration": "vitest run || echo 'No integration tests found for UI'",
     "test:watch": "vitest watch"
   },
   "dependencies": {

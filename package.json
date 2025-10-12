@@ -13,7 +13,7 @@
     "management/persona-management"
   ],
   "scripts": {
-    "dev": "concurrently \"cd backend && npm run dev\" \"cd ui && npm run dev\" \"npm run dev:agent\"",
+    "dev": "bash ./scripts/dev/dev.sh",
     "dev:clean": "npm run ports:kill && npm run dev",
     "dev:restart": "npm run ports:kill && sleep 2 && npm run dev",
     "dev:backend": "cd backend && npm run dev",
@@ -54,6 +54,8 @@
     "deploy": "./scripts/ops/deploy.sh",
     "deploy:infra": "cd infra && npm run deploy",
     "health": "./scripts/ops/health-check.sh",
+    "test:affected": "bash ./scripts/ci/affected-tests.sh",
+    "lint:boundaries": "bash ./scripts/ci/check-boundaries.sh",
     "db:generate": "cd data && npm run db:generate",
     "db:migrate": "cd data && npm run db:migrate",
     "db:studio": "cd data && npm run db:studio",
@@ -61,7 +63,13 @@
     "format:check": "prettier --check .",
     "lint": "eslint . --ext .js,.jsx,.ts,.tsx",
     "lint:fix": "eslint . --ext .js,.jsx,.ts,.tsx --fix",
-    "prepare": "husky"
+    "prepare": "husky",
+    "worktree:bootstrap": "bash ./scripts/dev/bootstrap-worktree.sh bootstrap",
+    "worktree:start": "bash ./scripts/dev/bootstrap-worktree.sh all",
+    "worktree:create": "bash ./scripts/dev/create-worktree.sh",
+    "worktree:create:design": "bash ./scripts/dev/create-worktree.sh design-setup --branch chore/design-setup --offset 0",
+    "worktree:create:persona": "bash ./scripts/dev/create-worktree.sh persona-dashboard --branch feature/persona-dashboard-improvement --offset 10",
+    "worktree:create:ci": "bash ./scripts/dev/create-worktree.sh pr-ci --branch chore/pr-ci-setup --offset 20"
   },
   "devDependencies": {
     "concurrently": "^8.2.2",

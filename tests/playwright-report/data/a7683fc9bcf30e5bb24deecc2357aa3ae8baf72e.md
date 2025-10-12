@@ -1,0 +1,56 @@
+# Page snapshot
+
+```yaml
+- generic [active]:
+  - alert [ref=e1]
+  - dialog "Failed to compile" [ref=e4]:
+    - generic [ref=e5]:
+      - heading "Failed to compile" [level=4] [ref=e7]
+      - generic [ref=e8]:
+        - generic [ref=e10]:
+          - generic [ref=e11]: ./src/pages/management/persona-management.tsx:8:0
+          - generic [ref=e12]: Module not found
+          - generic [ref=e13]: ": Can't resolve '"
+          - generic [ref=e14]: "@screengraph/persona-management/ui"
+          - generic [ref=e15]: "'"
+          - generic [ref=e17]: 6 |
+          - generic [ref=e19]: "*/"
+          - generic [ref=e21]: 7 |
+          - generic [ref=e23]: import
+          - generic [ref=e25]: React
+          - generic [ref=e27]: from
+          - generic [ref=e29]: "'react'"
+          - generic [ref=e30]: ;
+          - generic [ref=e31]: ">"
+          - generic [ref=e32]: 8 |
+          - generic [ref=e34]: import
+          - generic [ref=e35]: "{"
+          - generic [ref=e36]: Dashboard
+          - generic [ref=e37]: "}"
+          - generic [ref=e38]: from
+          - generic [ref=e40]: "'@screengraph/persona-management/ui'"
+          - generic [ref=e41]: ;
+          - generic [ref=e43]: 9 |
+          - generic [ref=e45]: 10 |
+          - generic [ref=e47]: export
+          - generic [ref=e49]: default
+          - generic [ref=e51]: function
+          - generic [ref=e53]: PersonaManagementPage
+          - generic [ref=e54]: ()
+          - generic [ref=e55]: ":"
+          - generic [ref=e57]: JSX
+          - generic [ref=e58]: .
+          - generic [ref=e59]: Element
+          - generic [ref=e60]: "{"
+          - generic [ref=e62]: 11 |
+          - generic [ref=e64]: return
+          - generic [ref=e66]: <
+          - generic [ref=e67]: Dashboard
+          - generic [ref=e69]: /
+          - generic [ref=e70]: ">"
+          - generic [ref=e71]: ;
+          - generic [ref=e72]: https://nextjs.org/docs/messages/module-not-found
+        - contentinfo [ref=e73]:
+          - paragraph [ref=e74]:
+            - generic [ref=e75]: This error occurred during the build process and can only be dismissed by fixing the error.
+```

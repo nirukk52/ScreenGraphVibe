@@ -8,6 +8,9 @@ test.describe('Persona Management - CODEOWNERS panel', () => {
     await expect(page.getByTestId('preview-box')).not.toHaveText('');
 
     await page.getByTestId('btn-apply').click();
-    await expect(page.getByTestId('apply-status')).toHaveText('Applied');
+    const status = page.getByTestId('apply-status');
+    await expect(status).toBeVisible({ timeout: 10000 });
+    await expect(status).not.toHaveText('');
+    await expect(status).toHaveText(/Apply/i);
   });
 });

@@ -6,9 +6,7 @@ import swagger from '@fastify/swagger';
 import swaggerUi from '@fastify/swagger-ui';
 import { healthRoutes } from './features/health/routes.js';
 import { graphRoutes } from './features/core/routes.js';
-import { appLaunchConfigRoutes } from './features/app-launch-config/routes.js';
-import { personasRoutes } from './features/management/personas/routes.js';
-import { codeownersRoutes } from './features/management/codeowners/routes.js';
+import { registerAppLaunchConfigRoutes } from './routes/app-launch-config/index.js';
 import { AGENT_CONFIG, API_ENDPOINTS } from './config/constants.js';
 
 // Configure logger based on environment
@@ -64,9 +62,19 @@ await fastify.register(swaggerUi, {
 // Register routes
 await fastify.register(healthRoutes);
 await fastify.register(graphRoutes);
-await fastify.register(appLaunchConfigRoutes);
-await fastify.register(personasRoutes);
-await fastify.register(codeownersRoutes);
+await registerAppLaunchConfigRoutes(fastify);
+
+// Load management module routes only when explicitly enabled.
+// This keeps the management module out of CI and environments where it's not installed.
+if (process.env.ENABLE_MANAGEMENT === 'true') {
+  try {
+    const management = await import('@screengraph/persona-management/backend');
+    await fastify.register(management.personasRoutes);
+    await fastify.register(management.codeownersRoutes);
+  } catch (err) {
+    fastify.log.warn({ err }, 'Management module not available; skipping management routes');
+  }
+}
 
 // Health check for the agent itself
 fastify.get('/', async (request, reply) => {

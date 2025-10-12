@@ -1,7 +1,7 @@
 # ScreenGraph Documentation Index
 
-> **Auto-generated on 2025-10-11T05:28:00.756Z**  
-> **Total Documents: 30**
+> **Auto-generated on 2025-10-12T06:01:40.306Z**  
+> **Total Documents: 31**
 
 This is the comprehensive index of all documentation in the ScreenGraph project. Each document includes its title, description, and direct links to sections.
 
@@ -25,6 +25,7 @@ This is the comprehensive index of all documentation in the ScreenGraph project.
 ### Architecture Decisions (ADR)
 - [ADR: MVP Vertical Slice — SSE Mock Stream for Graph Events](./decisions/ADR-20251010-sse-mock-stream.md) - Date: 2025-10-10
 - [ADR-20251011-persona-dashboard](./decisions/ADR-20251011-persona-management-dashboard.md) - **Status**: Active
+- [ADR-20251011-testing-script-normalization](./decisions/ADR-20251011-testing-script-normalization.md) - **Title ID**: ADR-20251011-7a8b3f2e
 - [Decisions Index](./decisions/DECISIONS.md) - - Backend architecture guidelines — see `backend/CLAUDE.md`
 - [Architecture Decisions (ADR Index)](./decisions/README.md) - This index tracks all Architecture Decision Records.
 - [ADR-20251010-graphiti-management-module](./src/decisions/ADR-20251010-graphiti-management-module.md) - Date: 2025-10-10
@@ -43,7 +44,7 @@ This is the comprehensive index of all documentation in the ScreenGraph project.
 - [Wishlist (Good-to-Haves)](./wishlist/README.md) - Use `docs/templates/WISHLIST_TEMPLATE.md` for each item.
 
 ### Other Documentation
-- [ScreenGraph Documentation Index](./DOCUMENT_INDEX.md) - > **Auto-generated on 2025-10-11T05:22:54.134Z**
+- [ScreenGraph Documentation Index](./DOCUMENT_INDEX.md) - > **Auto-generated on 2025-10-12T05:39:17.753Z**
 - [Feature Closure Checklist](./management/FEATURE_CLOSURE_CHECKLIST.md) - - [ ] ADR recorded with rationale and next steps
 - [Retro: 2025-10-10 — Long vertical slice CI and management setup (RETRO-20251010)](./retro/2025-10-10-long-vertical-slice-ci-and-management-setup-retro.md) - ## What we aimed to do
 - [Screengraph Deployment Guide](./setup/DEPLOYMENT.md) - ## 🚀 Quick Deploy
@@ -182,6 +183,16 @@ This is the comprehensive index of all documentation in the ScreenGraph project.
 
 ---
 
+### 📄 [ADR-20251011-testing-script-normalization](./decisions/ADR-20251011-testing-script-normalization.md)
+
+**Description:** **Title ID**: ADR-20251011-7a8b3f2e
+
+**Path:** `decisions/ADR-20251011-testing-script-normalization.md`
+**Last Modified:** 10/11/2025
+**Size:** 3.36 KB
+
+---
+
 ### 📄 [Decisions Index](./decisions/DECISIONS.md)
 
 **Description:** - Backend architecture guidelines — see `backend/CLAUDE.md`
@@ -300,11 +311,11 @@ This is the comprehensive index of all documentation in the ScreenGraph project.
 
 ### 📄 [ScreenGraph Documentation Index](./DOCUMENT_INDEX.md)
 
-**Description:** > **Auto-generated on 2025-10-11T05:22:54.134Z**
+**Description:** > **Auto-generated on 2025-10-12T05:39:17.753Z**
 
 **Path:** `DOCUMENT_INDEX.md`
-**Last Modified:** 10/11/2025
-**Size:** 13.34 KB
+**Last Modified:** 10/12/2025
+**Size:** 13.75 KB
 
 ---
 
@@ -383,8 +394,8 @@ This is the comprehensive index of all documentation in the ScreenGraph project.
 **Description:** ScreenGraph uses a comprehensive testing strategy with unit, integration, and end-to-end tests across all modules.
 
 **Path:** `setup/TESTING.md`
-**Last Modified:** 10/8/2025
-**Size:** 12.27 KB
+**Last Modified:** 10/11/2025
+**Size:** 12.6 KB
 
 ---
 
@@ -430,11 +441,11 @@ This is the comprehensive index of all documentation in the ScreenGraph project.
 
 ## 📊 Statistics
 
-- **Total Documents:** 30
+- **Total Documents:** 31
 - **Total Categories:** 7
 - **Total Headlines:** 0
-- **Average Document Size:** 2.99 KB
-- **Total Size:** 89.55 KB
-- **Generated:** 10/11/2025, 12:28:00 AM
+- **Average Document Size:** 3.02 KB
+- **Total Size:** 93.66 KB
+- **Generated:** 10/12/2025, 1:01:40 AM
 
 ---

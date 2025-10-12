@@ -4,7 +4,7 @@ ScreenGraph uses a comprehensive testing strategy with unit, integration, and en
 
 ## Current Test Status
 
-**Total Tests: 78** (73 passing, 7 skipped)
+**Note**: This document is the authoritative reference for testing. Keep it in sync with `CLAUDE.md`.
 
 - **Data Layer**: 5 tests (100% passing)
 - **Backend**: 13 tests (100% passing)
@@ -20,7 +20,7 @@ ScreenGraph uses a comprehensive testing strategy with unit, integration, and en
 | Module     | Framework          | Test Types                     | Location                                                      |
 | ---------- | ------------------ | ------------------------------ | ------------------------------------------------------------- |
 | **:tests** | Vitest, Playwright | Unit (infra), Integration, E2E | `tests/src/unit/`, `tests/src/integration/`, `tests/src/e2e/` |
-| **:agent** | Vitest             | Unit (feature tests)           | `agent/src/features/*/tests/`                                 |
+| **:agent** | Pytest (venv)      | Unit/Integration (feature)     | `screengraph-agent/tests/`                                     |
 | **:ui**    | Vitest, RTL, jsdom | Unit (feature tests)           | `ui/src/features/*/tests/`                                    |
 | **:data**  | N/A                | No tests (schema only)         | -                                                             |
 
@@ -93,10 +93,12 @@ npm run test:integration    # All integration tests
 npm run test:e2e            # E2E tests only
 
 # Module-specific tests
-npm run test:data          # All :data tests
-npm run test:backend       # All :backend tests
-npm run test:ui            # All :ui tests
-npm run test:agent         # All :screengraph-agent tests (Python venv)
+npm run test:data           # All :data tests
+npm run test:backend        # All :backend tests
+npm run test:ui             # All :ui tests
+cd infra && npm test        # All :infra tests
+cd docs && npm test         # All :docs tests
+npm run test:agent          # All :screengraph-agent tests (Python venv)
 
 # Module + type combinations
 npm run test:data:unit
@@ -127,9 +129,11 @@ npm run test:e2e          # End-to-end tests
 npm run test:all          # All test types sequentially
 
 # From individual modules
-cd agent && npm test       # Agent unit tests (runs feature tests)
-cd ui && npm test         # UI unit tests (not recommended, use tests module)
-cd data && npm test       # No tests (echo message)
+cd screengraph-agent && source venv/bin/activate && pytest    # Agent tests
+cd ui && npm test                                             # UI tests
+cd data && npm test                                           # Data tests
+cd infra && npm test                                          # Infra tests
+cd docs && npm test                                           # Docs tests
 
 # Note: UI tests are best run from the tests module due to shared configuration
 ```
