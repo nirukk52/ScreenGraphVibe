@@ -3,6 +3,9 @@
 - Scope:
 - Agent: (Ian|Rino|Jacob)
 - Episode-ID: (paste Graphiti episode id)
+- Graphiti-Node: 
+- Graphiti-Fact: 
+- Graphiti-Procedure: 
 
 ## Checklist
 - [ ] Tests added/updated per logic branch
